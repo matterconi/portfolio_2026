@@ -1,0 +1,28 @@
+[
+  {
+    "id": "advanced-react-patterns",
+    "title": "Advanced React Patterns",
+    "provider": "Frontend Masters",
+    "icon": "/icons/frontend-masters.svg",
+    "skills": ["React Hooks", "Context API", "Performance Optimization", "Custom Hooks", "Design Patterns"],
+    "completionDate": "2024-08-15",
+    "certificateUrl": "https://certificates.example.com/advanced-react"
+  },
+  {
+    "id": "web3-development",
+    "title": "Complete Web3 Development Bootcamp",
+    "provider": "Udemy",
+    "icon": "/icons/udemy.svg",
+    "skills": ["Solidity", "Smart Contracts", "ethers.js", "Hardhat", "DApp Development", "Web3 Security"],
+    "completionDate": "2024-06-22",
+    "certificateUrl": "https://certificates.example.com/web3-bootcamp"
+  },
+  {
+    "id": "threejs-fundamentals",
+    "title": "Three.js Fundamentals & Advanced Techniques",
+    "provider": "Three.js Journey",
+    "icon": "/icons/threejs.svg",
+    "skills": ["Three.js", "WebGL", "GLSL Shaders", "3D Graphics", "Performance Optimization", "React Three Fiber"],
+    "completionDate": "2024-09-10"
+  }
+]

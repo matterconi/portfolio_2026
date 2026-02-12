@@ -1,0 +1,83 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "Chi Sono",
+    "abc": "ABC",
+    "experience": "Esperienza",
+    "projects": "Progetti",
+    "contact": "Contatti",
+    "skills": "Competenze",
+    "languageSwitcher": "IT/EN"
+  },
+  "hero": {
+    "name": "Nome Sviluppatore",
+    "tagline": "Tagline segnaposto",
+    "scrollIndicator": "Scorri per esplorare"
+  },
+  "about": {
+    "title": "Chi Sono",
+    "bio": "Bio segnaposto"
+  },
+  "abc": {
+    "title": "ABC",
+    "automationTitle": "Automazione",
+    "automationDescription": "Scripting, pipeline CI/CD e infrastruttura come codice per ottimizzare i flussi di lavoro.",
+    "blockchainTitle": "Blockchain",
+    "blockchainDescription": "Smart contract, integrazione Web3 e sviluppo di applicazioni decentralizzate su Ethereum.",
+    "graphicsTitle": "Grafica Computazionale",
+    "graphicsDescription": "Rendering 3D, shader WebGL ed esperienze visive interattive per il web.",
+    "progressIndicator": "Pannello '{current}' di '{total}'",
+    "mobileHint": "Scorri per esplorare A → B → C",
+    "scrollHint": "Scorri verso il basso per esplorare"
+  },
+  "experience": {
+    "title": "Esperienza",
+    "certificateLabel": "Vedi Certificato",
+    "completedLabel": "Completato"
+  },
+  "projects": {
+    "title": "Progetti",
+    "viewProject": "Vedi Progetto",
+    "backToPortfolio": "Torna al Portfolio",
+    "problemTitle": "Problema",
+    "solutionTitle": "Soluzione",
+    "technologiesTitle": "Tecnologie",
+    "featuresTitle": "Funzionalità Chiave",
+    "linksTitle": "Link",
+    "viewLive": "Vedi Live",
+    "viewGithub": "Vedi su GitHub"
+  },
+  "skills": {
+    "title": "Competenze"
+  },
+  "contact": {
+    "title": "Contatti",
+    "nameLabel": "Nome",
+    "emailLabel": "Email",
+    "messageLabel": "Messaggio",
+    "sendButton": "Invia Messaggio",
+    "successMessage": "Messaggio inviato con successo!",
+    "errorMessage": "Invio del messaggio fallito. Riprova.",
+    "socialLinks": "Link Social",
+    "downloadCV": "Scarica CV",
+    "viewCV": "Visualizza CV",
+    "cvPreviewTitle": "Anteprima CV",
+    "closeModal": "Chiudi",
+    "successModalTitle": "Messaggio Inviato!",
+    "successModalMessage": "Grazie per avermi contattato. Ti risponderò presto.",
+    "turnstileError": "Per favore completa la verifica di sicurezza.",
+    "networkError": "Errore di rete. Controlla la connessione e riprova.",
+    "serverError": "Errore del server. Riprova più tardi.",
+    "nameRequired": "Il nome è obbligatorio",
+    "emailRequired": "L'email è obbligatoria",
+    "emailInvalid": "Inserisci un indirizzo email valido",
+    "messageRequired": "Il messaggio è obbligatorio",
+    "messageMinLength": "Il messaggio deve contenere almeno 10 caratteri"
+  },
+  "footer": {
+    "copyright": "Tutti i diritti riservati.",
+    "backToTop": "Torna in Cima",
+    "quickLinks": "Link Rapidi",
+    "social": "Social"
+  }
+}

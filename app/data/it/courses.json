@@ -1,0 +1,28 @@
+[
+  {
+    "id": "advanced-react-patterns",
+    "title": "Pattern Avanzati di React",
+    "provider": "Udemy",
+    "icon": "udemy",
+    "skills": ["React", "TypeScript", "Design Patterns", "Performance Optimization"],
+    "completionDate": "2024-06-15",
+    "certificateUrl": "https://udemy.com/certificate/example-react"
+  },
+  {
+    "id": "web3-development",
+    "title": "Sviluppo Web3",
+    "provider": "Coursera",
+    "icon": "coursera",
+    "skills": ["Solidity", "Ethereum", "Smart Contracts", "DeFi"],
+    "completionDate": "2024-03-20",
+    "certificateUrl": "https://coursera.org/certificate/example-web3"
+  },
+  {
+    "id": "threejs-fundamentals",
+    "title": "Fondamenti di Three.js",
+    "provider": "Frontend Masters",
+    "icon": "frontend-masters",
+    "skills": ["Three.js", "WebGL", "3D Graphics", "Shaders"],
+    "completionDate": "2024-01-10"
+  }
+]

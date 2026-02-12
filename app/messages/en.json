@@ -1,0 +1,83 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "abc": "ABC",
+    "experience": "Experience",
+    "projects": "Projects",
+    "contact": "Contact",
+    "skills": "Skills",
+    "languageSwitcher": "IT/EN"
+  },
+  "hero": {
+    "name": "Developer Name",
+    "tagline": "Tagline placeholder",
+    "scrollIndicator": "Scroll to explore"
+  },
+  "about": {
+    "title": "About Me",
+    "bio": "Bio placeholder"
+  },
+  "abc": {
+    "title": "ABC",
+    "automationTitle": "Automation",
+    "automationDescription": "Scripting, CI/CD pipelines, and infrastructure-as-code to streamline development workflows.",
+    "blockchainTitle": "Blockchain",
+    "blockchainDescription": "Smart contracts, Web3 integration, and decentralized application development on Ethereum.",
+    "graphicsTitle": "Computer Graphics",
+    "graphicsDescription": "3D rendering, WebGL shaders, and interactive visual experiences for the web.",
+    "progressIndicator": "Panel '{current}' of '{total}'",
+    "mobileHint": "Scroll to explore A → B → C",
+    "scrollHint": "Scroll down to explore"
+  },
+  "experience": {
+    "title": "Experience",
+    "certificateLabel": "View Certificate",
+    "completedLabel": "Completed"
+  },
+  "projects": {
+    "title": "Projects",
+    "viewProject": "View Project",
+    "backToPortfolio": "Back to Portfolio",
+    "problemTitle": "Problem",
+    "solutionTitle": "Solution",
+    "technologiesTitle": "Technologies",
+    "featuresTitle": "Key Features",
+    "linksTitle": "Links",
+    "viewLive": "View Live",
+    "viewGithub": "View on GitHub"
+  },
+  "skills": {
+    "title": "Skills"
+  },
+  "contact": {
+    "title": "Contact",
+    "nameLabel": "Name",
+    "emailLabel": "Email",
+    "messageLabel": "Message",
+    "sendButton": "Send Message",
+    "successMessage": "Message sent successfully!",
+    "errorMessage": "Failed to send message. Please try again.",
+    "socialLinks": "Social Links",
+    "downloadCV": "Download CV",
+    "viewCV": "View CV",
+    "cvPreviewTitle": "CV Preview",
+    "closeModal": "Close",
+    "successModalTitle": "Message Sent!",
+    "successModalMessage": "Thank you for reaching out. I'll get back to you soon.",
+    "turnstileError": "Please complete the verification challenge.",
+    "networkError": "Network error. Please check your connection and try again.",
+    "serverError": "Server error. Please try again later.",
+    "nameRequired": "Name is required",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Please enter a valid email address",
+    "messageRequired": "Message is required",
+    "messageMinLength": "Message must be at least 10 characters"
+  },
+  "footer": {
+    "copyright": "All rights reserved.",
+    "backToTop": "Back to Top",
+    "quickLinks": "Quick Links",
+    "social": "Social"
+  }
+}

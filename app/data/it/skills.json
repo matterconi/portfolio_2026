@@ -1,0 +1,74 @@
+[
+  {
+    "category": "stack",
+    "name": "TypeScript",
+    "icon": "typescript",
+    "description": "Linguaggio principale per lo sviluppo full-stack con forte tipizzazione."
+  },
+  {
+    "category": "stack",
+    "name": "React",
+    "icon": "react",
+    "description": "Costruzione di interfacce complesse con pattern moderni e hooks."
+  },
+  {
+    "category": "stack",
+    "name": "Next.js",
+    "icon": "nextjs",
+    "description": "Framework React full-stack per applicazioni in produzione."
+  },
+  {
+    "category": "stack",
+    "name": "Node.js",
+    "icon": "nodejs",
+    "description": "Runtime JavaScript lato server per API e strumenti."
+  },
+  {
+    "category": "stack",
+    "name": "PostgreSQL",
+    "icon": "postgresql",
+    "description": "Database relazionale per la persistenza di dati strutturati."
+  },
+  {
+    "category": "blockchain",
+    "name": "Solidity",
+    "icon": "solidity",
+    "description": "Sviluppo di smart contract per applicazioni basate su Ethereum."
+  },
+  {
+    "category": "blockchain",
+    "name": "Ethers.js",
+    "icon": "ethers",
+    "description": "Libreria di interazione blockchain per frontend Web3."
+  },
+  {
+    "category": "graphics",
+    "name": "Three.js",
+    "icon": "threejs",
+    "description": "Grafica 3D ed esperienze WebGL interattive."
+  },
+  {
+    "category": "graphics",
+    "name": "Blender",
+    "icon": "blender",
+    "description": "Modellazione 3D e creazione di asset per progetti web."
+  },
+  {
+    "category": "automation",
+    "name": "Docker",
+    "icon": "docker",
+    "description": "Containerizzazione per sviluppo e deployment consistenti."
+  },
+  {
+    "category": "automation",
+    "name": "GitHub Actions",
+    "icon": "github-actions",
+    "description": "Pipeline CI/CD per testing e deployment automatizzati."
+  },
+  {
+    "category": "automation",
+    "name": "Terraform",
+    "icon": "terraform",
+    "description": "Infrastruttura come codice per la gestione delle risorse cloud."
+  }
+]
