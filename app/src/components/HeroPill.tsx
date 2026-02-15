@@ -10,9 +10,13 @@ interface HeroPillProps {
 
 export default function HeroPill({ tagline, revealDelay }: HeroPillProps) {
   return (
-    <div className="overflow-hidden flex justify-center lg:justify-start">
+    <div className="flex justify-center lg:justify-start" style={{ clipPath: 'inset(0 -50px -50px -50px)' }}>
       <motion.div
-        className="mt-6 inline-flex flex-col items-center gap-2 rounded-3xl bg-black/80 backdrop-blur-sm border border-white/10 px-5 py-3"
+        className="mt-6 inline-flex rounded-3xl p-px"
+        style={{
+          background: 'linear-gradient(135deg, #ffffff40, transparent 50%, #ffffff20)',
+          boxShadow: '0 0 25px #ffffff15, 0 0 50px #ffffff0d',
+        }}
         initial={{ y: '100%' }}
         animate={{ y: 0 }}
         transition={{
@@ -21,22 +25,28 @@ export default function HeroPill({ tagline, revealDelay }: HeroPillProps) {
           delay: revealDelay,
         }}
       >
-        <p
-          className="text-sm sm:text-base font-normal uppercase tracking-[0.25em] text-foreground-muted"
-          style={{ fontFamily: "'Zodiak', serif" }}
-        >
-          {tagline.split(/(Creative)/i).map((part, i) =>
-            part.toLowerCase() === 'creative' ? (
-              <span key={i} className="italic text-accent-cyan">{part}</span>
-            ) : (
-              <span key={i}>{part}</span>
-            )
-          )}
-        </p>
+        <div className="flex flex-col items-center gap-2 rounded-3xl bg-[#0a0a0a] backdrop-blur-sm px-5 py-3">
+          <p
+            className="text-sm max-[350px]:text-xs sm:text-base font-normal uppercase tracking-[0.25em] text-foreground-muted text-center leading-relaxed"
+            style={{ fontFamily: "'Zodiak', serif" }}
+          >
+            {tagline.split(/(Creative)/i).map((part, i) =>
+              part.toLowerCase() === 'creative' ? (
+                <span key={i}>
+                  <br className="sm:hidden" />
+                  <span className="italic text-accent-cyan">{part}</span>
+                  <br className="max-[350px]:inline hidden" />
+                </span>
+              ) : (
+                <span key={i}>{part}</span>
+              )
+            )}
+          </p>
 
-        <div className="w-full border-t border-white/5" />
+          <div className="w-full border-t border-white/5" />
 
-        <MusicPlayer />
+          <MusicPlayer />
+        </div>
       </motion.div>
     </div>
   );

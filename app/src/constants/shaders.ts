@@ -1,33 +1,4 @@
-'use client';
-
-import { useMemo, useRef } from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import * as THREE from 'three';
-
-// ----- Types -----
-
-export interface ShaderVariant {
-  /** Primary bright color [r, g, b] 0-1 */
-  colorA: [number, number, number];
-  /** Secondary darker color [r, g, b] 0-1 */
-  colorB: [number, number, number];
-  /** Soft fill tint in dark areas [r, g, b] 0-1 */
-  fillTint: [number, number, number];
-  /** Wave frequency (default 5.5) */
-  frequency?: number;
-  /** Wave amplitude divisor — higher = subtler waves (default 24) */
-  amplitude?: number;
-  /** Noise rotation intensity in degrees (default 820) */
-  rotationSpread?: number;
-  /** Rotation angle for the smoothstep cut, degrees (default -5) */
-  cutAngle?: number;
-  /** Time multiplier for animation speed (default 1) */
-  speed?: number;
-}
-
-// ----- GLSL -----
-
-const vertexShader = /* glsl */ `
+export const vertexShader = /* glsl */ `
   varying vec2 vUv;
   void main() {
     vUv = uv;
@@ -35,7 +6,7 @@ const vertexShader = /* glsl */ `
   }
 `;
 
-const fragmentShader = /* glsl */ `
+export const fragmentShader = /* glsl */ `
   precision highp float;
 
   uniform float uTime;
@@ -121,7 +92,7 @@ const fragmentShader = /* glsl */ `
     vec3 baseCol = mix(mix(colorBlack, colorBright, l1), mix(colorDark, colorMid, l2), y);
     vec3 splitCol = mix(mix(colorBlack, colorBright, lSplit), mix(colorDark, colorMid, lSplit), ySplit);
 
-    // Channel mix — use the two most prominent channels from the palette
+    // Channel mix
     vec3 col = mix(baseCol, splitCol, 0.35);
 
     // Dark crush
@@ -139,68 +110,3 @@ const fragmentShader = /* glsl */ `
     gl_FragColor = vec4(col, 1.0);
   }
 `;
-
-// ----- Component -----
-
-function ShaderQuad({ variant }: { variant: ShaderVariant }) {
-  const { size } = useThree();
-
-  const uniforms = useMemo(
-    () => ({
-      uTime: { value: 0 },
-      uResolution: { value: new THREE.Vector2(size.width, size.height) },
-      uColorA: { value: new THREE.Vector3(...variant.colorA) },
-      uColorB: { value: new THREE.Vector3(...variant.colorB) },
-      uFillTint: { value: new THREE.Vector3(...variant.fillTint) },
-      uFrequency: { value: variant.frequency ?? 5.5 },
-      uAmplitude: { value: variant.amplitude ?? 24.0 },
-      uRotationSpread: { value: variant.rotationSpread ?? 820.0 },
-      uCutAngle: { value: variant.cutAngle ?? -5.0 },
-      uSpeed: { value: variant.speed ?? 1.0 },
-    }),
-    [] // eslint-disable-line react-hooks/exhaustive-deps
-  );
-
-  const prevSize = useRef({ w: size.width, h: size.height });
-  if (prevSize.current.w !== size.width || prevSize.current.h !== size.height) {
-    uniforms.uResolution.value.set(size.width, size.height);
-    prevSize.current = { w: size.width, h: size.height };
-  }
-
-  useFrame((_, delta) => {
-    uniforms.uTime.value += delta;
-  });
-
-  return (
-    <mesh frustumCulled={false}>
-      <planeGeometry args={[2, 2]} />
-      <shaderMaterial
-        vertexShader={vertexShader}
-        fragmentShader={fragmentShader}
-        uniforms={uniforms}
-        depthTest={false}
-        depthWrite={false}
-      />
-    </mesh>
-  );
-}
-
-export default function WaterPlaneShader({ variant }: { variant?: ShaderVariant }) {
-  const defaultVariant: ShaderVariant = {
-    colorA: [0, 1, 0],
-    colorB: [0, 0.9, 0.8],
-    fillTint: [0, 0.06, 0.04],
-  };
-
-  return (
-    <Canvas
-      style={{ position: 'absolute', inset: 0 }}
-      gl={{ antialias: false, alpha: false, powerPreference: 'high-performance' }}
-      dpr={1}
-      orthographic
-      camera={{ near: 0, far: 1, position: [0, 0, 0.5] }}
-    >
-      <ShaderQuad variant={variant ?? defaultVariant} />
-    </Canvas>
-  );
-}

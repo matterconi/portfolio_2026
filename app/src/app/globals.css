@@ -68,6 +68,11 @@ body {
   font-family: var(--font-mono), ui-monospace, 'Cascadia Code', 'Source Code Pro', Menlo, Consolas, 'DejaVu Sans Mono', monospace;
 }
 
+/* Hide native cursor globally (custom cursor replaces it) */
+*, *::before, *::after {
+  cursor: none !important;
+}
+
 /* Custom scrollbar for dark mode */
 ::-webkit-scrollbar {
   width: 8px;
@@ -99,6 +104,20 @@ html {
 }
 
 /* ========================================
+   ROTATING BORDER GLOW
+   ======================================== */
+@keyframes border-rotate {
+  from { --border-angle: 0deg; }
+  to   { --border-angle: 360deg; }
+}
+
+@property --border-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+/* ========================================
    INFINITE SCROLL ANIMATION
    ======================================== */
 @keyframes scroll {
@@ -125,13 +144,13 @@ html {
   overflow: hidden;
   clip-path: polygon(0% 0, 100% 0%, 100% 100%, 0 100%);
   padding-top: 4rem;
-  padding-bottom: 4rem;
+  padding-bottom: 2rem;
 }
 
 @media (min-width: 768px) {
   .demo-reveal-section {
     padding-top: 6rem;
-    padding-bottom: 6rem;
+    padding-bottom: 3rem;
   }
 }
 

@@ -80,7 +80,7 @@ export default function HeroText({
       <div className="flex flex-col lg:flex-row lg:flex-wrap lg:items-end lg:gap-x-16">
         <h1
           style={{ fontFamily: "'Clash Display', sans-serif" }}
-          className="text-8xl sm:text-[10rem] leading-none font-bold tracking-tighter text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+          className="text-7xl max-[350px]:text-6xl sm:text-8xl lg:text-[10rem] leading-none font-bold tracking-tighter text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]"
         >
           {words.map((word, wi) => {
             const isLast = wi === words.length - 1;
@@ -109,9 +109,16 @@ export default function HeroText({
             delay: 0.3 + letterIndex * 0.04 + 0.3,
           }}
         >
+          <div
+            className="rounded-full p-px"
+            style={{
+              background: 'linear-gradient(135deg, #ffffff40, transparent 50%, #ffffff20)',
+              boxShadow: '0 0 25px #ffffff15, 0 0 50px #ffffff0d',
+            }}
+          >
           <a
             href="#contact"
-            className="group relative inline-flex items-center justify-center w-36 h-36 rounded-full border border-white/10 bg-black/80 backdrop-blur-sm transition-all hover:border-accent-cyan/40 hover:shadow-[0_0_30px_rgba(0,255,200,0.1)] active:scale-95"
+            className="group relative inline-flex items-center justify-center w-36 h-36 rounded-full bg-[#0a0a0a] backdrop-blur-sm transition-all hover:scale-110"
           >
             <svg
               className="absolute inset-0 w-full h-full animate-[spin_12s_linear_infinite]"
@@ -125,7 +132,7 @@ export default function HeroText({
               </defs>
               <text
                 fill="currentColor"
-                className="text-foreground-muted text-[13px] uppercase tracking-[0.3em]"
+                className="text-foreground-muted text-[13px] uppercase tracking-[0.3em] transition-colors group-hover:text-accent-cyan"
                 style={{ fontFamily: "'Zodiak', serif" }}
               >
                 <textPath href="#circlePath">
@@ -134,7 +141,7 @@ export default function HeroText({
               </text>
             </svg>
             <svg
-              className="relative w-16 h-16 text-white transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+              className="relative w-16 h-16 text-white transition-colors group-hover:text-accent-cyan"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -143,6 +150,7 @@ export default function HeroText({
               <path d="M7 17L17 7M17 7H7M17 7v10" />
             </svg>
           </a>
+          </div>
         </motion.div>
         <div className="lg:basis-full">
           <HeroPill tagline={tagline} revealDelay={0.3 + letterIndex * 0.04} />

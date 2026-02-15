@@ -34,7 +34,7 @@ export default function MusicPlayer() {
         <button
           onClick={previousTrack}
           aria-label="Previous track"
-          className="text-foreground-muted hover:text-white transition-colors p-1"
+          className="text-foreground-muted hover:text-accent-cyan hover:scale-125 transition-all p-1"
         >
           <SkipBack size={12} />
         </button>
@@ -50,7 +50,7 @@ export default function MusicPlayer() {
         <button
           onClick={nextTrack}
           aria-label="Next track"
-          className="text-foreground-muted hover:text-white transition-colors p-1"
+          className="text-foreground-muted hover:text-accent-cyan hover:scale-125 transition-all p-1"
         >
           <SkipForward size={12} />
         </button>

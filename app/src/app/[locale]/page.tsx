@@ -6,10 +6,9 @@ import ABCSection from '@/components/ABCSection';
 import ExperienceSection from '@/components/ExperienceSection';
 import ContactSection from '@/components/ContactSection';
 import ProjectsSection from '@/components/ProjectsSection';
-import HeroShader from '@/components/HeroShader';
-import HeroText from '@/components/HeroText';
 import Hero from '@/components/Hero';
 import TechStackSection from '@/components/TechStackSection';
+import ProofSection from '@/components/ProofSection';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -46,10 +45,6 @@ export default async function Home({
     getSocialLinks(loc),
   ]);
 
-  // ABC skills filtered to automation/blockchain/graphics categories
-  const abcCategories: Skill['category'][] = ['automation', 'blockchain', 'graphics'];
-  const abcSkills = skills.filter((s) => abcCategories.includes(s.category));
-
   // Group skills by category
   const skillsByCategory = skills.reduce<Record<string, Skill[]>>((acc, skill) => {
     const cat = skill.category || 'other';
@@ -63,34 +58,37 @@ export default async function Home({
               {/* Hero Section */}
               <Hero about={about}/>
               <TechStackSection />
-      {/* About Section — fuori dal container per titolo full-width */}
+
+        {/* Scroll Reveal + Stats */}
+        <ProofSection />
+      {/* About Section */}
       <AboutSection title={tAbout('title')} about={about} />
 
-      <div className="mx-auto w-full max-w-4xl px-6 sm:px-8">
-        {/* ABC Section */}
-        <ABCSection
+      {/* ABC Section — full bleed */}
+      <ABCSection
           sectionTitle={tAbc('title')}
-          skills={abcSkills.map((s) => ({
-            category: s.category,
-            name: s.name,
-            icon: s.icon,
-            description: s.description,
-          }))}
           translations={{
             progressIndicator: tAbc('progressIndicator'),
             mobileHint: tAbc('mobileHint'),
             scrollHint: tAbc('scrollHint'),
           }}
-          panelMeta={{
-            automationTitle: tAbc('automationTitle'),
-            automationDescription: tAbc('automationDescription'),
-            blockchainTitle: tAbc('blockchainTitle'),
-            blockchainDescription: tAbc('blockchainDescription'),
-            graphicsTitle: tAbc('graphicsTitle'),
-            graphicsDescription: tAbc('graphicsDescription'),
+          panelTopics={{
+            a: [
+              { title: tAbc('automationTitle'), description: tAbc('automationDescription'), image: 'https://images.unsplash.com/photo-1629654297299-c8506221ca97?w=400&q=80&auto=format&fit=crop', bullets: tAbc('automationBullets').split(', '), emphasize: ['Scripting,', 'CI/CD', 'infrastructure-as-code', 'pipeline', 'infrastruttura'] },
+              { title: tAbc('animationsTitle'), description: tAbc('animationsDescription'), image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=400&q=80&auto=format&fit=crop', bullets: tAbc('animationsBullets').split(', '), emphasize: ['Motion', 'interattive', 'interactive', 'immersive', 'immersive'] },
+            ],
+            b: [
+              { title: tAbc('blockchainTitle'), description: tAbc('blockchainDescription'), image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=400&q=80&auto=format&fit=crop', bullets: tAbc('blockchainBullets').split(', '), emphasize: ['Smart', 'Web3', 'Ethereum.', 'decentralizzate', 'decentralized'] },
+              { title: tAbc('backendTitle'), description: tAbc('backendDescription'), image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&q=80&auto=format&fit=crop', bullets: tAbc('backendBullets').split(', '), emphasize: ['REST/GraphQL', 'microservizi', 'microservices', 'scalabili.', 'scalable'] },
+            ],
+            c: [
+              { title: tAbc('graphicsTitle'), description: tAbc('graphicsDescription'), image: 'https://images.unsplash.com/photo-1620641788421-7a1c342ea42e?w=400&q=80&auto=format&fit=crop', bullets: tAbc('graphicsBullets').split(', '), emphasize: ['3D', 'WebGL', 'shader', 'shaders,'] },
+              { title: tAbc('cyberSecurityTitle'), description: tAbc('cyberSecurityDescription'), image: 'https://images.unsplash.com/photo-1510915228340-29c85a43dcfe?w=400&q=80&auto=format&fit=crop', bullets: tAbc('cyberSecurityBullets').split(', '), emphasize: ['Penetration', 'vulnerabilità', 'vulnerability', 'sicuro.', 'secure'] },
+            ],
           }}
         />
 
+      <div className="mx-auto w-full max-w-7xl px-6 sm:px-8">
         {/* Experience Section */}
         <ExperienceSection
           title={tExp('title')}
@@ -166,8 +164,8 @@ export default async function Home({
           socialLinks={social}
           turnstileSiteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || ''}
         />
-
       </div>
+
     </div>
   );
 }

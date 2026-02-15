@@ -87,7 +87,7 @@ function Word({
       <motion.span
         className={
           emphasized
-            ? "italic text-accent-cyan bg-accent-cyan/30 px-1 -mx-0.5 rounded"
+            ? "italic bg-accent-cyan/30 px-1 mx-1 rounded"
             : "text-foreground-muted"
         }
         style={{ opacity: textOpacity }}
