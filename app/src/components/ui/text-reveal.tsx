@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, type ReactNode } from "react";
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 
 interface TextRevealProps {
@@ -8,26 +8,30 @@ interface TextRevealProps {
   emphasize?: string[];
   scrollProgress?: MotionValue<number>;
   className?: string;
+  /** Element rendered inside the text flow with float (e.g. a profile image on tablet) */
+  floatingElement?: ReactNode;
 }
 
-export function TextReveal({ text, emphasize = [], scrollProgress, className }: TextRevealProps) {
+export function TextReveal({ text, emphasize = [], scrollProgress, className, floatingElement }: TextRevealProps) {
   const fallbackRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress: fallbackProgress } = useScroll({
     target: fallbackRef,
-    offset: ["start 0.9", "start 0.2"],
+    offset: ["start 0.8", "end 0.8"],
   });
 
   const progress = scrollProgress ?? fallbackProgress;
+  console.log(progress);
   const emphasisSet = new Set(emphasize);
   const words = text.split(" ");
   const totalWords = words.length;
 
   return (
     <div ref={fallbackRef} className={className}>
-      <p
-        className="text-xl sm:text-2xl leading-relaxed font-medium flex flex-wrap"
+      <div
+        className="text-xl sm:text-2xl leading-relaxed font-medium"
         style={{ fontFamily: "'Clash Display', sans-serif" }}
       >
+        {floatingElement}
         {words.map((word, i) => {
           const start = i / totalWords;
           const end = start + 1 / totalWords;
@@ -45,7 +49,7 @@ export function TextReveal({ text, emphasize = [], scrollProgress, className }: 
             </Word>
           );
         })}
-      </p>
+      </div>
     </div>
   );
 }

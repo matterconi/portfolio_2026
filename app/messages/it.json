@@ -7,7 +7,8 @@
     "projects": "Progetti",
     "contact": "Contatti",
     "skills": "Competenze",
-    "languageSwitcher": "IT/EN"
+    "languageSwitcher": "IT/EN",
+    "chess": "Scacchi"
   },
   "hero": {
     "name": "Nome Sviluppatore",
@@ -41,6 +42,32 @@
     "progressIndicator": "Pannello '{current}' di '{total}'",
     "mobileHint": "Scorri per esplorare A → B → C",
     "scrollHint": "Scorri verso il basso per esplorare"
+  },
+  "chess": {
+    "title": "Gioca col Mio Bot",
+    "subtitle": "Sfida il mio motore scacchistico. Riesci a batterlo?",
+    "newGame": "Nuova Partita",
+    "undo": "Annulla",
+    "flipBoard": "Ruota",
+    "yourTurn": "Il tuo turno",
+    "botTurn": "Il bot sta pensando...",
+    "check": "Scacco!",
+    "checkmate": "Scacco matto!",
+    "stalemate": "Stallo",
+    "draw": "Patta",
+    "moveHistory": "Cronologia Mosse",
+    "white": "Bianco",
+    "black": "Nero",
+    "connectWallet": "Connetti Wallet",
+    "playAs": "Gioca come",
+    "level": "Livello",
+    "easy": "Facile",
+    "medium": "Medio",
+    "hard": "Difficile",
+    "copyPgn": "Copia PGN",
+    "copied": "Copiato!",
+    "capturedPieces": "Catturati",
+    "sound": "Audio"
   },
   "experience": {
     "title": "Esperienza",

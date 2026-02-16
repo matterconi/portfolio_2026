@@ -3,6 +3,7 @@ import { getProjects, getSkills, getCourses, getAbout, getSocialLinks } from '@/
 import { Locale, Skill } from '@data/types';
 import AboutSection from '@/components/AboutSection';
 import ABCSection from '@/components/ABCSection';
+import ChessSection from '@/components/ChessSection';
 import ExperienceSection from '@/components/ExperienceSection';
 import ContactSection from '@/components/ContactSection';
 import ProjectsSection from '@/components/ProjectsSection';
@@ -31,6 +32,7 @@ export default async function Home({
   // Load all translations
   const tAbout = await getTranslations({ locale, namespace: 'about' });
   const tAbc = await getTranslations({ locale, namespace: 'abc' });
+  const tChess = await getTranslations({ locale, namespace: 'chess' });
   const tExp = await getTranslations({ locale, namespace: 'experience' });
   const tProjects = await getTranslations({ locale, namespace: 'projects' });
   const tSkills = await getTranslations({ locale, namespace: 'skills' });
@@ -88,13 +90,38 @@ export default async function Home({
           }}
         />
 
+      {/* Chess Section */}
+      <ChessSection
+        translations={{
+          title: tChess('title'),
+          subtitle: tChess('subtitle'),
+          newGame: tChess('newGame'),
+          undo: tChess('undo'),
+          flipBoard: tChess('flipBoard'),
+          yourTurn: tChess('yourTurn'),
+          botTurn: tChess('botTurn'),
+          check: tChess('check'),
+          checkmate: tChess('checkmate'),
+          stalemate: tChess('stalemate'),
+          draw: tChess('draw'),
+          moveHistory: tChess('moveHistory'),
+          white: tChess('white'),
+          black: tChess('black'),
+          connectWallet: tChess('connectWallet'),
+          playAs: tChess('playAs'),
+          copyPgn: tChess('copyPgn'),
+          copied: tChess('copied'),
+          capturedPieces: tChess('capturedPieces'),
+          sound: tChess('sound'),
+        }}
+      />
+
       <div className="mx-auto w-full max-w-7xl px-6 sm:px-8">
         {/* Experience Section */}
         <ExperienceSection
           title={tExp('title')}
           courses={courses}
           locale={locale}
-          certificateLabel={tExp('certificateLabel')}
         />
 
         {/* Projects Section */}

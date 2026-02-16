@@ -5,6 +5,7 @@ import { JetBrains_Mono } from "next/font/google";
 import { FloatingNav } from "@/components/FloatingNav";
 import Footer from "@/components/Footer";
 import CustomCursor from "@/components/CustomCursor";
+import LenisProvider from "@/components/LenisProvider";
 
 const jetbrainsMono = JetBrains_Mono({
   variable: "--font-mono",
@@ -45,6 +46,7 @@ export default async function LocaleLayout({
         />
       </head>
       <body className={`${jetbrainsMono.variable} antialiased cursor-none`}>
+        <LenisProvider />
         <CustomCursor />
         <NextIntlClientProvider messages={messages}>
           <FloatingNav />

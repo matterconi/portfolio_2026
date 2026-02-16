@@ -3,7 +3,8 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 
-function RevealLetter({
+// ── Scroll-driven letter ──
+function ScrollRevealLetter({
   letter,
   progress,
   range,
@@ -12,13 +13,32 @@ function RevealLetter({
   progress: MotionValue<number>;
   range: [number, number];
 }) {
-  // TODO: derive y from progress and range
-  const opacity = useTransform(progress, range, [0, 1])
+  const opacity = useTransform(progress, range, [0, 1]);
+  return (
+    <span className="inline-block overflow-hidden align-bottom" style={{ perspective: "600px" }}>
+      <motion.span className="inline-block" style={{ opacity }}>
+        {letter}
+      </motion.span>
+    </span>
+  );
+}
+
+// ── Time-based letter (whileInView + stagger) ──
+function TimeRevealLetter({
+  letter,
+  delay,
+}: {
+  letter: string;
+  delay: number;
+}) {
   return (
     <span className="inline-block overflow-hidden align-bottom" style={{ perspective: "600px" }}>
       <motion.span
         className="inline-block"
-        style={{opacity}}
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.05, delay }}
       >
         {letter}
       </motion.span>
@@ -30,18 +50,19 @@ interface DemoTitleRevealProps {
   text: string;
   scrollProgress?: MotionValue<number>;
   className?: string;
+  /** When set, uses time-based animation (seconds) instead of scroll-driven */
+  timeBased?: number;
 }
 
-export function DemoTitleReveal({ text, scrollProgress, className }: DemoTitleRevealProps) {
+export function DemoTitleReveal({ text, scrollProgress, className, timeBased }: DemoTitleRevealProps) {
   const fallbackRef = useRef<HTMLHeadingElement>(null);
   const { scrollYProgress: fallbackProgress } = useScroll({
     target: fallbackRef,
-    offset: ["start 0.9", "start 0.2"],
+    offset: ["start 0.9", "end 0.8"],
   });
 
   const progress = scrollProgress ?? fallbackProgress;
 
-  // TODO: split text, calculate totalChars, charIndex, ranges
   const chars = text.split("");
   const totalChars = chars.filter((c) => c !== " ").length;
 
@@ -53,13 +74,18 @@ export function DemoTitleReveal({ text, scrollProgress, className }: DemoTitleRe
       className={`font-bold tracking-wide text-white text-left ${className ?? ""}`}
       style={{ fontFamily: "'Clash Display', sans-serif" }}
     >
-      {/* TODO: map chars → RevealLetter with calculated ranges */}
       {chars.map((char, i) => {
-        if (char === " ") return <span key={i}>&nbsp;</span>
-        const start = charIndex / totalChars
-        const end = (charIndex + 1) / totalChars
-        charIndex ++;
-        return <RevealLetter letter={char} progress={progress} range={[start, end]} key={i}/>
+        if (char === " ") return <span key={i}>&nbsp;</span>;
+        const idx = charIndex++;
+
+        if (timeBased != null) {
+          const delay = (idx / totalChars) * timeBased;
+          return <TimeRevealLetter letter={char} delay={delay} key={i} />;
+        }
+
+        const start = idx / totalChars;
+        const end = (idx + 1) / totalChars;
+        return <ScrollRevealLetter letter={char} progress={progress} range={[start, end]} key={i} />;
       })}
     </h2>
   );

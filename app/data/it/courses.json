@@ -1,28 +1,51 @@
 [
   {
-    "id": "advanced-react-patterns",
-    "title": "Pattern Avanzati di React",
-    "provider": "Udemy",
-    "icon": "udemy",
-    "skills": ["React", "TypeScript", "Design Patterns", "Performance Optimization"],
-    "completionDate": "2024-06-15",
-    "certificateUrl": "https://udemy.com/certificate/example-react"
+    "id": "codecademy-fullstack",
+    "title": "Full-Stack Engineer",
+    "provider": "Codecademy",
+    "icon": "/courses/codecademy.pdf",
+    "skills": ["React", "Node.js", "Express.js", "PostgreSQL", "Full-Stack"],
+    "completionDate": "2025-01-14",
+    "certificateUrl": "/courses/codecademy.pdf"
   },
   {
-    "id": "web3-development",
-    "title": "Sviluppo Web3",
-    "provider": "Coursera",
-    "icon": "coursera",
-    "skills": ["Solidity", "Ethereum", "Smart Contracts", "DeFi"],
-    "completionDate": "2024-03-20",
-    "certificateUrl": "https://coursera.org/certificate/example-web3"
+    "id": "alchemy-web3",
+    "title": "Alchemy University",
+    "provider": "Alchemy",
+    "icon": "/courses/alchemy.png",
+    "skills": ["Solidity", "Ethereum", "Smart Contracts", "ethers.js", "Sviluppo DApp"],
+    "completionDate": ""
   },
   {
-    "id": "threejs-fundamentals",
-    "title": "Fondamenti di Three.js",
-    "provider": "Frontend Masters",
-    "icon": "frontend-masters",
-    "skills": ["Three.js", "WebGL", "3D Graphics", "Shaders"],
-    "completionDate": "2024-01-10"
+    "id": "threejs-journey",
+    "title": "Three.js Journey",
+    "provider": "Three.js Journey",
+    "icon": "/courses/threejs-journey.jpg",
+    "skills": ["Three.js", "WebGL", "Shaders GLSL", "Grafica 3D", "React Three Fiber"],
+    "completionDate": ""
+  },
+  {
+    "id": "jsm-nextjs",
+    "title": "Next.js 16",
+    "provider": "JavaScript Mastery",
+    "icon": "/courses/nextjs.png",
+    "skills": ["Next.js", "React", "TypeScript", "Server Components", "App Router"],
+    "completionDate": ""
+  },
+  {
+    "id": "jsm-gsap",
+    "title": "Corso GSAP",
+    "provider": "JavaScript Mastery",
+    "icon": "/courses/gsap.png",
+    "skills": ["GSAP", "ScrollTrigger", "Animazioni", "Web Animations"],
+    "completionDate": ""
+  },
+  {
+    "id": "laurea-lettere",
+    "title": "Laurea Triennale in Lettere Moderne",
+    "provider": "Università degli Studi di Firenze",
+    "icon": "/courses/Logo_universita_firenze.svg",
+    "skills": ["Pensiero Critico", "Ricerca", "Scrittura", "Comunicazione"],
+    "completionDate": ""
   }
 ]

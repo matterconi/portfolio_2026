@@ -7,7 +7,8 @@
     "projects": "Projects",
     "contact": "Contact",
     "skills": "Skills",
-    "languageSwitcher": "IT/EN"
+    "languageSwitcher": "IT/EN",
+    "chess": "Chess"
   },
   "hero": {
     "name": "Developer Name",
@@ -41,6 +42,32 @@
     "progressIndicator": "Panel '{current}' of '{total}'",
     "mobileHint": "Scroll to explore A → B → C",
     "scrollHint": "Scroll down to explore"
+  },
+  "chess": {
+    "title": "Play My Bot",
+    "subtitle": "Challenge my custom chess engine. Can you beat it?",
+    "newGame": "New Game",
+    "undo": "Undo",
+    "flipBoard": "Flip",
+    "yourTurn": "Your turn",
+    "botTurn": "Bot is thinking...",
+    "check": "Check!",
+    "checkmate": "Checkmate!",
+    "stalemate": "Stalemate",
+    "draw": "Draw",
+    "moveHistory": "Move History",
+    "white": "White",
+    "black": "Black",
+    "connectWallet": "Connect Wallet",
+    "playAs": "Play as",
+    "level": "Level",
+    "easy": "Easy",
+    "medium": "Medium",
+    "hard": "Hard",
+    "copyPgn": "Copy PGN",
+    "copied": "Copied!",
+    "capturedPieces": "Captured",
+    "sound": "Sound"
   },
   "experience": {
     "title": "Experience",
