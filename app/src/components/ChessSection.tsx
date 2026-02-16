@@ -57,7 +57,8 @@ export default function ChessSection({ translations }: ChessSectionProps) {
   const boardOpacity = useTransform(scrollYProgress, [0.25, 0.6], [0, 1]);
   const boardY = useTransform(scrollYProgress, [0.25, 0.6], [48, 0]);
 
-  // Applica via DOM (framer-motion style non funziona su figli di sticky)
+  const settleTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+
   useMotionValueEvent(scrollYProgress, 'change', () => {
     if (titleRef.current) {
       titleRef.current.style.opacity = String(titleOpacity.get());
@@ -71,6 +72,24 @@ export default function ChessSection({ translations }: ChessSectionProps) {
       boardRef.current.style.opacity = String(boardOpacity.get());
       boardRef.current.style.transform = `translateY(${boardY.get()}px)`;
     }
+
+    // Snap to clean boundary values after scroll settles
+    clearTimeout(settleTimer.current);
+    settleTimer.current = setTimeout(() => {
+      const p = scrollYProgress.get();
+      if (titleRef.current) {
+        if (p <= 0.05) { titleRef.current.style.opacity = '0'; titleRef.current.style.transform = 'translateY(40px)'; }
+        else if (p >= 0.4) { titleRef.current.style.opacity = '1'; titleRef.current.style.transform = 'translateY(0px)'; }
+      }
+      if (subtitleRef.current) {
+        if (p <= 0.15) { subtitleRef.current.style.opacity = '0'; subtitleRef.current.style.transform = 'translateY(30px)'; }
+        else if (p >= 0.5) { subtitleRef.current.style.opacity = '1'; subtitleRef.current.style.transform = 'translateY(0px)'; }
+      }
+      if (boardRef.current) {
+        if (p <= 0.25) { boardRef.current.style.opacity = '0'; boardRef.current.style.transform = 'translateY(48px)'; }
+        else if (p >= 0.6) { boardRef.current.style.opacity = '1'; boardRef.current.style.transform = 'translateY(0px)'; }
+      }
+    }, 80);
   });
 
   const {
@@ -88,18 +107,18 @@ export default function ChessSection({ translations }: ChessSectionProps) {
         style={{ backgroundColor: bgColor }}
       >
         <div className="mx-auto w-full max-w-7xl px-6 sm:px-8 py-10">
-          {/* Title */}
-          <div ref={titleRef} style={{ opacity: 0, transform: 'translateY(40px)' }}>
+          {/* Title — opacity-0 via class, NOT via style prop (avoids React re-render overwrite) */}
+          <div ref={titleRef} className="opacity-0">
             <SectionTitle visible title={translations.title} className="text-5xl sm:text-6xl mb-2" />
           </div>
 
           {/* Subtitle */}
-          <p ref={subtitleRef} className="text-foreground-muted text-sm sm:text-base mb-6" style={{ opacity: 0, transform: 'translateY(30px)' }}>
+          <p ref={subtitleRef} className="opacity-0 text-foreground-muted text-sm sm:text-base mb-6">
             {translations.subtitle}
           </p>
 
           {/* Board + Controls */}
-          <div ref={boardRef} className="flex flex-col md:flex-row gap-6 flex-1 min-h-0 items-start" style={{ opacity: 0, transform: 'translateY(48px)' }}>
+          <div ref={boardRef} className="opacity-0 flex flex-col md:flex-row gap-6 flex-1 min-h-0 items-start">
             {/* Board */}
             <div
               className="relative rounded-2xl shrink-0 overflow-hidden self-start w-full md:w-auto md:h-[min(calc(100vh-220px),360px)] lg:h-[min(calc(100vh-220px),560px)]"
