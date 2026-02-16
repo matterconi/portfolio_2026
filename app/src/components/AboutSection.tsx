@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { TextReveal } from '@/components/ui/text-reveal';
 import { SectionTitle } from '@/components/ui/section-title';
 import type { AboutContent } from '@data/types';
+import { DemoTitleReveal } from '@/app/[locale]/demo-about/DemoTitleReveal';
 
 interface AboutSectionProps {
   title: string;
@@ -13,7 +14,6 @@ interface AboutSectionProps {
 }
 
 // Nothing visible before this scroll %
-const ENTER_AT = 0.08;
 const TEXT_START = 0.23;
 
 export default function AboutSection({ title, about }: AboutSectionProps) {
@@ -23,14 +23,9 @@ export default function AboutSection({ title, about }: AboutSectionProps) {
     offset: ['start start', 'end end'],
   });
 
-  const [titleVisible, setTitleVisible] = useState(false);
-
-  useMotionValueEvent(scrollProgress, 'change', (p) => {
-    setTitleVisible(p >= ENTER_AT);
-  });
-
   // Ramp: 0→TEXT_START = -1→0 (blocks fade in gradually), TEXT_START→1 = 0→1 (text reveal)
   const textProgress = useTransform(scrollProgress, [0, TEXT_START, 1], [-1, 0, 1]);
+  const titleProgress = useTransform(scrollProgress, [0.02, 0.2], [0,1])
 
   // Image reveal: fade + scale, synced with text progress
   const imageOpacity = useTransform(textProgress, [0.05, 0.25], [0, 1]);
@@ -42,7 +37,7 @@ export default function AboutSection({ title, about }: AboutSectionProps) {
         <div className="w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-[1fr_auto] gap-x-10 gap-y-6">
           {/* Title — mobile: after image | tablet: row 1 col 1 | desktop: row 1 full width */}
           <div className="order-2 md:order-none md:row-start-1 md:col-start-1 lg:col-span-2 self-center">
-            <SectionTitle title={title} visible={titleVisible} className="text-5xl sm:text-6xl" />
+            <DemoTitleReveal text={title} scrollProgress={titleProgress} className="text-5xl sm:text-6xl" />
           </div>
 
           {/* Profile Photo — mobile: first | tablet: beside title | desktop: beside text */}

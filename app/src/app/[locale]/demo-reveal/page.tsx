@@ -3,6 +3,8 @@
 import React, { useRef } from "react";
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
 
+import { DemoTextReveal } from "../demo-about/DemoTextReveal";
+
 type Mode = "word" | "char";
 
 const Word = ({ children, progress, range, isLast }: {
