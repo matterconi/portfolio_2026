@@ -6,6 +6,7 @@ import ABCPanel from './ABCPanel';
 import type { PanelData } from './ABCPanel';
 import type { ShaderVariant } from './WaterPlaneShader';
 import { SectionTitle } from './ui/section-title';
+import { useStickyCardLayout } from '@/hooks/useStickyCardLayout';
 
 interface TopicMeta {
   title: string;
@@ -77,9 +78,11 @@ export default function ABCSection({
   panelTopics,
 }: ABCSectionProps) {
   const [overflow, setOverflow] = useState(0);
-  const [stickyTop, setStickyTop] = useState(0);
   const cardRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
+
+  const { stickyTop, titleInside } = useStickyCardLayout(cardRef, titleRef);
 
   const { scrollYProgress } = useScroll({
     target: wrapperRef,
@@ -98,7 +101,6 @@ export default function ABCSection({
       const styles = window.getComputedStyle(cardRef.current);
       const paddingRight = parseFloat(styles.paddingRight);
       setOverflow(cardRef.current.scrollWidth - cardRef.current.clientWidth + paddingRight);
-      setStickyTop((window.innerHeight - cardRef.current.offsetHeight) / 2);
     };
 
     calculate();
@@ -135,10 +137,20 @@ export default function ABCSection({
               <ABCPanel key={panel.letter} panel={panel} />
             ))}
           </motion.div>
-          <SectionTitle visible title='Il mio ABC' className='text-5xl sm:text-6xl !text-center w-full mx-auto mt-8'/>
-          <p className="mb-8 text-lg text-foreground-subtle text-center" style={{ fontFamily: "'Clash Display', sans-serif" }}>Per un Web al passo con i tempi</p>
+          {titleInside && (
+            <div ref={titleRef}>
+              <SectionTitle visible title='Il mio ABC' className='text-5xl sm:text-6xl !text-center w-full mx-auto mt-8'/>
+              <p className="mb-8 text-lg text-foreground-subtle text-center" style={{ fontFamily: "'Clash Display', sans-serif" }}>Per un Web al passo con i tempi</p>
+            </div>
+          )}
         </motion.div>
       </div>
+      {!titleInside && (
+        <div ref={titleRef}>
+          <SectionTitle visible title='Il mio ABC' className='text-5xl sm:text-6xl !text-center w-full mx-auto mt-8'/>
+          <p className="mb-8 text-lg text-foreground-subtle text-center" style={{ fontFamily: "'Clash Display', sans-serif" }}>Per un Web al passo con i tempi</p>
+        </div>
+      )}
     </div>
   );
 }
