@@ -20,7 +20,7 @@
     "bio": "Bio placeholder"
   },
   "abc": {
-    "title": "ABC",
+    "title": "My ABC",
     "automationTitle": "Automation",
     "automationDescription": "Scripting, CI/CD pipelines, and infrastructure-as-code to streamline development workflows.",
     "automationBullets": "GitHub Actions & GitLab CI/CD, Docker & Kubernetes, Terraform & Ansible, Bash & Python scripting",
@@ -111,7 +111,18 @@
     "emailRequired": "Email is required",
     "emailInvalid": "Please enter a valid email address",
     "messageRequired": "Message is required",
-    "messageMinLength": "Message must be at least 10 characters"
+    "messageMinLength": "Message must be at least 10 characters",
+    "revealLine1": "Let's Build",
+    "revealLine2": "Something Great"
+  },
+  "comparison": {
+    "title": "AI vs Developer",
+    "description": "Can you spot the difference?",
+    "aiLabel": "AI Generated",
+    "devLabel": "Developer Built"
+  },
+  "reviews": {
+    "title": "Reviews"
   },
   "footer": {
     "copyright": "All rights reserved.",

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { useCountUp } from '@/hooks/useCountUp';
-import { InfiniteMovingCards } from './ui/infinite-moving-cards';
+import InfiniteMovingCards from './ui/infinite-moving-cards';
 
 export interface Stat {
   value: number;

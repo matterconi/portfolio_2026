@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import CourseCard from '@/components/CourseCard';
 import type { Course } from '@data/types';
@@ -26,8 +26,9 @@ export default function ExperienceSection({
                 title={title}
                 className="text-5xl sm:text-6xl !text-right w-full mx-auto mt-8"
               />
+              <p className="mb-8 text-lg text-foreground-subtle text-right" style={{ fontFamily: "'Clash Display', sans-serif" }}>La capacità di imparare è lo strumento più importante</p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-12 auto-rows-fr">
         {courses.map((course, index) => (
           <CourseCard
             key={course.id}

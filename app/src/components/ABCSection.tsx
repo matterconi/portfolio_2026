@@ -8,6 +8,7 @@ import type { ShaderVariant } from './WaterPlaneShader';
 import { SectionTitle } from './ui/section-title';
 import { useStickyCardLayout } from '@/hooks/useStickyCardLayout';
 
+
 interface TopicMeta {
   title: string;
   description: string;
@@ -138,17 +139,15 @@ export default function ABCSection({
             ))}
           </motion.div>
           {titleInside && (
-            <div ref={titleRef}>
-              <SectionTitle visible title='Il mio ABC' className='text-5xl sm:text-6xl !text-center w-full mx-auto mt-8'/>
-              <p className="mb-8 text-lg text-foreground-subtle text-center" style={{ fontFamily: "'Clash Display', sans-serif" }}>Per un Web al passo con i tempi</p>
+            <div ref={titleRef} className="px-6 pb-6">
+              <SectionTitle title={sectionTitle} visible className="text-5xl sm:text-6xl !text-center" />
             </div>
           )}
         </motion.div>
       </div>
       {!titleInside && (
-        <div ref={titleRef}>
-          <SectionTitle visible title='Il mio ABC' className='text-5xl sm:text-6xl !text-center w-full mx-auto mt-8'/>
-          <p className="mb-8 text-lg text-foreground-subtle text-center" style={{ fontFamily: "'Clash Display', sans-serif" }}>Per un Web al passo con i tempi</p>
+        <div ref={titleRef} className="px-6 pb-6">
+          <SectionTitle title={sectionTitle} visible className="text-5xl sm:text-6xl !text-center" />
         </div>
       )}
     </div>

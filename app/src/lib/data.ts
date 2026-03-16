@@ -1,4 +1,4 @@
-import { Locale, Project, Course, Skill, AboutContent, SocialLinks, PortfolioData } from '@data/types';
+import { Locale, Project, Course, Skill, AboutContent, SocialLinks, PortfolioData, Review } from '@data/types';
 import { cache } from 'react';
 
 // Cache data fetching functions to avoid multiple reads during SSR
@@ -19,6 +19,11 @@ export const getSkills = cache(async (locale: Locale): Promise<Skill[]> => {
 
 export const getAbout = cache(async (locale: Locale): Promise<AboutContent> => {
   const data = await import(`@data/${locale}/about.json`);
+  return data.default;
+});
+
+export const getReviews = cache(async (locale: Locale): Promise<Review[]> => {
+  const data = await import(`@data/${locale}/reviews.json`);
   return data.default;
 });
 

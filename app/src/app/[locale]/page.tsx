@@ -1,5 +1,5 @@
 import { getTranslations } from 'next-intl/server';
-import { getProjects, getSkills, getCourses, getAbout, getSocialLinks } from '@/lib/data';
+import { getProjects, getSkills, getCourses, getAbout, getReviews } from '@/lib/data';
 import { Locale, Skill } from '@data/types';
 import AboutSection from '@/components/AboutSection';
 import ABCSection from '@/components/ABCSection';
@@ -10,6 +10,9 @@ import ProjectsSection from '@/components/ProjectsSection';
 import Hero from '@/components/Hero';
 import TechStackSection from '@/components/TechStackSection';
 import ProofSection from '@/components/ProofSection';
+import ReviewsSection from '@/components/ReviewsSection';
+import ComparisonSection from '@/components/ComparisonSection';
+import ScrollBanner from '@/components/ScrollBanner';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -36,15 +39,17 @@ export default async function Home({
   const tExp = await getTranslations({ locale, namespace: 'experience' });
   const tProjects = await getTranslations({ locale, namespace: 'projects' });
   const tSkills = await getTranslations({ locale, namespace: 'skills' });
+  const tComparison = await getTranslations({ locale, namespace: 'comparison' });
+  const tReviews = await getTranslations({ locale, namespace: 'reviews' });
   const tContact = await getTranslations({ locale, namespace: 'contact' });
 
   // Load all data
-  const [about, projects, courses, skills, social] = await Promise.all([
+  const [about, projects, courses, skills, reviews] = await Promise.all([
     getAbout(loc),
     getProjects(loc),
     getCourses(loc),
     getSkills(loc),
-    getSocialLinks(loc),
+    getReviews(loc),
   ]);
 
   // Group skills by category
@@ -57,6 +62,7 @@ export default async function Home({
 
   return (
     <div className="min-h-screen bg-black">
+      <div className="relative z-10 bg-black">
               {/* Hero Section */}
               <Hero about={about}/>
               <TechStackSection />
@@ -89,8 +95,48 @@ export default async function Home({
             ],
           }}
         />
+      </div>
 
-      {/* Chess Section */}
+      {/* Comparison Section — outside stacking context so z-20 can cover ABCSection */}
+      <ComparisonSection
+        translations={{
+          title: tComparison('title'),
+          description: tComparison('description'),
+          aiLabel: tComparison('aiLabel'),
+          devLabel: tComparison('devLabel'),
+        }}
+      />
+
+      <div className="relative z-30 bg-black">
+      {/* Scroll Banner — sticky reveal before projects */}
+      <ScrollBanner />
+
+      <div className="mx-auto w-full max-w-7xl px-6 sm:px-8">
+        {/* Experience Section */}
+        <ExperienceSection
+          title={tExp('title')}
+          courses={courses}
+          locale={locale}
+        />
+
+        {/* Projects Section */}
+        <ProjectsSection
+          projects={projects}
+          locale={locale}
+          translations={{
+            title: tProjects('title'),
+            viewProject: tProjects('viewProject'),
+          }}
+        />
+      </div>
+
+        {/* Reviews Section — full bleed for infinite scroll */}
+        <ReviewsSection
+          title={tReviews('title')}
+          reviews={reviews}
+        />
+
+      {/* Chess Section — bonus before contact */}
       <ChessSection
         translations={{
           title: tChess('title'),
@@ -117,50 +163,6 @@ export default async function Home({
       />
 
       <div className="mx-auto w-full max-w-7xl px-6 sm:px-8">
-        {/* Experience Section */}
-        <ExperienceSection
-          title={tExp('title')}
-          courses={courses}
-          locale={locale}
-        />
-
-        {/* Projects Section */}
-        <ProjectsSection
-          projects={projects}
-          locale={locale}
-          translations={{
-            title: tProjects('title'),
-            viewProject: tProjects('viewProject'),
-          }}
-        />
-
-        {/* Skills Section */}
-        <section id="skills" className="py-20">
-          <h2 className="mb-8 text-2xl font-semibold text-accent-cyan">
-            {tSkills('title')}
-          </h2>
-          <div className="space-y-8">
-            {Object.entries(skillsByCategory).map(([category, categorySkills]) => (
-              <div key={category}>
-                <h3 className="mb-3 text-sm font-semibold uppercase tracking-wider text-foreground-subtle">
-                  {category}
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  {categorySkills.map((skill) => (
-                    <span
-                      key={skill.name}
-                      title={skill.description}
-                      className="rounded border border-border bg-background-elevated px-3 py-1.5 text-sm text-foreground-muted hover:border-accent-cyan hover:text-accent-cyan transition-colors cursor-default"
-                    >
-                      {skill.name}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
         {/* Contact Section */}
         <ContactSection
           locale={locale}
@@ -172,7 +174,6 @@ export default async function Home({
             sendButton: tContact('sendButton'),
             successMessage: tContact('successMessage'),
             errorMessage: tContact('errorMessage'),
-            socialLinks: tContact('socialLinks'),
             downloadCV: tContact('downloadCV'),
             viewCV: tContact('viewCV'),
             cvPreviewTitle: tContact('cvPreviewTitle'),
@@ -187,10 +188,12 @@ export default async function Home({
             serverError: tContact('serverError'),
             successModalTitle: tContact('successModalTitle'),
             successModalMessage: tContact('successModalMessage'),
+            revealLine1: tContact('revealLine1'),
+            revealLine2: tContact('revealLine2'),
           }}
-          socialLinks={social}
           turnstileSiteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || ''}
         />
+      </div>
       </div>
 
     </div>

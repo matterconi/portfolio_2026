@@ -1,6 +1,6 @@
 "use client";
 
-import { InfiniteMovingCards } from "@/components/ui/infinite-moving-cards";
+import InfiniteMovingCards from "@/components/ui/infinite-moving-cards";
 import { SectionTitle } from "./ui/section-title";
 import ProofSection from "./ProofSection";
 

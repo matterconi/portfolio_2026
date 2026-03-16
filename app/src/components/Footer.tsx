@@ -1,6 +1,8 @@
 import { getTranslations } from 'next-intl/server';
 import { getSocialLinks } from '@/lib/data';
 import { Locale, SocialLinks } from '@data/types';
+import FooterName from './FooterName';
+import FooterShader from './FooterShader';
 
 const SECTION_IDS = ['home', 'about', 'abc', 'experience', 'projects', 'skills', 'contact'];
 
@@ -45,71 +47,79 @@ export default async function Footer({ locale }: { locale: string }) {
   ];
 
   return (
-    <footer className="border-t border-border bg-background">
-      <div className="mx-auto max-w-4xl px-6 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Quick Links */}
-          <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-foreground-subtle">
-              {tFooter('quickLinks')}
-            </h3>
-            <ul className="space-y-2">
-              {quickLinks.map((link) => (
-                <li key={link.id}>
-                  <a
-                    href={link.href}
-                    className="text-sm text-foreground-muted hover:text-accent-green transition-colors duration-200"
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+    <footer className="relative overflow-hidden">
+      <FooterShader />
 
-          {/* Social Links */}
-          <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-foreground-subtle">
-              {tFooter('social')}
-            </h3>
-            <ul className="space-y-2">
-              {socialLinks.map((link) => (
-                <li key={link.platform}>
-                  <a
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-sm text-foreground-muted hover:text-accent-green transition-colors duration-200"
-                  >
-                    {SOCIAL_ICONS[link.platform] || null}
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+      <div className="relative z-10 mx-auto max-w-7xl px-6 py-16">
+        {/* Main row: Name left, Links right */}
+        <div className="flex flex-col lg:flex-row lg:items-end lg:justify-between gap-12">
+          {/* Name */}
+          <FooterName />
 
-          {/* Back to Top */}
-          <div className="flex flex-col items-start md:items-end justify-between">
-            <a
-              href="#home"
-              className="inline-flex items-center gap-2 text-sm text-foreground-muted hover:text-accent-green transition-colors duration-200"
-            >
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M12 19V5M5 12l7-7 7 7" />
-              </svg>
-              {tFooter('backToTop')}
-            </a>
+          {/* Links */}
+          <div className="flex flex-col sm:flex-row gap-8 sm:gap-x-12">
+            {/* Quick Links */}
+            <div>
+              <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-foreground-subtle">
+                {tFooter('quickLinks')}
+              </h3>
+              <ul className="space-y-2">
+                {quickLinks.map((link) => (
+                  <li key={link.id}>
+                    <a
+                      href={link.href}
+                      className="text-sm text-foreground-muted hover:text-accent-green transition-colors duration-200"
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
 
-            <p className="mt-8 md:mt-0 text-xs text-foreground-subtle">
-              &copy; {new Date().getFullYear()} {tFooter('copyright')}
-            </p>
+            {/* Social Links */}
+            <div>
+              <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-foreground-subtle">
+                {tFooter('social')}
+              </h3>
+              <ul className="space-y-2">
+                {socialLinks.map((link) => (
+                  <li key={link.platform}>
+                    <a
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-sm text-foreground-muted hover:text-accent-green transition-colors duration-200"
+                    >
+                      {SOCIAL_ICONS[link.platform] || null}
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
+        </div>
+
+        {/* Bottom bar */}
+        <div className="mt-12 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-t border-white/10 pt-6">
+          <p className="text-xs text-foreground-subtle">
+            &copy; {new Date().getFullYear()} {tFooter('copyright')}
+          </p>
+          <a
+            href="#home"
+            className="inline-flex items-center gap-2 text-sm text-foreground-muted hover:text-accent-green transition-colors duration-200"
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M12 19V5M5 12l7-7 7 7" />
+            </svg>
+            {tFooter('backToTop')}
+          </a>
         </div>
       </div>
 
       {/* Spacer for mobile bottom nav */}
-      <div className="h-16 md:h-0" />
+      <div className="relative z-10 h-16 md:h-0" />
     </footer>
   );
 }

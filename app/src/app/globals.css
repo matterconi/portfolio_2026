@@ -135,6 +135,17 @@ html {
 }
 
 /* ========================================
+   BANNER REVEAL SECTION
+   ======================================== */
+.banner-reveal-section {
+  position: sticky;
+  bottom: 0;
+  z-index: 0;
+  overflow: hidden;
+  clip-path: polygon(0% 0, 100% 0%, 100% 100%, 0 100%);
+}
+
+/* ========================================
    DEMO REVEAL SECTION
    ======================================== */
 .demo-reveal-section {

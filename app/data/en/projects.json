@@ -1,87 +1,81 @@
 [
   {
-    "slug": "ecommerce-platform",
-    "title": "E-commerce Platform",
-    "shortDescription": "A modern, full-stack e-commerce solution with real-time inventory management",
-    "fullDescription": "Built a comprehensive e-commerce platform featuring real-time inventory tracking, secure payment processing, and an intuitive admin dashboard. The platform handles thousands of daily transactions and provides a seamless shopping experience across all devices.",
-    "problem": "Small businesses needed an affordable, scalable e-commerce solution that could compete with enterprise platforms without the complexity and cost.",
-    "technologies": ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Stripe", "Tailwind CSS"],
+    "slug": "bylt",
+    "title": "BYLT",
+    "shortDescription": "Website for a Performance Marketing agency in London, featuring 3D effects and scroll-based animations.",
+    "fullDescription": "An immersive website built for BYLT, a Performance Marketing agency based in London. The project combines interactive 3D effects with scroll-driven animations, creating an engaging visual experience that reflects the agency's innovative approach to digital marketing.",
+    "problem": "The agency needed a website that communicated creativity and technical expertise, standing out from the competition with a memorable web experience.",
+    "technologies": ["Three.js", "Framer Motion", "Next.js", "TypeScript", "GLSL", "Tailwind CSS"],
     "features": [
-      "Real-time inventory synchronization",
-      "Secure payment processing with Stripe",
-      "Admin dashboard with analytics",
-      "Mobile-responsive design",
-      "Order tracking and notifications",
-      "Product search and filtering"
+      "Interactive 3D scenes with Three.js",
+      "Smooth scroll-based animations",
+      "Cinematic page transitions",
+      "Optimized responsive design",
+      "Performance-optimized loading"
     ],
     "images": {
-      "hero": "/projects/ecommerce/hero.jpg",
+      "hero": "/images/projects/bylt-hero.png",
       "screenshots": [
-        "/projects/ecommerce/screenshot-1.jpg",
-        "/projects/ecommerce/screenshot-2.jpg",
-        "/projects/ecommerce/screenshot-3.jpg"
+        "/images/projects/bylt-scroll.png",
+        "/images/projects/bylt-3d.png"
       ]
     },
     "links": {
-      "live": "https://ecommerce-demo.example.com",
-      "github": "https://github.com/example/ecommerce-platform"
+      "live": "https://bylt.example.com",
+      "github": "https://github.com/example/bylt"
     },
     "order": 1
   },
   {
-    "slug": "blockchain-wallet",
-    "title": "Blockchain Wallet",
-    "shortDescription": "Secure Web3 wallet with multi-chain support and DeFi integrations",
-    "fullDescription": "Developed a non-custodial cryptocurrency wallet supporting multiple blockchain networks. Users can securely store, send, and receive digital assets while accessing integrated DeFi protocols for staking and swapping.",
-    "problem": "Existing crypto wallets were either too complex for beginners or lacked essential security features, creating a barrier to Web3 adoption.",
-    "technologies": ["React", "ethers.js", "Solidity", "Hardhat", "Web3Auth", "IPFS"],
+    "slug": "chess-bot",
+    "title": "Chess Bot",
+    "shortDescription": "Chess bot trained with Machine Learning, capable of analyzing positions and playing competitive games.",
+    "fullDescription": "An intelligent chess engine developed using Machine Learning techniques. The bot was trained on thousands of games to recognize strategic patterns, evaluate positions, and generate optimal moves, offering a challenging opponent at various difficulty levels.",
+    "problem": "Creating an accessible chess opponent that combined the power of ML with an intuitive interface for players of all levels.",
+    "technologies": ["Python", "TensorFlow", "NumPy", "FastAPI", "React", "TypeScript"],
     "features": [
-      "Multi-chain support (Ethereum, Polygon, BSC)",
-      "Hardware wallet integration",
-      "Built-in token swap functionality",
-      "NFT gallery and management",
-      "Transaction history and analytics",
-      "Secure key management"
+      "ML model trained on thousands of games",
+      "Real-time positional evaluation",
+      "Adaptive difficulty levels",
+      "Post-game move analysis",
+      "Interactive chessboard interface"
     ],
     "images": {
-      "hero": "/projects/wallet/hero.jpg",
+      "hero": "/images/projects/chess-hero.png",
       "screenshots": [
-        "/projects/wallet/screenshot-1.jpg",
-        "/projects/wallet/screenshot-2.jpg"
+        "/images/projects/chess-game.png",
+        "/images/projects/chess-analysis.png"
       ]
     },
     "links": {
-      "github": "https://github.com/example/blockchain-wallet"
+      "github": "https://github.com/example/chess-bot"
     },
     "order": 2
   },
   {
-    "slug": "3d-portfolio-showcase",
-    "title": "3D Portfolio Showcase",
-    "shortDescription": "Interactive 3D portfolio with Three.js featuring immersive project presentations",
-    "fullDescription": "Created an immersive 3D portfolio experience using Three.js and React Three Fiber. Projects are displayed in an interactive 3D environment with smooth animations and physics-based interactions, providing a memorable browsing experience.",
-    "problem": "Traditional portfolio websites failed to stand out and effectively showcase creative technical skills in an engaging way.",
-    "technologies": ["Next.js", "Three.js", "React Three Fiber", "GSAP", "Blender", "TypeScript"],
+    "slug": "production-todo-app",
+    "title": "Production Ready To Do App",
+    "shortDescription": "Production-ready To Do app built with Next.js, featuring robust error handling and full test coverage.",
+    "fullDescription": "A To Do application built with the goal of being fully production-ready. The project demonstrates software engineering best practices: comprehensive error handling, unit and integration tests, CI/CD pipeline, and a scalable architecture.",
+    "problem": "Demonstrating that even a seemingly simple project requires serious engineering when the goal is production-grade quality.",
+    "technologies": ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Jest", "Playwright"],
     "features": [
-      "Interactive 3D environment",
-      "Physics-based animations",
-      "Custom 3D models and shaders",
-      "Smooth page transitions",
-      "Optimized performance and loading",
-      "Mobile-touch interactions"
+      "Comprehensive error handling with error boundaries",
+      "Unit and integration tests",
+      "Automated CI/CD pipeline",
+      "Authentication and authorization",
+      "RESTful API with validation"
     ],
     "images": {
-      "hero": "/projects/3d-portfolio/hero.jpg",
+      "hero": "/images/projects/todo-hero.png",
       "screenshots": [
-        "/projects/3d-portfolio/screenshot-1.jpg",
-        "/projects/3d-portfolio/screenshot-2.jpg",
-        "/projects/3d-portfolio/screenshot-3.jpg",
-        "/projects/3d-portfolio/screenshot-4.jpg"
+        "/images/projects/todo-dashboard.png",
+        "/images/projects/todo-tests.png"
       ]
     },
     "links": {
-      "live": "https://3d-portfolio.example.com",
-      "github": "https://github.com/example/3d-portfolio"
+      "live": "https://todo.example.com",
+      "github": "https://github.com/example/production-todo"
     },
     "order": 3
   }
