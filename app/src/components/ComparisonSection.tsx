@@ -1,7 +1,45 @@
 'use client';
 
-import { useRef, useState, useCallback, useEffect } from 'react';
-import { motion, useScroll, useTransform } from 'framer-motion';
+import { useRef, useEffect } from 'react';
+import { motion, useScroll, useTransform, type MotionValue } from 'framer-motion';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
+
+const LINES = ['AI is not enough', 'without a great developer.'];
+
+function RevealChar({ children, progress, range }: { children: string; progress: MotionValue<number>; range: [number, number] }) {
+  const color = useTransform(progress, range, ['rgba(255,255,255,0.15)', 'rgba(255,255,255,1)']);
+  return <motion.span style={{ color }} className="inline-block">{children}</motion.span>;
+}
+
+function RevealHeading() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.85', 'start 0.2'] });
+
+  const totalChars = LINES.reduce((acc, l) => acc + l.replace(/ /g, '').length, 0);
+  let charIndex = 0;
+
+  return (
+    <div ref={ref} className="bg-black px-6 py-32 text-center">
+      {LINES.map((line, li) => (
+        <p key={li} className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tighter leading-none">
+          {line.split(' ').map((word, wi) => (
+            <span key={wi} className={`inline-block ${wi < line.split(' ').length - 1 ? 'mr-[0.25em]' : ''}`}>
+              {word.split('').map((char) => {
+                const start = charIndex / totalChars;
+                const end = (charIndex + 1) / totalChars;
+                charIndex++;
+                return <RevealChar key={charIndex} progress={scrollYProgress} range={[start, end]}>{char}</RevealChar>;
+              })}
+            </span>
+          ))}
+        </p>
+      ))}
+    </div>
+  );
+}
 
 interface ComparisonSectionProps {
   translations: {
@@ -13,102 +51,88 @@ interface ComparisonSectionProps {
 }
 
 export default function ComparisonSection({ translations }: ComparisonSectionProps) {
-  const outerRef  = useRef<HTMLDivElement>(null);
-  const sliderRef = useRef<HTMLDivElement>(null);
-  const [sliderX, setSliderX]       = useState(50);
-  const [isDragging, setIsDragging] = useState(false);
-
-  /* Sticky phase: 0 = section top hits viewport top, 1 = section exits */
-  const { scrollYProgress: stickyProgress } = useScroll({
-    target: outerRef,
-    offset: ['start start', 'end end'],
-  });
-
-  // ── Sticky timeline (section = 250 vh → sticky scroll = 150 vh) ──────────
-  //
-  //  0.00 → 0.08   video incorniciato visibile (nessuna mask)          ~12 vh
-  //  0.08 → 0.12   mask fade-in a scale 80                             ~6 vh
-  //  0.12 → 0.55   mask scala 80 → 1.1  (spark si rivela)             ~64 vh
-  //  0.55 → 0.72   hold
-  //  0.72 → 0.85   mask fade-out
-  //  0.85 → 1.00   slider visibile e interattivo
-
-  const maskOpacity = useTransform(stickyProgress, [0, 0.08, 0.12, 0.72, 0.85], [0, 0, 1, 1, 0]);
-  const maskScale   = useTransform(stickyProgress, [0.12, 0.55], [80, 1.1]);
-
-  // ── Slider interaction ─────────────────────────────────────────────────────
-  const updateSlider = useCallback((clientX: number) => {
-    if (!sliderRef.current) return;
-    const rect = sliderRef.current.getBoundingClientRect();
-    setSliderX(Math.max(2, Math.min(98, ((clientX - rect.left) / rect.width) * 100)));
-  }, []);
-
-  const handlePointerDown = useCallback((e: React.PointerEvent) => {
-    setIsDragging(true);
-    (e.target as HTMLElement).setPointerCapture(e.pointerId);
-    updateSlider(e.clientX);
-  }, [updateSlider]);
-
-  const handlePointerMove = useCallback((e: React.PointerEvent) => {
-    if (isDragging) updateSlider(e.clientX);
-  }, [isDragging, updateSlider]);
-
-  const handlePointerUp = useCallback(() => setIsDragging(false), []);
+  const sectionRef = useRef<HTMLElement>(null);
+  const maskWrapRef = useRef<HTMLDivElement>(null);
+  const maskImgRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
-    if (isDragging) {
-      document.body.style.userSelect = 'none';
-      return () => { document.body.style.userSelect = ''; };
-    }
-  }, [isDragging]);
+    if (!sectionRef.current || !maskImgRef.current || !maskWrapRef.current) return;
+
+    const ctx = gsap.context(() => {
+      // ai-mask.svg: viewBox 0 0 2200 2200 (square), 4 spark shapes
+      // Combined bounding box: x 374–1827, y 245–1944 (center ~1100, 1095)
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      const cs = Math.max(vw / 2200, vh / 2200); // object-fit: cover on square viewBox
+      // Distance from combined shapes' edges to SVG center (1100, 1100)
+      const sparkHalfW = 727 * cs; // right edge: 1827 - 1100
+      const sparkHalfH = 855 * cs; // top edge: 1100 - 245
+      const neededScale = Math.max(vw / (2 * sparkHalfW), vh / (2 * sparkHalfH));
+      const startScale = Math.max(neededScale * 1.4, 5); // 40% safety margin, min 5
+
+      gsap.set(maskWrapRef.current, { opacity: 0 });
+      gsap.set(maskImgRef.current, {
+        scale: startScale,
+        transformOrigin: 'center center',
+      });
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: '+=150%',
+          pin: true,
+          scrub: 1,
+          pinSpacing: true,
+        },
+      });
+
+      tl.to(maskWrapRef.current, { opacity: 1, duration: 0.1, ease: 'none' });
+      // End at 1.01 instead of 1 to keep a tiny bleed margin of black around the edges
+      tl.to(maskImgRef.current, { scale: 1.01, ease: 'power2.out', duration: 0.9 }, '<');
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
+
 
   return (
-    <div ref={outerRef} style={{ height: '250vh' }}>
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
+    <>
+    <section ref={sectionRef} className="relative min-h-screen">
 
-        {/* ── Video con inset + bordi arrotondati (stato iniziale fisso) ──── */}
+      {/* ── Video slider ───────────────────────────────────────────────────── */}
+      <div className="relative h-screen overflow-hidden bg-black">
         <div className="absolute inset-3 overflow-hidden rounded-2xl border border-white/10">
-          <div
-            ref={sliderRef}
-            className="absolute inset-0 cursor-col-resize"
-            onPointerDown={handlePointerDown}
-            onPointerMove={handlePointerMove}
-            onPointerUp={handlePointerUp}
-          >
-            <div className="absolute inset-0">
-              <video src="/videos/dev.mp4" autoPlay muted loop playsInline className="h-full w-full object-cover" />
-            </div>
-            <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - sliderX}% 0 0)` }}>
-              <video src="/videos/ai.mp4" autoPlay muted loop playsInline className="h-full w-full object-cover" />
-            </div>
-            <div
-              className="pointer-events-none absolute inset-y-0 z-10 w-0.5 bg-white/80"
-              style={{ left: `${sliderX}%` }}
-            >
-              <div className="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-white bg-black/60 backdrop-blur-sm">
-                <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="text-white">
-                  <path d="M7 4L3 10L7 16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M13 4L17 10L13 16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                </svg>
-              </div>
-            </div>
+          <div className="absolute inset-0">
+            <video src="/videos/dev.mp4" autoPlay muted loop playsInline className="h-full w-full object-cover" />
+          </div>
+          <div className="absolute inset-0" style={{ clipPath: 'inset(0 50% 0 0)' }}>
+            <video src="/videos/ai.mp4" autoPlay muted loop playsInline className="h-full w-full object-cover" />
           </div>
         </div>
 
-        {/* ── Spark mask: parte a scale(80) e si restringe a scale(1.1) ────── */}
-        <motion.div
-          style={{ opacity: maskOpacity }}
-          className="pointer-events-none absolute inset-0 flex items-center justify-center"
+        {/* ── Mask overlay ─────────────────────────────────────────────────── */}
+        <div
+          ref={maskWrapRef}
+          className="pointer-events-none absolute inset-0 overflow-hidden flex items-center justify-center"
         >
-          <motion.img
-            src="/spark-mask.svg"
+          <img
+            ref={maskImgRef}
+            src="/ai-mask.svg"
             alt=""
-            style={{ scale: maskScale }}
-            className="min-h-full min-w-full object-cover will-change-transform"
+            style={{
+              position: 'absolute',
+              width: '100%',
+              height: '100%',
+              /* preserveAspectRatio="xMidYMid slice" nel SVG gestisce il cover */
+            }}
           />
-        </motion.div>
-
+        </div>
       </div>
-    </div>
+
+    </section>
+
+    <RevealHeading />
+    </>
   );
 }

@@ -3,7 +3,6 @@ import { getMessages } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { JetBrains_Mono } from "next/font/google";
 import { FloatingNav } from "@/components/FloatingNav";
-import Footer from "@/components/Footer";
 import CustomCursor from "@/components/CustomCursor";
 import LenisProvider from "@/components/LenisProvider";
 
@@ -51,7 +50,6 @@ export default async function LocaleLayout({
         <NextIntlClientProvider messages={messages}>
           <FloatingNav />
           <main>{children}</main>
-          <Footer locale={locale} />
         </NextIntlClientProvider>
       </body>
     </html>
