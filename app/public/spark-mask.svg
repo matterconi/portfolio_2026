@@ -1,0 +1,31 @@
+<svg width="1920" height="1080" viewBox="0 0 1920 1080" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!--
+    Stessa tecnica di mask-logo.svg: fill-rule="evenodd" su un singolo <path>.
+    - Outer rect (1 confine) → filled nero
+    - Inner spark (2 confini) → evenodd = trasparente (il video passa attraverso)
+
+    Spark path: icona "Ai-technology-spark" 14×14 convertita in coordinate assolute
+    con scale=120 e translate=(-276, 110) per centrare in 1920×1080.
+    Bounding box risultante: ~x 611–1310, y 201–888 (centrata a ~960,545)
+  -->
+  <path
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    d="M0 0H1920V1080H0Z
+       M611.4 582.08
+       C569.28 574.76 569.28 514.28 611.4 506.96
+       A381.12 381.12 0 0 0 918.36 212.96
+       L920.88 201.2
+       C930 159.56 989.28 159.32 998.76 200.84
+       L1001.88 214.4
+       A383.16 383.16 0 0 0 1309.68 506.6
+       C1352.04 514.04 1352.04 574.76 1309.68 582.2
+       A383.16 383.16 0 0 0 1002 874.4
+       L998.88 887.96
+       C989.4 929.48 930.12 929.24 921 887.6
+       L918.6 875.96
+       A381.12 381.12 0 0 0 611.4 581.96
+       Z"
+    fill="black"
+  />
+</svg>
