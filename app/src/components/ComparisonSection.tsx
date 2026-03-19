@@ -52,27 +52,27 @@ interface ComparisonSectionProps {
 
 export default function ComparisonSection({ translations }: ComparisonSectionProps) {
   const sectionRef = useRef<HTMLElement>(null);
-  const maskWrapRef = useRef<HTMLDivElement>(null);
-  const maskImgRef = useRef<HTMLImageElement>(null);
+  const maskRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (!sectionRef.current || !maskImgRef.current || !maskWrapRef.current) return;
+    if (!sectionRef.current || !maskRef.current) return;
 
     const ctx = gsap.context(() => {
-      // ai-mask.svg: viewBox 0 0 2200 2200 (square), 4 spark shapes
-      // Combined bounding box: x 374–1827, y 245–1944 (center ~1100, 1095)
+      // ai-mask.svg: viewBox -1000 -1000 4200 4200 (padded square)
+      // Spark bounding box in SVG coords: x 374–1827, y 245–1944
+      // Center ~(1100, 1095). ViewBox center = (1100, 1100).
       const vw = window.innerWidth;
       const vh = window.innerHeight;
-      const cs = Math.max(vw / 2200, vh / 2200); // object-fit: cover on square viewBox
-      // Distance from combined shapes' edges to SVG center (1100, 1100)
-      const sparkHalfW = 727 * cs; // right edge: 1827 - 1100
-      const sparkHalfH = 855 * cs; // top edge: 1100 - 245
+      // background-size:cover → scale = max(vw/4200, vh/4200)
+      const cs = Math.max(vw / 4200, vh / 4200);
+      const sparkHalfW = 727 * cs; // 1827 - 1100
+      const sparkHalfH = 855 * cs; // 1100 - 245
       const neededScale = Math.max(vw / (2 * sparkHalfW), vh / (2 * sparkHalfH));
-      const startScale = Math.max(neededScale * 1.4, 5); // 40% safety margin, min 5
+      const startScale = Math.max(neededScale * 1.4, 5);
 
-      gsap.set(maskWrapRef.current, { opacity: 0 });
-      gsap.set(maskImgRef.current, {
+      gsap.set(maskRef.current, {
         scale: startScale,
+        opacity: 0,
         transformOrigin: 'center center',
       });
 
@@ -87,21 +87,19 @@ export default function ComparisonSection({ translations }: ComparisonSectionPro
         },
       });
 
-      tl.to(maskWrapRef.current, { opacity: 1, duration: 0.1, ease: 'none' });
-      // End at 1.01 instead of 1 to keep a tiny bleed margin of black around the edges
-      tl.to(maskImgRef.current, { scale: 1.01, ease: 'power2.out', duration: 0.9 }, '<');
+      tl.to(maskRef.current, { opacity: 1, duration: 0.1, ease: 'none' });
+      tl.to(maskRef.current, { scale: 1, ease: 'power2.out', duration: 0.9 }, '<');
     }, sectionRef);
 
     return () => ctx.revert();
   }, []);
 
-
   return (
     <>
     <section ref={sectionRef} className="relative min-h-screen">
-
-      {/* ── Video slider ───────────────────────────────────────────────────── */}
       <div className="relative h-screen overflow-hidden bg-black">
+
+        {/* ── Video layer (below mask) ──────────────────────────────────── */}
         <div className="absolute inset-3 overflow-hidden rounded-2xl border border-white/10">
           <div className="absolute inset-0">
             <video src="/videos/dev.mp4" autoPlay muted loop playsInline className="h-full w-full object-cover" />
@@ -111,25 +109,24 @@ export default function ComparisonSection({ translations }: ComparisonSectionPro
           </div>
         </div>
 
-        {/* ── Mask overlay ─────────────────────────────────────────────────── */}
+        {/* ── Mask overlay ─────────────────────────────────────────────── */}
+        {/* background-size:cover guarantees the SVG always fills this div
+            — no letterbox gaps regardless of viewport aspect ratio.
+            Spark holes are transparent → video shows through.
+            Black areas of the SVG block the video.
+            GSAP scales this div from ~5× down to 1×. */}
         <div
-          ref={maskWrapRef}
-          className="pointer-events-none absolute inset-0 overflow-hidden flex items-center justify-center"
-        >
-          <img
-            ref={maskImgRef}
-            src="/ai-mask.svg"
-            alt=""
-            style={{
-              position: 'absolute',
-              width: '100%',
-              height: '100%',
-              /* preserveAspectRatio="xMidYMid slice" nel SVG gestisce il cover */
-            }}
-          />
-        </div>
-      </div>
+          ref={maskRef}
+          className="pointer-events-none absolute inset-0 will-change-transform"
+          style={{
+            backgroundImage: 'url(/ai-mask.svg)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+          }}
+        />
 
+      </div>
     </section>
 
     <RevealHeading />
