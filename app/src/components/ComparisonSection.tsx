@@ -76,25 +76,23 @@ export default function ComparisonSection({ translations }: ComparisonSectionPro
         transformOrigin: 'center center',
       });
 
-      const trigger = ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: 'top top',
-        end: '+=150%',
-        pin: true,
-        scrub: true,
-        pinSpacing: true,
-        onLeave: () => {
-          if (!maskRef.current) return;
-          gsap.set(maskRef.current, { scale: 1, opacity: 1, force3D: true });
-        },
-        onLeaveBack: () => {
-          if (!maskRef.current) return;
-          gsap.set(maskRef.current, { scale: 1, opacity: 1, force3D: true });
-        },
-      });
-
       const tl = gsap.timeline({
-        scrollTrigger: trigger,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: 'top top',
+          end: '+=150%',
+          pin: true,
+          scrub: true,
+          pinSpacing: true,
+          onLeave: () => {
+            if (!maskRef.current) return;
+            gsap.set(maskRef.current, { scale: 1, opacity: 1, force3D: true });
+          },
+          onLeaveBack: () => {
+            if (!maskRef.current) return;
+            gsap.set(maskRef.current, { scale: 1, opacity: 1, force3D: true });
+          },
+        },
       });
 
       tl.to(maskRef.current, { opacity: 1, duration: 0.1, ease: 'none' });
@@ -106,7 +104,7 @@ export default function ComparisonSection({ translations }: ComparisonSectionPro
 
   return (
     <>
-    <section ref={sectionRef} className="relative min-h-screen">
+    <section ref={sectionRef} className="relative z-20 min-h-screen">
       <div className="relative h-screen overflow-hidden bg-black">
 
         {/* ── Video layer (below mask) ──────────────────────────────────── */}
@@ -133,7 +131,6 @@ export default function ComparisonSection({ translations }: ComparisonSectionPro
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
-            opacity: 0,
             transform: 'translate3d(0, 0, 0)',
             backfaceVisibility: 'hidden',
             WebkitBackfaceVisibility: 'hidden',
