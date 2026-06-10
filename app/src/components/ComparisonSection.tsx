@@ -76,15 +76,25 @@ export default function ComparisonSection({ translations }: ComparisonSectionPro
         transformOrigin: 'center center',
       });
 
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top top',
-          end: '+=150%',
-          pin: true,
-          scrub: 1,
-          pinSpacing: true,
+      const trigger = ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: 'top top',
+        end: '+=150%',
+        pin: true,
+        scrub: true,
+        pinSpacing: true,
+        onLeave: () => {
+          if (!maskRef.current) return;
+          gsap.set(maskRef.current, { scale: 1, opacity: 1, force3D: true });
         },
+        onLeaveBack: () => {
+          if (!maskRef.current) return;
+          gsap.set(maskRef.current, { scale: 1, opacity: 1, force3D: true });
+        },
+      });
+
+      const tl = gsap.timeline({
+        scrollTrigger: trigger,
       });
 
       tl.to(maskRef.current, { opacity: 1, duration: 0.1, ease: 'none' });
@@ -117,12 +127,16 @@ export default function ComparisonSection({ translations }: ComparisonSectionPro
             GSAP scales this div from ~5× down to 1×. */}
         <div
           ref={maskRef}
-          className="pointer-events-none absolute inset-0 will-change-transform"
+          className="pointer-events-none absolute inset-0"
           style={{
             backgroundImage: 'url(/ai-mask.svg)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
+            opacity: 0,
+            transform: 'translate3d(0, 0, 0)',
+            backfaceVisibility: 'hidden',
+            WebkitBackfaceVisibility: 'hidden',
           }}
         />
 
