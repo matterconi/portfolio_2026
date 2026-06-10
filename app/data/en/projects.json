@@ -14,10 +14,10 @@
       "Performance-optimized loading"
     ],
     "images": {
-      "hero": "/images/projects/bylt-hero.png",
+      "hero": "/images/projects/bylt-hero.webp",
       "screenshots": [
-        "/images/projects/bylt-scroll.png",
-        "/images/projects/bylt-3d.png"
+        "/images/projects/bylt-scroll.webp",
+        "/images/projects/bylt-3d.webp"
       ]
     },
     "links": {
@@ -41,10 +41,10 @@
       "Interactive chessboard interface"
     ],
     "images": {
-      "hero": "/images/projects/chess-hero.png",
+      "hero": "/images/projects/chess-hero.webp",
       "screenshots": [
-        "/images/projects/chess-game.png",
-        "/images/projects/chess-analysis.png"
+        "/images/projects/chess-game.webp",
+        "/images/projects/chess-analysis.webp"
       ]
     },
     "links": {
@@ -67,10 +67,10 @@
       "RESTful API with validation"
     ],
     "images": {
-      "hero": "/images/projects/todo-hero.png",
+      "hero": "/images/projects/todo-hero.webp",
       "screenshots": [
-        "/images/projects/todo-dashboard.png",
-        "/images/projects/todo-tests.png"
+        "/images/projects/todo-dashboard.webp",
+        "/images/projects/todo-tests.webp"
       ]
     },
     "links": {

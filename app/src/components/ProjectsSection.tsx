@@ -14,13 +14,13 @@ interface ProjectsSectionProps {
 }
 
 const UNSPLASH_IMAGES = [
-  '/images/projects/monoforge.png',
-  '/images/projects/colivio.png',
-  '/images/projects/interspeak.png',
-  '/images/projects/swaggerz.png',
-  '/images/projects/barman-clone.png',
-  '/images/projects/apple-clone.png',
-  '/images/projects/portfolio-2024.png',
+  '/images/projects/monoforge.webp',
+  '/images/projects/colivio.webp',
+  '/images/projects/interspeak.webp',
+  '/images/projects/swaggerz.webp',
+  '/images/projects/barman-clone.webp',
+  '/images/projects/apple-clone.webp',
+  '/images/projects/portfolio-2024.webp',
   'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1000&auto=format&fit=crop',
   'https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1000&auto=format&fit=crop',
   'https://images.unsplash.com/photo-1531297484001-80022131f5a1?q=80&w=1000&auto=format&fit=crop',

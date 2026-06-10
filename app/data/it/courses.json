@@ -12,7 +12,7 @@
     "id": "alchemy-web3",
     "title": "Alchemy University",
     "provider": "Alchemy",
-    "icon": "/courses/alchemy.png",
+    "icon": "/courses/alchemy.webp",
     "skills": ["Solidity", "Ethereum", "Smart Contracts", "ethers.js", "Sviluppo DApp"],
     "completionDate": ""
   },
@@ -20,7 +20,7 @@
     "id": "threejs-journey",
     "title": "Three.js Journey",
     "provider": "Three.js Journey",
-    "icon": "/courses/threejs-journey.jpg",
+    "icon": "/courses/threejs-journey.webp",
     "skills": ["Three.js", "WebGL", "Shaders GLSL", "Grafica 3D", "React Three Fiber"],
     "completionDate": ""
   },
@@ -28,7 +28,7 @@
     "id": "jsm-nextjs",
     "title": "The Ultimate Next.js 16 course",
     "provider": "JavaScript Mastery",
-    "icon": "/courses/nextjs.png",
+    "icon": "/courses/nextjs.webp",
     "skills": ["Next.js", "React", "TypeScript", "Server Components", "App Router"],
     "completionDate": ""
   },
@@ -36,7 +36,7 @@
     "id": "jsm-gsap",
     "title": "The Ultimate GSAP course",
     "provider": "JavaScript Mastery",
-    "icon": "/courses/gsap.png",
+    "icon": "/courses/gsap.webp",
     "skills": ["GSAP", "ScrollTrigger", "Animazioni", "Web Animations"],
     "completionDate": ""
   },
