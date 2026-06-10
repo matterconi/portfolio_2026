@@ -78,14 +78,6 @@ export default function ComparisonSection({ translations }: ComparisonSectionPro
           pin: true,
           scrub: true,
           pinSpacing: true,
-          onLeave: () => {
-            if (!maskRef.current) return;
-            gsap.set(maskRef.current, { scale: 1, opacity: 1, force3D: true });
-          },
-          onLeaveBack: () => {
-            if (!maskRef.current) return;
-            gsap.set(maskRef.current, { scale: 1, opacity: 1, force3D: true });
-          },
         },
       });
 
