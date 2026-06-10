@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useEffect } from 'react';
+import { useRef, useLayoutEffect } from 'react';
 import { motion, useScroll, useTransform, type MotionValue } from 'framer-motion';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -54,7 +54,7 @@ export default function ComparisonSection({ translations }: ComparisonSectionPro
   const sectionRef = useRef<HTMLElement>(null);
   const maskRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!sectionRef.current || !maskRef.current) return;
 
     const ctx = gsap.context(() => {
@@ -69,12 +69,6 @@ export default function ComparisonSection({ translations }: ComparisonSectionPro
       const sparkHalfH = 855 * cs; // 1100 - 245
       const neededScale = Math.max(vw / (2 * sparkHalfW), vh / (2 * sparkHalfH));
       const startScale = Math.max(neededScale * 1.4, 5);
-
-      gsap.set(maskRef.current, {
-        scale: startScale,
-        opacity: 0,
-        transformOrigin: 'center center',
-      });
 
       const tl = gsap.timeline({
         scrollTrigger: {
@@ -95,8 +89,19 @@ export default function ComparisonSection({ translations }: ComparisonSectionPro
         },
       });
 
-      tl.to(maskRef.current, { opacity: 1, duration: 0.1, ease: 'none' });
-      tl.to(maskRef.current, { scale: 1, ease: 'power2.out', duration: 0.9 }, '<');
+      // fromTo guarantees the animation always starts from startScale,
+      // regardless of any inline styles or re-renders.
+      tl.fromTo(
+        maskRef.current,
+        { scale: startScale, opacity: 0, transformOrigin: 'center center' },
+        { opacity: 1, duration: 0.1, ease: 'none' }
+      );
+      tl.fromTo(
+        maskRef.current,
+        { scale: startScale },
+        { scale: 1, ease: 'power2.out', duration: 0.9 },
+        '<'
+      );
     }, sectionRef);
 
     return () => ctx.revert();
@@ -132,7 +137,6 @@ export default function ComparisonSection({ translations }: ComparisonSectionPro
             backgroundPosition: 'center',
             backgroundRepeat: 'no-repeat',
             opacity: 0,
-            transform: 'translate3d(0, 0, 0)',
             backfaceVisibility: 'hidden',
             WebkitBackfaceVisibility: 'hidden',
           }}
