@@ -1,7 +1,45 @@
 'use client';
 
-import { useRef, useState, useCallback, useEffect } from 'react';
-import { motion, useScroll, useTransform, useMotionValueEvent } from 'framer-motion';
+import { useRef, useEffect } from 'react';
+import { motion, useScroll, useTransform, type MotionValue } from 'framer-motion';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+gsap.registerPlugin(ScrollTrigger);
+
+const LINES = ['AI is not enough', 'without a great developer.'];
+
+function RevealChar({ children, progress, range }: { children: string; progress: MotionValue<number>; range: [number, number] }) {
+  const color = useTransform(progress, range, ['rgba(255,255,255,0.15)', 'rgba(255,255,255,1)']);
+  return <motion.span style={{ color }} className="inline-block">{children}</motion.span>;
+}
+
+function RevealHeading() {
+  const ref = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.85', 'start 0.2'] });
+
+  const totalChars = LINES.reduce((acc, l) => acc + l.replace(/ /g, '').length, 0);
+  let charIndex = 0;
+
+  return (
+    <div ref={ref} className="bg-black px-6 py-32 text-center">
+      {LINES.map((line, li) => (
+        <p key={li} className="text-5xl sm:text-7xl lg:text-8xl font-bold tracking-tighter leading-none">
+          {line.split(' ').map((word, wi) => (
+            <span key={wi} className={`inline-block ${wi < line.split(' ').length - 1 ? 'mr-[0.25em]' : ''}`}>
+              {word.split('').map((char) => {
+                const start = charIndex / totalChars;
+                const end = (charIndex + 1) / totalChars;
+                charIndex++;
+                return <RevealChar key={charIndex} progress={scrollYProgress} range={[start, end]}>{char}</RevealChar>;
+              })}
+            </span>
+          ))}
+        </p>
+      ))}
+    </div>
+  );
+}
 
 interface ComparisonSectionProps {
   translations: {
@@ -13,119 +51,99 @@ interface ComparisonSectionProps {
 }
 
 export default function ComparisonSection({ translations }: ComparisonSectionProps) {
-  const outerRef = useRef<HTMLDivElement>(null);
-  const sliderRef = useRef<HTMLDivElement>(null);
-  const imageMotionRef = useRef<HTMLDivElement>(null);
-  const textRef = useRef<HTMLDivElement>(null);
-  const [sliderX, setSliderX] = useState(50);
-  const [isDragging, setIsDragging] = useState(false);
-
-  /* Entry phase: 0 = enters from below, 1 = reaches top (sticky activates) */
-  const { scrollYProgress: entryProgress } = useScroll({
-    target: outerRef,
-    offset: ['start end', 'start start'],
-  });
-
-  /* Sticky phase: 0 = sticky just activated, 1 = section exits */
-  const { scrollYProgress: stickyProgress } = useScroll({
-    target: outerRef,
-    offset: ['start start', 'end end'],
-  });
-
-  const scale = useTransform(entryProgress, [0, 1], [0.45, 1.0]);
-  const borderRadius = useTransform(entryProgress, [0, 1], [48, 16]);
-
-  /* Text fades in during first 20% of sticky phase */
-  const textOpacity = useTransform(stickyProgress, [0, 0.2], [0, 1]);
-
-  useMotionValueEvent(stickyProgress, 'change', () => {
-    if (textRef.current) {
-      textRef.current.style.opacity = String(textOpacity.get());
-    }
-  });
-
-  const updateSlider = useCallback((clientX: number) => {
-    if (!sliderRef.current) return;
-    const rect = sliderRef.current.getBoundingClientRect();
-    const x = ((clientX - rect.left) / rect.width) * 100;
-    setSliderX(Math.max(2, Math.min(98, x)));
-  }, []);
-
-  const handlePointerDown = useCallback((e: React.PointerEvent) => {
-    setIsDragging(true);
-    (e.target as HTMLElement).setPointerCapture(e.pointerId);
-    updateSlider(e.clientX);
-  }, [updateSlider]);
-
-  const handlePointerMove = useCallback((e: React.PointerEvent) => {
-    if (!isDragging) return;
-    updateSlider(e.clientX);
-  }, [isDragging, updateSlider]);
-
-  const handlePointerUp = useCallback(() => setIsDragging(false), []);
+  const sectionRef = useRef<HTMLElement>(null);
+  const maskRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    if (isDragging) {
-      document.body.style.userSelect = 'none';
-      return () => { document.body.style.userSelect = ''; };
-    }
-  }, [isDragging]);
+    if (!sectionRef.current || !maskRef.current) return;
+
+    const ctx = gsap.context(() => {
+      // ai-mask.svg: viewBox -1000 -1000 4200 4200 (padded square)
+      // Spark bounding box in SVG coords: x 374–1827, y 245–1944
+      // Center ~(1100, 1095). ViewBox center = (1100, 1100).
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
+      // background-size:cover → scale = max(vw/4200, vh/4200)
+      const cs = Math.max(vw / 4200, vh / 4200);
+      const sparkHalfW = 727 * cs; // 1827 - 1100
+      const sparkHalfH = 855 * cs; // 1100 - 245
+      const neededScale = Math.max(vw / (2 * sparkHalfW), vh / (2 * sparkHalfH));
+      const startScale = Math.max(neededScale * 1.4, 5);
+
+      gsap.set(maskRef.current, {
+        scale: startScale,
+        opacity: 0,
+        transformOrigin: 'center center',
+      });
+
+      const trigger = ScrollTrigger.create({
+        trigger: sectionRef.current,
+        start: 'top top',
+        end: '+=150%',
+        pin: true,
+        scrub: true,
+        pinSpacing: true,
+        onLeave: () => {
+          if (!maskRef.current) return;
+          gsap.set(maskRef.current, { scale: 1, opacity: 1, force3D: true });
+        },
+        onLeaveBack: () => {
+          if (!maskRef.current) return;
+          gsap.set(maskRef.current, { scale: 1, opacity: 1, force3D: true });
+        },
+      });
+
+      const tl = gsap.timeline({
+        scrollTrigger: trigger,
+      });
+
+      tl.to(maskRef.current, { opacity: 1, duration: 0.1, ease: 'none' });
+      tl.to(maskRef.current, { scale: 1, ease: 'power2.out', duration: 0.9 }, '<');
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, []);
 
   return (
-    <div ref={outerRef} className="relative z-20" style={{ height: '250vh', marginTop: '-100vh' }}>
-      <div className="sticky top-0 h-screen w-full">
-        <div className="absolute inset-0 flex items-center justify-center">
-          <motion.div
-            ref={imageMotionRef}
-            style={{ scale, borderRadius }}
-            className="absolute inset-0 overflow-hidden border border-white/10 will-change-transform"
-          >
-            <div
-              ref={sliderRef}
-              className="absolute inset-0 cursor-col-resize"
-              onPointerDown={handlePointerDown}
-              onPointerMove={handlePointerMove}
-              onPointerUp={handlePointerUp}
-            >
-              {/* Developer video */}
-              <div className="absolute inset-0">
-                <video src="/videos/dev.mp4" autoPlay muted loop playsInline className="h-full w-full object-cover" />
-              </div>
+    <>
+    <section ref={sectionRef} className="relative min-h-screen">
+      <div className="relative h-screen overflow-hidden bg-black">
 
-              {/* AI video (clipped by slider) */}
-              <div className="absolute inset-0" style={{ clipPath: `inset(0 ${100 - sliderX}% 0 0)` }}>
-                <video src="/videos/ai.mp4" autoPlay muted loop playsInline className="h-full w-full object-cover" />
-              </div>
-
-              {/* Frosted glass text — fades in during sticky phase */}
-              <div
-                ref={textRef}
-                className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center"
-                style={{ opacity: 0 }}
-              >
-                <div className="rounded-2xl border border-white/15 bg-black/40 px-8 py-5 backdrop-blur-md">
-                  <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white">
-                    {translations.title}
-                  </h2>
-                </div>
-              </div>
-
-              {/* Slider line + handle */}
-              <div
-                className="pointer-events-none absolute bottom-0 top-0 z-10 w-0.5 bg-white/80"
-                style={{ left: `${sliderX}%` }}
-              >
-                <div className="absolute left-1/2 top-1/2 flex h-10 w-10 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full border-2 border-white bg-black/60 backdrop-blur-sm">
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none" className="text-white">
-                    <path d="M7 4L3 10L7 16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                    <path d="M13 4L17 10L13 16" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </div>
-              </div>
-            </div>
-          </motion.div>
+        {/* ── Video layer (below mask) ──────────────────────────────────── */}
+        <div className="absolute inset-3 overflow-hidden rounded-2xl border border-white/10">
+          <div className="absolute inset-0">
+            <video src="/videos/dev.mp4" autoPlay muted loop playsInline className="h-full w-full object-cover" />
+          </div>
+          <div className="absolute inset-0" style={{ clipPath: 'inset(0 50% 0 0)' }}>
+            <video src="/videos/ai.mp4" autoPlay muted loop playsInline className="h-full w-full object-cover" />
+          </div>
         </div>
+
+        {/* ── Mask overlay ─────────────────────────────────────────────── */}
+        {/* background-size:cover guarantees the SVG always fills this div
+            — no letterbox gaps regardless of viewport aspect ratio.
+            Spark holes are transparent → video shows through.
+            Black areas of the SVG block the video.
+            GSAP scales this div from ~5× down to 1×. */}
+        <div
+          ref={maskRef}
+          className="pointer-events-none absolute inset-0"
+          style={{
+            backgroundImage: 'url(/ai-mask.svg)',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat',
+            opacity: 0,
+            transform: 'translate3d(0, 0, 0)',
+            backfaceVisibility: 'hidden',
+            WebkitBackfaceVisibility: 'hidden',
+          }}
+        />
+
       </div>
-    </div>
+    </section>
+
+    <RevealHeading />
+    </>
   );
 }
