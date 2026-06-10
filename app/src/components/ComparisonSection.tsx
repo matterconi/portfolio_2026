@@ -78,6 +78,10 @@ export default function ComparisonSection({ translations }: ComparisonSectionPro
           pin: true,
           scrub: true,
           pinSpacing: true,
+          onLeaveBack: () => {
+            if (!maskRef.current) return;
+            gsap.set(maskRef.current, { scale: startScale, opacity: 0 });
+          },
         },
       });
 
