@@ -123,16 +123,6 @@ export interface TurnstileVerifyResponse {
   hostname?: string;
 }
 
-/** A client review or testimonial. */
-export interface Review {
-  id: string;
-  author: string;
-  role: string;
-  company: string;
-  content: string;
-  rating: number;
-}
-
 /** Locale type for type safety. */
 export type Locale = 'en' | 'it';
 

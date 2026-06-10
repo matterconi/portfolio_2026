@@ -85,7 +85,6 @@ export function DemoTextReveal({ text, scrollProgress, className }: DemoTextReve
     <div ref={fallbackRef} className={className}>
       <p
         className="text-xl sm:text-2xl leading-relaxed font-medium flex flex-wrap"
-        style={{ fontFamily: "'Clash Display', sans-serif" }}
       >
         {words.map((word, i) => {
           const start = i / totalWords;

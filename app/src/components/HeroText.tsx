@@ -3,6 +3,7 @@
 import { motion, useAnimationControls } from 'framer-motion';
 import { useEffect, useRef, useCallback } from 'react';
 import HeroPill from './HeroPill';
+import CircularCTA from './CircularCTA';
 
 function AnimatedLetter({
   letter,
@@ -12,17 +13,17 @@ function AnimatedLetter({
   revealDelay: number;
 }) {
   const controls = useAnimationControls();
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const scheduleGlitch = useCallback(() => {
     const wait = 3000 + Math.random() * 8000;
     timeoutRef.current = setTimeout(async () => {
       const effects = [
-        { rotateX: [0, 180, 360], transition: { duration: 0.5, ease: 'easeInOut' } },
-        { rotateY: [0, 180, 360], transition: { duration: 0.5, ease: 'easeInOut' } },
-        { scaleY: [1, 0, 1], transition: { duration: 0.4, ease: 'easeInOut' } },
-        { skewX: [0, 25, -25, 0], transition: { duration: 0.4, ease: 'easeInOut' } },
-        { y: [0, -8, 0], rotateZ: [0, -10, 10, 0], transition: { duration: 0.5, ease: 'easeInOut' } },
+        { rotateX: [0, 180, 360], transition: { duration: 0.5, ease: 'easeInOut' as const } },
+        { rotateY: [0, 180, 360], transition: { duration: 0.5, ease: 'easeInOut' as const } },
+        { scaleY: [1, 0, 1], transition: { duration: 0.4, ease: 'easeInOut' as const } },
+        { skewX: [0, 25, -25, 0], transition: { duration: 0.4, ease: 'easeInOut' as const } },
+        { y: [0, -8, 0], rotateZ: [0, -10, 10, 0], transition: { duration: 0.5, ease: 'easeInOut' as const } },
       ];
       const effect = effects[Math.floor(Math.random() * effects.length)];
       await controls.start(effect);
@@ -37,7 +38,7 @@ function AnimatedLetter({
 
     return () => {
       clearTimeout(startDelay);
-      clearTimeout(timeoutRef.current);
+      if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
   }, [revealDelay, scheduleGlitch]);
 
@@ -79,7 +80,6 @@ export default function HeroText({
     <div className="relative z-10 w-full items-center text-center lg:items-start lg:text-left max-w-4xl mx-auto">
       <div className="flex flex-col lg:flex-row lg:flex-wrap lg:items-end lg:gap-x-16">
         <h1
-          style={{ fontFamily: "'Clash Display', sans-serif" }}
           className="text-7xl max-[350px]:text-6xl sm:text-8xl lg:text-[10rem] leading-none font-bold tracking-tighter text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]"
         >
           {words.map((word, wi) => {
@@ -109,39 +109,9 @@ export default function HeroText({
             delay: 0.3 + letterIndex * 0.04 + 0.3,
           }}
         >
-          <div
-            className="rounded-full p-px"
-            style={{
-              background: 'linear-gradient(135deg, #ffffff40, transparent 50%, #ffffff20)',
-              boxShadow: '0 0 25px #ffffff15, 0 0 50px #ffffff0d',
-            }}
-          >
-          <a
-            href="#contact"
-            className="group relative inline-flex items-center justify-center w-36 h-36 rounded-full bg-[#0a0a0a] backdrop-blur-sm transition-all hover:scale-110"
-          >
+          <CircularCTA label="Get in touch" href="#contact">
             <svg
-              className="absolute inset-0 w-full h-full animate-[spin_12s_linear_infinite]"
-              viewBox="0 0 144 144"
-            >
-              <defs>
-                <path
-                  id="circlePath"
-                  d="M 72,72 m -56,0 a 56,56 0 1,1 112,0 a 56,56 0 1,1 -112,0"
-                />
-              </defs>
-              <text
-                fill="currentColor"
-                className="text-foreground-muted text-[13px] uppercase tracking-[0.3em] transition-colors group-hover:text-accent-cyan"
-                style={{ fontFamily: "'Zodiak', serif" }}
-              >
-                <textPath href="#circlePath">
-                  Get in touch · Get in touch ·&nbsp;
-                </textPath>
-              </text>
-            </svg>
-            <svg
-              className="relative w-16 h-16 text-white transition-colors group-hover:text-accent-cyan"
+              className="w-16 h-16"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -149,8 +119,7 @@ export default function HeroText({
             >
               <path d="M7 17L17 7M17 7H7M17 7v10" />
             </svg>
-          </a>
-          </div>
+          </CircularCTA>
         </motion.div>
         <div className="lg:basis-full">
           <HeroPill tagline={tagline} revealDelay={0.3 + letterIndex * 0.04} />

@@ -1,12 +1,16 @@
 'use client';
 
 import { useEffect, useRef, useMemo, useState } from 'react';
-import { useScroll, useTransform, motion, useMotionTemplate } from 'framer-motion';
+import { useScroll, useTransform, motion, useMotionTemplate, useMotionValue } from 'framer-motion';
 import ABCPanel from './ABCPanel';
 import type { PanelData } from './ABCPanel';
 import type { ShaderVariant } from './WaterPlaneShader';
 import { SectionTitle } from './ui/section-title';
 import { useStickyCardLayout } from '@/hooks/useStickyCardLayout';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Pagination } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/pagination';
 
 
 interface TopicMeta {
@@ -19,6 +23,7 @@ interface TopicMeta {
 
 interface ABCSectionProps {
   sectionTitle: string;
+  sectionDescription?: string;
   translations: {
     progressIndicator: string;
     mobileHint: string;
@@ -75,6 +80,7 @@ const PANEL_CONFIGS: Record<string, { color: string; shaderVariant: ShaderVarian
 
 export default function ABCSection({
   sectionTitle,
+  sectionDescription,
   translations,
   panelTopics,
 }: ABCSectionProps) {
@@ -92,8 +98,13 @@ export default function ABCSection({
 
   const x = useTransform(scrollYProgress, [0, 1], [0, -overflow]);
 
-  const leftFade = useTransform(scrollYProgress, [0, 0.02], [0, 100]);
-  const rightFade = useTransform(scrollYProgress, [0.98, 1], [100, 0]);
+  const fadeWidth = useMotionValue(100);
+
+  const baseLeftFade = useTransform(scrollYProgress, [0, 0.02], [0, 1]);
+  const baseRightFade = useTransform(scrollYProgress, [0.98, 1], [1, 0]);
+
+  const leftFade = useTransform([baseLeftFade, fadeWidth], ([ratio, width]: number[]) => (ratio as number) * (width as number));
+  const rightFade = useTransform([baseRightFade, fadeWidth], ([ratio, width]: number[]) => (ratio as number) * (width as number));
   const maskImage = useMotionTemplate`linear-gradient(to right, transparent, black ${leftFade}px, black calc(100% - ${rightFade}px), transparent)`;
 
   useEffect(() => {
@@ -104,9 +115,14 @@ export default function ABCSection({
       setOverflow(cardRef.current.scrollWidth - cardRef.current.clientWidth + paddingRight);
     };
 
-    calculate();
-    window.addEventListener('resize', calculate);
-    return () => window.removeEventListener('resize', calculate);
+    const handleResize = () => {
+      fadeWidth.set(window.innerWidth < 640 ? 40 : 100);
+      calculate();
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
   }, []);
 
 
@@ -117,39 +133,85 @@ export default function ABCSection({
   ], [panelTopics]);
 
   return (
-    <div ref={wrapperRef} id="abc" className="relative h-[300vh] max-w-7xl mx-auto">
-      <div
-        className="sticky"
-        style={{ top: stickyTop }}
-      >
-        <motion.div
-          className="overflow-hidden"
-          style={{
-            maskImage,
-            WebkitMaskImage: maskImage,
-          }}
+    <>
+      <div ref={wrapperRef} id="abc" className="relative h-[300vh] max-w-7xl mx-auto hidden sm:block">
+        <div
+          className="sticky"
+          style={{ top: stickyTop }}
         >
           <motion.div
-            className="mx-auto flex items-center gap-8 px-6 py-12"
-            ref={cardRef}
-            style={{ x }}
+            className="overflow-hidden"
+            style={{
+              maskImage,
+              WebkitMaskImage: maskImage,
+            }}
+          >
+            <motion.div
+              className="mx-auto flex items-center gap-8 px-6 py-12"
+              ref={cardRef}
+              style={{ x }}
+            >
+              {panels.map((panel) => (
+                <ABCPanel key={panel.letter} panel={panel} />
+              ))}
+            </motion.div>
+            {titleInside && (
+              <div ref={titleRef} className="px-6 pb-6">
+                <SectionTitle title={sectionTitle} visible className="text-5xl sm:text-6xl !text-center mb-3" />
+                {sectionDescription && (
+                  <p className="text-lg text-foreground-subtle text-center">{sectionDescription}</p>
+                )}
+              </div>
+            )}
+          </motion.div>
+        </div>
+        {!titleInside && (
+          <div ref={titleRef} className="px-6 pb-6">
+            <SectionTitle title={sectionTitle} visible className="text-5xl sm:text-6xl !text-center mb-3" />
+            {sectionDescription && (
+              <p className="text-lg text-foreground-subtle text-center">{sectionDescription}</p>
+            )}
+          </div>
+        )}
+      </div>
+
+      <div className="sm:hidden py-12 flex flex-col gap-8">
+        <div className="px-6 abc-mobile-swiper">
+          <style>{`
+            .abc-mobile-swiper .swiper-pagination {
+              position: relative !important;
+              bottom: auto !important;
+              margin-top: 24px !important;
+            }
+            .abc-mobile-swiper .swiper-pagination-bullet {
+              background: rgba(255,255,255,0.4) !important;
+              opacity: 1 !important;
+            }
+            .abc-mobile-swiper .swiper-pagination-bullet-active {
+              background: rgba(255,255,255,0.9) !important;
+            }
+          `}</style>
+          <Swiper
+            modules={[Pagination]}
+            pagination={{ clickable: true }}
+            slidesPerView={1}
+            spaceBetween={16}
+            breakpoints={{ 400: { slidesPerView: 'auto' } }}
           >
             {panels.map((panel) => (
-              <ABCPanel key={panel.letter} panel={panel} />
+              <SwiperSlide key={panel.letter}>
+                <ABCPanel panel={panel} />
+              </SwiperSlide>
             ))}
-          </motion.div>
-          {titleInside && (
-            <div ref={titleRef} className="px-6 pb-6">
-              <SectionTitle title={sectionTitle} visible className="text-5xl sm:text-6xl !text-center" />
-            </div>
-          )}
-        </motion.div>
-      </div>
-      {!titleInside && (
-        <div ref={titleRef} className="px-6 pb-6">
-          <SectionTitle title={sectionTitle} visible className="text-5xl sm:text-6xl !text-center" />
+          </Swiper>
         </div>
-      )}
-    </div>
+        <div className="px-6">
+          <SectionTitle title={sectionTitle} visible className="text-5xl sm:text-6xl !text-center mb-3" />
+          {sectionDescription && (
+            <p className="text-lg text-foreground-subtle text-center">{sectionDescription}</p>
+          )}
+        </div>
+      </div>
+    </>
   );
 }

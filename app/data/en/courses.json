@@ -26,7 +26,7 @@
   },
   {
     "id": "jsm-nextjs",
-    "title": "Next.js 16",
+    "title": "The Ultimate Next.js 16 course",
     "provider": "JavaScript Mastery",
     "icon": "/courses/nextjs.png",
     "skills": ["Next.js", "React", "TypeScript", "Server Components", "App Router"],
@@ -34,7 +34,7 @@
   },
   {
     "id": "jsm-gsap",
-    "title": "GSAP Course",
+    "title": "The Ultimate GSAP course",
     "provider": "JavaScript Mastery",
     "icon": "/courses/gsap.png",
     "skills": ["GSAP", "ScrollTrigger", "Animation", "Web Animations"],

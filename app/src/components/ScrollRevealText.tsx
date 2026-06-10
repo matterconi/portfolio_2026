@@ -74,7 +74,6 @@ export default function ScrollRevealText({ lines }: { lines: string[] }) {
             <h3
               key={lineIndex}
               className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-wide text-center"
-              style={{ fontFamily: "'Clash Display', sans-serif" }}
             >
               {mode === "word"
                 ? words.map((word, i) => {

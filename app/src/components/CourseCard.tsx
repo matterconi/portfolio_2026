@@ -52,7 +52,7 @@ const CourseCard = memo(function CourseCard({
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 text-sm font-semibold tracking-wide transition-opacity hover:opacity-70"
-            style={{ color: glowColor, fontFamily: "'Clash Display', sans-serif" }}
+            style={{ color: glowColor }}
           >
             Open me
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
@@ -62,7 +62,7 @@ const CourseCard = memo(function CourseCard({
         ) : (
           <span
             className="text-sm tracking-wide opacity-50"
-            style={{ color: glowColor, fontFamily: "'Clash Display', sans-serif" }}
+            style={{ color: glowColor }}
           >
             In corso
           </span>
@@ -102,7 +102,6 @@ const CourseCard = memo(function CourseCard({
                 <div className="flex h-full w-full items-center justify-center bg-linear-to-br from-background-elevated to-background-subtle">
                   <span
                     className="text-4xl font-bold tracking-tighter text-accent-cyan/60"
-                    style={{ fontFamily: "'Clash Display', var(--font-mono), sans-serif" }}
                   >
                     {course.provider}
                   </span>
@@ -121,7 +120,6 @@ const CourseCard = memo(function CourseCard({
               <div className="flex h-full w-full items-center justify-center bg-linear-to-br from-background-elevated to-background-subtle">
                 <span
                   className="text-4xl font-bold tracking-tighter text-accent-cyan/60"
-                  style={{ fontFamily: "'Clash Display', var(--font-mono), sans-serif" }}
                 >
                   {course.provider}
                 </span>
@@ -136,7 +134,6 @@ const CourseCard = memo(function CourseCard({
             </span>
             <h3
               className="mt-1 text-lg font-semibold text-foreground"
-              style={{ fontFamily: "'Clash Display', var(--font-mono), sans-serif" }}
             >
               {course.title}
             </h3>

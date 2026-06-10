@@ -11,7 +11,7 @@ function AnimatedLetter({
   revealDelay: number;
 }) {
   const controls = useAnimationControls();
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const timeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const scheduleGlitch = useCallback(() => {
     const wait = 3000 + Math.random() * 8000;
@@ -24,7 +24,7 @@ function AnimatedLetter({
         { y: [0, -8, 0], rotateZ: [0, -10, 10, 0], transition: { duration: 0.5, ease: 'easeInOut' } },
       ];
       const effect = effects[Math.floor(Math.random() * effects.length)];
-      await controls.start(effect);
+      await controls.start(effect as any);
       scheduleGlitch();
     }, wait);
   }, [controls]);
@@ -71,8 +71,7 @@ export default function FooterName() {
 
   return (
     <h2
-      className="text-7xl max-[350px]:text-6xl sm:text-8xl lg:text-[10rem] leading-none font-bold tracking-tighter text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]"
-      style={{ fontFamily: "'Clash Display', sans-serif" }}
+      className="text-7xl max-[400px]:text-5xl sm:text-8xl lg:text-[10rem] leading-none font-bold tracking-tighter text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.3)] px-4 sm:px-0"
     >
       {words.map((word, wi) => {
         const wordLetters = word.split('').map((letter, li) => {

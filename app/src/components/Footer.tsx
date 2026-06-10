@@ -4,7 +4,7 @@ import { Locale, SocialLinks } from '@data/types';
 import FooterName from './FooterName';
 import FooterShader from './FooterShader';
 
-const SECTION_IDS = ['home', 'about', 'abc', 'experience', 'projects', 'skills', 'contact'];
+const SECTION_IDS = ['home', 'about', 'abc', 'experience', 'projects', 'contact'];
 
 const SOCIAL_ICONS: Record<string, React.ReactNode> = {
   github: (
@@ -57,18 +57,18 @@ export default async function Footer({ locale }: { locale: string }) {
           <FooterName />
 
           {/* Links */}
-          <div className="flex flex-col sm:flex-row gap-8 sm:gap-x-12">
+          <div className="flex flex-row gap-8 sm:gap-x-12">
             {/* Quick Links */}
             <div>
-              <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-foreground-subtle">
-                {tFooter('quickLinks')}
+              <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-foreground-subtle px-4 sm:px-0">
+                Link
               </h3>
-              <ul className="space-y-2">
+              <ul className="space-y-2 px-4 sm:px-0">
                 {quickLinks.map((link) => (
                   <li key={link.id}>
                     <a
                       href={link.href}
-                      className="text-sm text-foreground-muted hover:text-accent-green transition-colors duration-200"
+                      className="text-sm text-foreground-muted hover:text-accent-green transition-colors duration-200 inline-block px-1 py-0.5"
                     >
                       {link.label}
                     </a>
@@ -79,17 +79,17 @@ export default async function Footer({ locale }: { locale: string }) {
 
             {/* Social Links */}
             <div>
-              <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-foreground-subtle">
+              <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-foreground-subtle px-4 sm:px-0">
                 {tFooter('social')}
               </h3>
-              <ul className="space-y-2">
+              <ul className="space-y-2 px-4 sm:px-0">
                 {socialLinks.map((link) => (
                   <li key={link.platform}>
                     <a
                       href={link.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 text-sm text-foreground-muted hover:text-accent-green transition-colors duration-200"
+                      className="inline-flex items-center gap-2 text-sm text-foreground-muted hover:text-accent-green transition-colors duration-200 px-1 py-0.5"
                     >
                       {SOCIAL_ICONS[link.platform] || null}
                       {link.label}
@@ -102,19 +102,10 @@ export default async function Footer({ locale }: { locale: string }) {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-12 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-t border-white/10 pt-6">
+        <div className="mt-12 border-t border-white/10 pt-6">
           <p className="text-xs text-foreground-subtle">
             &copy; {new Date().getFullYear()} {tFooter('copyright')}
           </p>
-          <a
-            href="#home"
-            className="inline-flex items-center gap-2 text-sm text-foreground-muted hover:text-accent-green transition-colors duration-200"
-          >
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M12 19V5M5 12l7-7 7 7" />
-            </svg>
-            {tFooter('backToTop')}
-          </a>
         </div>
       </div>
 

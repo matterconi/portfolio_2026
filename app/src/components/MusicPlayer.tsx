@@ -61,7 +61,6 @@ export default function MusicPlayer() {
           <motion.span
             key={currentTrack.id}
             className="absolute inset-0 text-[10px] uppercase tracking-[0.2em] text-foreground-subtle whitespace-nowrap flex items-center"
-            style={{ fontFamily: "'Zodiak', serif" }}
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}

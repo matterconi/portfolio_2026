@@ -7,8 +7,7 @@
     "projects": "Progetti",
     "contact": "Contatti",
     "skills": "Competenze",
-    "languageSwitcher": "IT/EN",
-    "chess": "Scacchi"
+    "languageSwitcher": "IT/EN"
   },
   "hero": {
     "name": "Nome Sviluppatore",
@@ -21,6 +20,7 @@
   },
   "abc": {
     "title": "Il mio ABC",
+    "description": "Automazione, Blockchain e Creative Development.",
     "automationTitle": "Automazione",
     "automationDescription": "Scripting, pipeline CI/CD e infrastruttura come codice per ottimizzare i flussi di lavoro.",
     "automationBullets": "GitHub Actions & GitLab CI/CD, Docker & Kubernetes, Terraform & Ansible, Bash & Python scripting",
@@ -42,32 +42,6 @@
     "progressIndicator": "Pannello '{current}' di '{total}'",
     "mobileHint": "Scorri per esplorare A → B → C",
     "scrollHint": "Scorri verso il basso per esplorare"
-  },
-  "chess": {
-    "title": "Gioca col Mio Bot",
-    "subtitle": "Sfida il mio motore scacchistico. Riesci a batterlo?",
-    "newGame": "Nuova Partita",
-    "undo": "Annulla",
-    "flipBoard": "Ruota",
-    "yourTurn": "Il tuo turno",
-    "botTurn": "Il bot sta pensando...",
-    "check": "Scacco!",
-    "checkmate": "Scacco matto!",
-    "stalemate": "Stallo",
-    "draw": "Patta",
-    "moveHistory": "Cronologia Mosse",
-    "white": "Bianco",
-    "black": "Nero",
-    "connectWallet": "Connetti Wallet",
-    "playAs": "Gioca come",
-    "level": "Livello",
-    "easy": "Facile",
-    "medium": "Medio",
-    "hard": "Difficile",
-    "copyPgn": "Copia PGN",
-    "copied": "Copiato!",
-    "capturedPieces": "Catturati",
-    "sound": "Audio"
   },
   "experience": {
     "title": "Esperienza",
@@ -99,9 +73,6 @@
     "errorMessage": "Invio del messaggio fallito. Riprova.",
     "socialLinks": "Link Social",
     "downloadCV": "Scarica CV",
-    "viewCV": "Visualizza CV",
-    "cvPreviewTitle": "Anteprima CV",
-    "closeModal": "Chiudi",
     "successModalTitle": "Messaggio Inviato!",
     "successModalMessage": "Grazie per avermi contattato. Ti risponderò presto.",
     "turnstileError": "Per favore completa la verifica di sicurezza.",
@@ -113,16 +84,14 @@
     "messageRequired": "Il messaggio è obbligatorio",
     "messageMinLength": "Il messaggio deve contenere almeno 10 caratteri",
     "revealLine1": "Costruiamo",
-    "revealLine2": "Qualcosa di Grande"
+    "revealLine2": "Qualcosa di Grande",
+    "revealDescription": "Non pensare che mandare un'email sia l'inizio di una nuova collaborazione"
   },
   "comparison": {
     "title": "AI vs Developer",
     "description": "Riesci a vedere la differenza?",
     "aiLabel": "Generato dall'AI",
     "devLabel": "Creato da un Developer"
-  },
-  "reviews": {
-    "title": "Recensioni"
   },
   "footer": {
     "copyright": "Tutti i diritti riservati.",

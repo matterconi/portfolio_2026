@@ -2,12 +2,12 @@
 
 import { useState, useRef, type FormEvent, type FocusEvent } from 'react';
 import { motion } from 'framer-motion';
+import { Download, Send } from 'lucide-react';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import TurnstileWidget, { type TurnstileWidgetHandle } from './TurnstileWidget';
 import SuccessModal from './SuccessModal';
-import CVPreviewModal from './CVPreviewModal';
 import ScrollRevealText from './ScrollRevealText';
-
+import CircularCTA from './CircularCTA';
 
 interface ContactSectionProps {
   locale: string;
@@ -20,9 +20,6 @@ interface ContactSectionProps {
     successMessage: string;
     errorMessage: string;
     downloadCV: string;
-    viewCV: string;
-    cvPreviewTitle: string;
-    closeModal: string;
     nameRequired: string;
     emailRequired: string;
     emailInvalid: string;
@@ -35,6 +32,7 @@ interface ContactSectionProps {
     successModalMessage: string;
     revealLine1: string;
     revealLine2: string;
+    revealDescription: string;
   };
   turnstileSiteKey: string;
 }
@@ -51,11 +49,11 @@ const fadeSlideUp = {
 };
 
 const INPUT_BASE =
-  'w-full rounded-xl border bg-[#0f0a14] px-4 py-3 text-sm text-foreground placeholder:text-foreground-subtle focus:outline-none transition-shadow duration-200';
+  'w-full border-0 border-b bg-transparent px-0 py-3 text-sm text-white placeholder:text-foreground-subtle focus:outline-none transition-colors duration-200';
 const INPUT_NORMAL =
-  'border-white/10 focus:border-accent-cyan/60 focus:shadow-[0_0_12px_rgba(0,255,255,0.15)]';
+  'border-white/10 focus:border-accent-cyan';
 const INPUT_ERROR =
-  'border-red-500/60 focus:border-red-400 focus:shadow-[0_0_12px_rgba(255,80,80,0.2)]';
+  'border-red-500/60 focus:border-red-400';
 
 export default function ContactSection({
   locale,
@@ -63,7 +61,6 @@ export default function ContactSection({
   turnstileSiteKey,
 }: ContactSectionProps) {
   const reducedMotion = useReducedMotion();
-  const [showCVPreview, setShowCVPreview] = useState(false);
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
@@ -172,148 +169,156 @@ export default function ContactSection({
     }
   }
 
-  const isSubmitDisabled = status === 'sending' || !turnstileToken;
+  const isSubmitDisabled = status === 'sending';
 
   return (
     <>
       <section id="contact" className="min-h-screen flex flex-col justify-center py-20">
-        {/* Scroll Reveal Text — above the card */}
         <ScrollRevealText lines={[translations.revealLine1, translations.revealLine2]} />
+        <p className="text-center text-lg text-foreground-subtle -mt-8 mb-12">{translations.revealDescription}</p>
 
-        {/* Single glow card */}
         <motion.div
           initial={reducedMotion ? false : 'hidden'}
           whileInView={reducedMotion ? undefined : 'visible'}
           viewport={{ once: true, margin: '-5% 0px' }}
           variants={fadeSlideUp}
-          transition={{ duration: 0.5 }}
-          className="rounded-2xl p-px"
-          style={{
-            background: 'linear-gradient(135deg, rgba(0,255,255,0.25), transparent 50%, rgba(0,255,255,0.12))',
-            boxShadow: '0 0 25px rgba(0,255,255,0.08), 0 0 50px rgba(0,255,255,0.05)',
-          }}
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="mx-auto w-full max-w-2xl"
         >
-          <div className="rounded-2xl bg-[#0f0a14] p-6 sm:p-8 lg:p-10">
-            {/* Two-column layout inside the card */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-14">
-              {/* Left: Form */}
+          <div
+            className="rounded-2xl p-px"
+            style={{
+              background: 'linear-gradient(135deg, rgba(0,255,255,0.25), transparent 50%, rgba(0,255,255,0.12))',
+              boxShadow: '0 0 25px rgba(0,255,255,0.08), 0 0 50px rgba(0,255,255,0.05)',
+            }}
+          >
+            <div className="rounded-2xl bg-white/[0.08] backdrop-blur-xl border border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)] p-6 sm:p-8 lg:p-12">
               <form
                 ref={formRef}
                 onSubmit={handleSubmit}
-                className="space-y-5"
+                className="mx-auto w-full max-w-md space-y-6"
               >
                 <div>
-                  <label htmlFor="name" className="mb-2 block text-xs font-semibold uppercase tracking-widest text-foreground-subtle">
-                    {translations.nameLabel}
+                  <label
+                    htmlFor="name"
+                    className="mb-1 block text-xs font-semibold uppercase tracking-widest text-white"
+                  >
+                    {translations.nameLabel} <span className="text-accent-cyan">*</span>
                   </label>
                   <input
                     type="text"
                     id="name"
                     name="name"
+                    placeholder="Who's reaching out?"
                     onBlur={handleBlur}
                     className={`${INPUT_BASE} ${fieldErrors.name ? INPUT_ERROR : INPUT_NORMAL}`}
                   />
-                  {fieldErrors.name && <p className="mt-1.5 text-xs text-red-400">{fieldErrors.name}</p>}
+                  {fieldErrors.name && (
+                    <p className="mt-1.5 text-xs text-red-400">{fieldErrors.name}</p>
+                  )}
                 </div>
 
                 <div>
-                  <label htmlFor="email" className="mb-2 block text-xs font-semibold uppercase tracking-widest text-foreground-subtle">
-                    {translations.emailLabel}
+                  <label
+                    htmlFor="email"
+                    className="mb-1 block text-xs font-semibold uppercase tracking-widest text-white"
+                  >
+                    {translations.emailLabel} <span className="text-accent-cyan">*</span>
                   </label>
                   <input
                     type="email"
                     id="email"
                     name="email"
+                    placeholder="Where can we reach you?"
                     onBlur={handleBlur}
                     className={`${INPUT_BASE} ${fieldErrors.email ? INPUT_ERROR : INPUT_NORMAL}`}
                   />
-                  {fieldErrors.email && <p className="mt-1.5 text-xs text-red-400">{fieldErrors.email}</p>}
+                  {fieldErrors.email && (
+                    <p className="mt-1.5 text-xs text-red-400">{fieldErrors.email}</p>
+                  )}
                 </div>
 
                 <div>
-                  <label htmlFor="message" className="mb-2 block text-xs font-semibold uppercase tracking-widest text-foreground-subtle">
-                    {translations.messageLabel}
+                  <label
+                    htmlFor="message"
+                    className="mb-1 block text-xs font-semibold uppercase tracking-widest text-white"
+                  >
+                    {translations.messageLabel} <span className="text-accent-cyan">*</span>
                   </label>
                   <textarea
                     id="message"
                     name="message"
-                    rows={5}
+                    rows={4}
+                    placeholder="What would you like to discuss?"
                     onBlur={handleBlur}
                     className={`${INPUT_BASE} resize-none ${fieldErrors.message ? INPUT_ERROR : INPUT_NORMAL}`}
                   />
-                  {fieldErrors.message && <p className="mt-1.5 text-xs text-red-400">{fieldErrors.message}</p>}
+                  {fieldErrors.message && (
+                    <p className="mt-1.5 text-xs text-red-400">{fieldErrors.message}</p>
+                  )}
                 </div>
 
                 <div className="py-1">
-                  <TurnstileWidget ref={turnstileRef} siteKey={turnstileSiteKey} onVerify={setTurnstileToken} />
+                  <TurnstileWidget
+                    ref={turnstileRef}
+                    siteKey={turnstileSiteKey}
+                    onVerify={setTurnstileToken}
+                  />
                 </div>
 
-                <button
-                  type="submit"
-                  disabled={isSubmitDisabled}
-                  className="w-full rounded-xl border border-accent-cyan bg-accent-cyan-subtle px-6 py-3 text-sm font-semibold uppercase tracking-wider text-accent-cyan transition-all duration-200 hover:bg-accent-cyan hover:text-[#0f0a14] hover:shadow-[0_0_20px_rgba(0,255,255,0.3)] disabled:opacity-40 disabled:cursor-not-allowed flex items-center justify-center gap-2"
-                >
-                  {status === 'sending' && <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-current" />}
-                  {status === 'sending' ? 'Sending...' : translations.sendButton}
-                </button>
+                <div className="flex flex-col items-center gap-4 pt-2">
+                  {status === 'sending' && (
+                    <div className="flex h-36 w-36 items-center justify-center">
+                      <div className="h-8 w-8 animate-spin rounded-full border-b-2 border-white" />
+                    </div>
+                  )}
+                </div>
 
                 {status === 'error' && errorMessage && (
-                  <p className="text-red-400 text-xs text-center">{errorMessage}</p>
+                  <p className="text-center text-xs text-red-400">{errorMessage}</p>
                 )}
               </form>
 
-              {/* Right: CV preview */}
-              <div className="flex flex-col gap-3">
-                  <div className="relative w-full overflow-hidden rounded-xl border border-white/10 bg-white">
-                    <object
-                      data={`/cv-${locale}.pdf#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
-                      type="application/pdf"
-                      className="pointer-events-none w-full"
-                      style={{ height: '340px' }}
-                      aria-label="CV Preview"
+              <div className="flex flex-col items-center gap-12 mt-8 relative z-10">
+                {status !== 'sending' && (
+                  <>
+                    <CircularCTA
+                      label={translations.sendButton}
+                      onClick={() => formRef.current?.requestSubmit()}
+                      disabled={isSubmitDisabled}
                     >
-                      <div className="flex h-85 items-center justify-center bg-background-subtle">
-                        <span className="text-sm text-foreground-subtle">PDF preview not available</span>
-                      </div>
-                    </object>
-                  </div>
+                      <Send className="h-8 w-8" />
+                    </CircularCTA>
 
-                  {/* CV buttons */}
-                  <div className="flex gap-3">
-                    <button
-                      onClick={() => setShowCVPreview(true)}
-                      className="flex-1 rounded-xl border border-accent-cyan bg-accent-cyan-subtle px-4 py-2.5 text-xs text-accent-cyan font-semibold uppercase tracking-wider hover:bg-accent-cyan hover:text-[#0f0a14] hover:shadow-[0_0_20px_rgba(0,255,255,0.3)] transition-all duration-200"
+                    <div
+                      className="rounded-full p-px"
+                      style={{
+                        background: 'linear-gradient(135deg, #ffffff40, transparent 50%, #ffffff20)',
+                        boxShadow: '0 0 25px #ffffff15, 0 0 50px #ffffff0d',
+                      }}
                     >
-                      {translations.viewCV}
-                    </button>
-                    <button
-                      onClick={handleDownloadCV}
-                      className="flex-1 rounded-xl border border-accent-green bg-accent-green-subtle px-4 py-2.5 text-xs text-accent-green font-semibold uppercase tracking-wider hover:bg-accent-green hover:text-[#0f0a14] hover:shadow-[0_0_20px_rgba(0,255,0,0.3)] transition-all duration-200 inline-flex items-center justify-center gap-2"
-                    >
-                      <span>{translations.downloadCV}</span>
-                      <span>↓</span>
-                    </button>
-                  </div>
-                </div>
+                      <button
+                        type="button"
+                        onClick={handleDownloadCV}
+                        className="inline-flex items-center gap-1.5 rounded-full bg-black/90 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-foreground-muted transition-colors hover:text-accent-cyan"
+                      >
+                        <Download className="h-4 w-4" />
+                        <span>{translations.downloadCV}</span>
+                      </button>
+                    </div>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </motion.div>
       </section>
 
-      {/* Modals */}
       <SuccessModal
         isOpen={showSuccessModal}
         onClose={() => setShowSuccessModal(false)}
         title={translations.successModalTitle}
         message={translations.successModalMessage}
-      />
-      <CVPreviewModal
-        isOpen={showCVPreview}
-        onClose={() => setShowCVPreview(false)}
-        locale={locale}
-        title={translations.cvPreviewTitle}
-        downloadLabel={translations.downloadCV}
-        closeLabel={translations.closeModal}
       />
     </>
   );

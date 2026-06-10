@@ -68,12 +68,14 @@ export const FloatingNav = ({
       }}
     >
       <div className={cn(
-        "flex inset-x-0 mx-auto rounded-md shadow-2xl items-center justify-between px-6 py-3 max-w-6xl bg-black",
-        isFloating && "border border-gray-700/50",
+        "flex inset-x-0 mx-auto rounded-md shadow-2xl items-center justify-between px-6 py-3 max-w-6xl",
+        isFloating
+          ? "bg-white/[0.08] backdrop-blur-xl border border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)]"
+          : "bg-black",
         className
       )}>
-        <a href="#home" className="text-xl font-bold tracking-wide font-mono flex-shrink-0 transition-opacity duration-300 hover:opacity-80">
-          <span className="text-white">ML</span>
+        <a href="#home" className="text-xl font-bold tracking-wide flex-shrink-0 transition-opacity duration-300 hover:opacity-80">
+          <span className="text-white">Matteo Marconi</span>
         </a>
 
         {/* Desktop */}

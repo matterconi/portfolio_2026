@@ -25,10 +25,9 @@ export default function HeroPill({ tagline, revealDelay }: HeroPillProps) {
           delay: revealDelay,
         }}
       >
-        <div className="flex flex-col items-center gap-2 rounded-3xl bg-[#0a0a0a] backdrop-blur-sm px-5 py-3">
+        <div className="flex flex-col items-center gap-2 rounded-3xl bg-black/90 backdrop-blur-xl border border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)] px-5 py-3">
           <p
             className="text-sm max-[350px]:text-xs sm:text-base font-normal uppercase tracking-[0.25em] text-foreground-muted text-center leading-relaxed"
-            style={{ fontFamily: "'Zodiak', serif" }}
           >
             {tagline.split(/(Creative)/i).map((part, i) =>
               part.toLowerCase() === 'creative' ? (

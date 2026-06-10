@@ -27,9 +27,7 @@ interface TurnstileVerifyResponse {
 function validateEnvVars(): { valid: boolean; missing?: string[] } {
   const required = [
     'RESEND_API_KEY',
-    'TURNSTILE_SECRET_KEY',
     'CONTACT_EMAIL_TO',
-    'POSTGRES_URL'
   ];
   const missing = required.filter(key => !process.env[key]);
 
@@ -102,7 +100,7 @@ This message was sent via the portfolio contact form.
     `.trim();
 
     await resend.emails.send({
-      from: process.env.CONTACT_EMAIL_FROM || 'noreply@yourdomain.com',
+      from: process.env.CONTACT_EMAIL_FROM || 'onboarding@resend.dev',
       to: process.env.CONTACT_EMAIL_TO!,
       subject: `New Contact Form Submission - ${locale.toUpperCase()}`,
       text: emailBody,
@@ -133,7 +131,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<ContactAP
     const { name, email, message, turnstileToken, locale } = body;
 
     // Validate required fields
-    if (!name || !email || !message || !turnstileToken || !locale) {
+    if (!name || !email || !message || !locale) {
       return NextResponse.json(
         { success: false, error: 'All fields are required' },
         { status: 400 }
@@ -161,31 +159,35 @@ export async function POST(request: NextRequest): Promise<NextResponse<ContactAP
     const ip_address = request.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ?? null;
     const user_agent = request.headers.get('user-agent') ?? null;
 
-    // Verify Turnstile token
-    const turnstileValid = await verifyTurnstileToken(turnstileToken, ip_address ?? undefined);
-    if (!turnstileValid) {
-      return NextResponse.json(
-        { success: false, error: 'Invalid captcha verification' },
-        { status: 400 }
-      );
+    // Verify Turnstile token (optional – skip if no token or no secret configured)
+    if (turnstileToken && process.env.TURNSTILE_SECRET_KEY) {
+      const turnstileValid = await verifyTurnstileToken(turnstileToken, ip_address ?? undefined);
+      if (!turnstileValid) {
+        return NextResponse.json(
+          { success: false, error: 'Invalid captcha verification' },
+          { status: 400 }
+        );
+      }
     }
 
-    // Save to database
+    // Save to database (optional – skip if no DB configured)
     let messageId: number | undefined;
-    try {
-      const { saveContactMessage } = await import('@/lib/db');
-      const savedMessage = await saveContactMessage({
-        name,
-        email,
-        message,
-        locale,
-        ip_address,
-        user_agent,
-      });
-      messageId = savedMessage.id;
-    } catch (dbError) {
-      console.error('Database insert error:', dbError);
-      // Continue to email sending - database is secondary
+    if (process.env.POSTGRES_URL) {
+      try {
+        const { saveContactMessage } = await import('@/lib/db');
+        const savedMessage = await saveContactMessage({
+          name,
+          email,
+          message,
+          locale,
+          ip_address,
+          user_agent,
+        });
+        messageId = savedMessage.id;
+      } catch (dbError) {
+        console.error('Database insert error:', dbError);
+        // Continue to email sending - database is secondary
+      }
     }
 
     // Send email via Resend

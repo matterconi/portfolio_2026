@@ -23,11 +23,10 @@ const TechStackSection = () => {
         <SectionTitle
           visible
           title="My Stack"
-          className="text-5xl sm:text-6xl !text-right w-full mx-auto mt-8"
+          className="text-5xl sm:text-6xl !text-right w-full mx-auto mt-8 mb-3"
         />
         <p
           className="mb-8 text-lg text-foreground-subtle text-right"
-          style={{ fontFamily: "'Clash Display', sans-serif" }}
         >
           Creative development, pixel-perfect execution.
         </p>
@@ -37,7 +36,6 @@ const TechStackSection = () => {
           <InfiniteMovingCards
             items={tools}
             direction="left"
-            speed="slow"
             pauseOnHover={true}
             renderItem={(item) => (
               <div className="flex flex-col items-center gap-3 px-8 group">
@@ -49,7 +47,6 @@ const TechStackSection = () => {
                 />
                 <span
                   className="text-foreground-subtle text-xs font-medium tracking-wide group-hover:text-white transition-colors duration-300"
-                  style={{ fontFamily: "'Clash Display', sans-serif" }}
                 >
                   {item.name}
                 </span>

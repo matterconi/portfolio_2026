@@ -34,7 +34,6 @@ export function SectionTitle({ title, visible, className = '' }: SectionTitlePro
   return (
     <h2
       className={`font-bold tracking-wide text-white text-left ${className}`}
-      style={{ fontFamily: "'Clash Display', sans-serif" }}
     >
       <AnimatePresence>
         {visible &&

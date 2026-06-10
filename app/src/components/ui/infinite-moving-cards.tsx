@@ -67,7 +67,7 @@ const InfiniteMovingCards = <T,>({
   }, [updateAnimation]);
 
   useEffect(() => {
-    let timeoutId;
+    let timeoutId: ReturnType<typeof setTimeout>;
     const handler = () => {clearTimeout(timeoutId); timeoutId = setTimeout(updateAnimation, 150)}
     window.addEventListener("resize", handler);
     return () => {clearTimeout(timeoutId); window.removeEventListener("resize", handler)};

@@ -66,7 +66,6 @@ export default function DemoRevealPage() {
       <div className="h-screen flex items-center justify-center">
         <p
           className="text-foreground-subtle text-lg"
-          style={{ fontFamily: "'Clash Display', sans-serif" }}
         >
           Scrolla giu
         </p>
@@ -89,7 +88,6 @@ export default function DemoRevealPage() {
             <h3
               key={lineIndex}
               className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-wide text-center"
-              style={{ fontFamily: "'Clash Display', sans-serif" }}
             >
               {mode === "word"
                 ? words.map((word, i) => {
@@ -138,7 +136,6 @@ export default function DemoRevealPage() {
       <div className="h-screen flex items-center justify-center">
         <p
           className="text-foreground-subtle text-lg"
-          style={{ fontFamily: "'Clash Display', sans-serif" }}
         >
           Scrolla su
         </p>

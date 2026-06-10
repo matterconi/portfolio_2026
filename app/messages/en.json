@@ -7,8 +7,7 @@
     "projects": "Projects",
     "contact": "Contact",
     "skills": "Skills",
-    "languageSwitcher": "IT/EN",
-    "chess": "Chess"
+    "languageSwitcher": "IT/EN"
   },
   "hero": {
     "name": "Developer Name",
@@ -21,6 +20,7 @@
   },
   "abc": {
     "title": "My ABC",
+    "description": "Automation, Blockchain and Creative Development.",
     "automationTitle": "Automation",
     "automationDescription": "Scripting, CI/CD pipelines, and infrastructure-as-code to streamline development workflows.",
     "automationBullets": "GitHub Actions & GitLab CI/CD, Docker & Kubernetes, Terraform & Ansible, Bash & Python scripting",
@@ -42,32 +42,6 @@
     "progressIndicator": "Panel '{current}' of '{total}'",
     "mobileHint": "Scroll to explore A → B → C",
     "scrollHint": "Scroll down to explore"
-  },
-  "chess": {
-    "title": "Play My Bot",
-    "subtitle": "Challenge my custom chess engine. Can you beat it?",
-    "newGame": "New Game",
-    "undo": "Undo",
-    "flipBoard": "Flip",
-    "yourTurn": "Your turn",
-    "botTurn": "Bot is thinking...",
-    "check": "Check!",
-    "checkmate": "Checkmate!",
-    "stalemate": "Stalemate",
-    "draw": "Draw",
-    "moveHistory": "Move History",
-    "white": "White",
-    "black": "Black",
-    "connectWallet": "Connect Wallet",
-    "playAs": "Play as",
-    "level": "Level",
-    "easy": "Easy",
-    "medium": "Medium",
-    "hard": "Hard",
-    "copyPgn": "Copy PGN",
-    "copied": "Copied!",
-    "capturedPieces": "Captured",
-    "sound": "Sound"
   },
   "experience": {
     "title": "Experience",
@@ -99,9 +73,6 @@
     "errorMessage": "Failed to send message. Please try again.",
     "socialLinks": "Social Links",
     "downloadCV": "Download CV",
-    "viewCV": "View CV",
-    "cvPreviewTitle": "CV Preview",
-    "closeModal": "Close",
     "successModalTitle": "Message Sent!",
     "successModalMessage": "Thank you for reaching out. I'll get back to you soon.",
     "turnstileError": "Please complete the verification challenge.",
@@ -113,16 +84,14 @@
     "messageRequired": "Message is required",
     "messageMinLength": "Message must be at least 10 characters",
     "revealLine1": "Let's Build",
-    "revealLine2": "Something Great"
+    "revealLine2": "Something Great",
+    "revealDescription": "Don't think that sending an email can start a new collaboration"
   },
   "comparison": {
     "title": "AI vs Developer",
     "description": "Can you spot the difference?",
     "aiLabel": "AI Generated",
     "devLabel": "Developer Built"
-  },
-  "reviews": {
-    "title": "Reviews"
   },
   "footer": {
     "copyright": "All rights reserved.",

@@ -144,6 +144,7 @@ const fragmentShader = /* glsl */ `
 
 function ShaderQuad({ variant }: { variant: ShaderVariant }) {
   const { size } = useThree();
+  const hasNotified = useRef(false);
 
   const uniforms = useMemo(
     () => ({
@@ -168,6 +169,12 @@ function ShaderQuad({ variant }: { variant: ShaderVariant }) {
   }
 
   useFrame((_, delta) => {
+    if (!hasNotified.current) {
+      hasNotified.current = true;
+      if (typeof window !== 'undefined') {
+        window.dispatchEvent(new Event('shaderReady'));
+      }
+    }
     uniforms.uTime.value += delta;
   });
 

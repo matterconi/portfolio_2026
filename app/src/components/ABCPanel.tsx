@@ -36,7 +36,7 @@ export default function ABCPanel({ panel }: { panel: PanelData }) {
           boxShadow: `0 0 25px ${panel.color}15, 0 0 50px ${panel.color}0d`,
         }}
       >
-        <div className="relative overflow-hidden rounded-2xl bg-[#0a0a0a]">
+        <div className="relative overflow-hidden rounded-2xl bg-white/[0.08] backdrop-blur-xl border border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)]">
           {/* Shader letter — behind content on desktop */}
           <div className="pointer-events-none absolute inset-0 hidden sm:flex items-center justify-center">
             <ShaderText
@@ -90,13 +90,11 @@ export default function ABCPanel({ panel }: { panel: PanelData }) {
                 <div className="min-w-0">
                   <h3
                     className="text-lg font-bold tracking-tight text-white sm:text-xl"
-                    style={{ fontFamily: "'Clash Display', sans-serif" }}
                   >
                     {topic.title}
                   </h3>
                   <p
                     className="mt-2 text-sm leading-relaxed text-zinc-400 font-medium"
-                    style={{ fontFamily: "'Clash Display', sans-serif" }}
                   >
                     {words.map((word, wi) => {
                       const bare = word.replace(/[.,;:!?]+$/, '');

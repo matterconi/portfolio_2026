@@ -51,15 +51,25 @@ export async function updateEmailStatus(
   sent: boolean,
   error?: string
 ): Promise<ContactMessage> {
-  const result = await sql`
-    UPDATE contact_messages
-    SET
-      email_sent = ${sent},
-      email_sent_at = ${sent ? sql`NOW()` : null},
-      email_error = ${error ?? null}
-    WHERE id = ${messageId}
-    RETURNING *;
-  `;
+  const result = sent
+    ? await sql`
+        UPDATE contact_messages
+        SET
+          email_sent = true,
+          email_sent_at = NOW(),
+          email_error = ${error ?? null}
+        WHERE id = ${messageId}
+        RETURNING *;
+      `
+    : await sql`
+        UPDATE contact_messages
+        SET
+          email_sent = false,
+          email_sent_at = NULL,
+          email_error = ${error ?? null}
+        WHERE id = ${messageId}
+        RETURNING *;
+      `;
 
   return result.rows[0] as ContactMessage;
 }

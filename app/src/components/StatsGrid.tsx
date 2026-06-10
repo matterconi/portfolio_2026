@@ -30,13 +30,12 @@ const StaticStat = ({ value, suffix = '', prefix = '', label, color }: Stat & { 
   <div className="flex flex-col items-center gap-1 px-8 py-4">
     <span
       className="text-4xl md:text-5xl font-bold tracking-tight"
-      style={{ fontFamily: "'Clash Display', sans-serif", color }}
+      style={{ color }}
     >
       {prefix}{value}{suffix}
     </span>
     <span
       className="text-xs uppercase tracking-widest text-foreground-subtle"
-      style={{ fontFamily: "'Clash Display', sans-serif" }}
     >
       {label}
     </span>
@@ -70,13 +69,12 @@ const AnimatedStat = ({ value, suffix = '', prefix = '', label, delay = 0, color
     <div ref={ref} className="flex flex-col items-center gap-1 px-8 py-4">
       <span
         className="text-4xl md:text-5xl font-bold tracking-tight"
-        style={{ fontFamily: "'Clash Display', sans-serif", color }}
+        style={{ color }}
       >
         {prefix}{animatedValue}{suffix}
       </span>
       <span
         className="text-xs uppercase tracking-widest text-foreground-subtle"
-        style={{ fontFamily: "'Clash Display', sans-serif" }}
       >
         {label}
       </span>
@@ -92,7 +90,6 @@ export default function StatsGrid({ stats, className = '' }: { stats: Stat[]; cl
       <InfiniteMovingCards
         items={stats}
         direction="left"
-        speed="slow"
         pauseOnHover={false}
         className={className}
         gap="gap-4"

@@ -29,7 +29,6 @@ export function TextReveal({ text, emphasize = [], scrollProgress, className, fl
     <div ref={fallbackRef} className={className}>
       <div
         className="text-xl sm:text-2xl leading-relaxed font-medium"
-        style={{ fontFamily: "'Clash Display', sans-serif" }}
       >
         {floatingElement}
         {words.map((word, i) => {

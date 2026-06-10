@@ -7,7 +7,7 @@ import { useScrollDirection } from '@/hooks/useScrollDirection';
 import { useActiveSection } from '@/hooks/useActiveSection';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 
-const SECTION_IDS = ['home', 'about', 'abc', 'experience', 'projects', 'skills', 'contact'];
+const SECTION_IDS = ['home', 'about', 'abc', 'experience', 'projects', 'contact'];
 
 const SECTION_ICONS: Record<string, React.ReactNode> = {
   home: (

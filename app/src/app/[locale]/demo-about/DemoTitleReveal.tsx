@@ -72,7 +72,6 @@ export function DemoTitleReveal({ text, scrollProgress, className, timeBased }: 
     <h2
       ref={fallbackRef}
       className={`font-bold tracking-wide text-white text-left ${className ?? ""}`}
-      style={{ fontFamily: "'Clash Display', sans-serif" }}
     >
       {chars.map((char, i) => {
         if (char === " ") return <span key={i}>&nbsp;</span>;

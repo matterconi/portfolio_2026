@@ -36,7 +36,6 @@ export default function DemoAboutPage() {
       <div className="h-screen flex items-center justify-center">
         <p
           className="text-foreground-subtle text-lg"
-          style={{ fontFamily: "'Clash Display', sans-serif" }}
         >
           Scrolla giu
         </p>
@@ -87,7 +86,6 @@ export default function DemoAboutPage() {
       <div className="h-screen flex items-center justify-center">
         <p
           className="text-foreground-subtle text-lg"
-          style={{ fontFamily: "'Clash Display', sans-serif" }}
         >
           Scrolla su
         </p>
