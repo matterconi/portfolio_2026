@@ -73,7 +73,9 @@ export default function ComparisonSection({ translations }: ComparisonSectionPro
       <div className="relative h-screen overflow-hidden bg-black">
 
         {/* ── Video layer (below mask) ──────────────────────────────────── */}
-        <div className="absolute inset-3 overflow-hidden rounded-2xl bg-black" />
+        <div className="absolute inset-3 overflow-hidden rounded-2xl">
+          <video src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260405_171521_25968ba2-b594-4b32-aab7-f6b69398a6fa.mp4" autoPlay muted loop playsInline className="h-full w-full object-cover" />
+        </div>
 
         {/* ── Mask overlay ─────────────────────────────────────────────── */}
         {/* background-size:cover guarantees the SVG always fills this div
