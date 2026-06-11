@@ -1,82 +1,189 @@
 [
   {
-    "slug": "bylt",
-    "title": "BYLT",
-    "shortDescription": "Website for a Performance Marketing agency in London, featuring 3D effects and scroll-based animations.",
-    "fullDescription": "An immersive website built for BYLT, a Performance Marketing agency based in London. The project combines interactive 3D effects with scroll-driven animations, creating an engaging visual experience that reflects the agency's innovative approach to digital marketing.",
-    "problem": "The agency needed a website that communicated creativity and technical expertise, standing out from the competition with a memorable web experience.",
-    "technologies": ["Three.js", "Framer Motion", "Next.js", "TypeScript", "GLSL", "Tailwind CSS"],
+    "slug": "resumind",
+    "title": "Resumind",
+    "shortDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "fullDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+    "problem": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "technologies": ["Next.js", "TypeScript", "Tailwind CSS", "OpenAI"],
     "features": [
-      "Interactive 3D scenes with Three.js",
-      "Smooth scroll-based animations",
-      "Cinematic page transitions",
-      "Optimized responsive design",
-      "Performance-optimized loading"
+      "Lorem ipsum dolor sit amet",
+      "Consectetur adipiscing elit",
+      "Sed do eiusmod tempor incididunt"
     ],
     "images": {
-      "hero": "/images/projects/bylt-hero.webp",
-      "screenshots": [
-        "/images/projects/bylt-scroll.webp",
-        "/images/projects/bylt-3d.webp"
-      ]
+      "hero": "/images/projects/resumind.webp",
+      "screenshots": []
     },
-    "links": {
-      "live": "https://bylt.example.com",
-      "github": "https://github.com/example/bylt"
-    },
+    "links": {},
     "order": 1
   },
   {
-    "slug": "chess-bot",
-    "title": "Chess Bot",
-    "shortDescription": "Chess bot trained with Machine Learning, capable of analyzing positions and playing competitive games.",
-    "fullDescription": "An intelligent chess engine developed using Machine Learning techniques. The bot was trained on thousands of games to recognize strategic patterns, evaluate positions, and generate optimal moves, offering a challenging opponent at various difficulty levels.",
-    "problem": "Creating an accessible chess opponent that combined the power of ML with an intuitive interface for players of all levels.",
-    "technologies": ["Python", "TensorFlow", "NumPy", "FastAPI", "React", "TypeScript"],
+    "slug": "monoforge",
+    "title": "Monoforge",
+    "shortDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "fullDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+    "problem": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "technologies": ["React", "Three.js", "GSAP", "TypeScript"],
     "features": [
-      "ML model trained on thousands of games",
-      "Real-time positional evaluation",
-      "Adaptive difficulty levels",
-      "Post-game move analysis",
-      "Interactive chessboard interface"
+      "Lorem ipsum dolor sit amet",
+      "Consectetur adipiscing elit",
+      "Sed do eiusmod tempor incididunt"
     ],
     "images": {
-      "hero": "/images/projects/chess-hero.webp",
-      "screenshots": [
-        "/images/projects/chess-game.webp",
-        "/images/projects/chess-analysis.webp"
-      ]
+      "hero": "/images/projects/monoforge.webp",
+      "screenshots": []
     },
     "links": {
-      "github": "https://github.com/example/chess-bot"
+      "live": "https://www.monoforge.studio/"
     },
     "order": 2
   },
   {
-    "slug": "production-todo-app",
-    "title": "Production Ready To Do App",
-    "shortDescription": "Production-ready To Do app built with Next.js, featuring robust error handling and full test coverage.",
-    "fullDescription": "A To Do application built with the goal of being fully production-ready. The project demonstrates software engineering best practices: comprehensive error handling, unit and integration tests, CI/CD pipeline, and a scalable architecture.",
-    "problem": "Demonstrating that even a seemingly simple project requires serious engineering when the goal is production-grade quality.",
-    "technologies": ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Jest", "Playwright"],
+    "slug": "colivio",
+    "title": "Colivio",
+    "shortDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "fullDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+    "problem": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "technologies": ["Next.js", "TypeScript", "Prisma", "PostgreSQL"],
     "features": [
-      "Comprehensive error handling with error boundaries",
-      "Unit and integration tests",
-      "Automated CI/CD pipeline",
-      "Authentication and authorization",
-      "RESTful API with validation"
+      "Lorem ipsum dolor sit amet",
+      "Consectetur adipiscing elit",
+      "Sed do eiusmod tempor incididunt"
     ],
     "images": {
-      "hero": "/images/projects/todo-hero.webp",
-      "screenshots": [
-        "/images/projects/todo-dashboard.webp",
-        "/images/projects/todo-tests.webp"
-      ]
+      "hero": "/images/projects/colivio.webp",
+      "screenshots": []
     },
     "links": {
-      "live": "https://todo.example.com",
-      "github": "https://github.com/example/production-todo"
+      "live": "https://colivio.vercel.app/"
     },
     "order": 3
+  },
+  {
+    "slug": "interspeak",
+    "title": "Interspeak",
+    "shortDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "fullDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+    "problem": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "technologies": ["Next.js", "TypeScript", "WebSockets", "Node.js"],
+    "features": [
+      "Lorem ipsum dolor sit amet",
+      "Consectetur adipiscing elit",
+      "Sed do eiusmod tempor incididunt"
+    ],
+    "images": {
+      "hero": "/images/projects/interspeak.webp",
+      "screenshots": []
+    },
+    "links": {
+      "live": "https://platone-alpha.vercel.app/"
+    },
+    "order": 4
+  },
+  {
+    "slug": "swaggerz",
+    "title": "Swaggerz",
+    "shortDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "fullDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+    "problem": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "technologies": ["React", "TypeScript", "Tailwind CSS", "Express"],
+    "features": [
+      "Lorem ipsum dolor sit amet",
+      "Consectetur adipiscing elit",
+      "Sed do eiusmod tempor incididunt"
+    ],
+    "images": {
+      "hero": "/images/projects/swaggerz.webp",
+      "screenshots": []
+    },
+    "links": {
+      "live": "https://swaggerz-y7ys.vercel.app/"
+    },
+    "order": 5
+  },
+  {
+    "slug": "barman-clone",
+    "title": "Barman Clone",
+    "shortDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "fullDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+    "problem": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "technologies": ["Three.js", "GSAP", "JavaScript", "CSS"],
+    "features": [
+      "Lorem ipsum dolor sit amet",
+      "Consectetur adipiscing elit",
+      "Sed do eiusmod tempor incididunt"
+    ],
+    "images": {
+      "hero": "/images/projects/barman-clone.webp",
+      "screenshots": []
+    },
+    "links": {
+      "live": "https://gsap-cocktails-three-zeta.vercel.app/"
+    },
+    "order": 6
+  },
+  {
+    "slug": "apple-clone",
+    "title": "Apple Clone",
+    "shortDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "fullDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+    "problem": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "technologies": ["React", "GSAP", "Three.js", "TypeScript"],
+    "features": [
+      "Lorem ipsum dolor sit amet",
+      "Consectetur adipiscing elit",
+      "Sed do eiusmod tempor incididunt"
+    ],
+    "images": {
+      "hero": "/images/projects/apple-clone.webp",
+      "screenshots": []
+    },
+    "links": {
+      "live": "https://apple-clone-six-virid.vercel.app/"
+    },
+    "order": 7
+  },
+  {
+    "slug": "portfolio-2024",
+    "title": "Portfolio 2024",
+    "shortDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "fullDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+    "problem": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "technologies": ["Next.js", "TypeScript", "Framer Motion", "Tailwind CSS"],
+    "features": [
+      "Lorem ipsum dolor sit amet",
+      "Consectetur adipiscing elit",
+      "Sed do eiusmod tempor incididunt"
+    ],
+    "images": {
+      "hero": "/images/projects/portfolio-2024.webp",
+      "screenshots": []
+    },
+    "links": {
+      "live": "https://portfolio-eight-blue-39.vercel.app/"
+    },
+    "order": 8
+  },
+  {
+    "slug": "portfolio-2026",
+    "title": "Portfolio 2026",
+    "shortDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "fullDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+    "problem": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "technologies": ["Next.js", "React", "Three.js", "Framer Motion", "TypeScript", "Tailwind CSS"],
+    "features": [
+      "Lorem ipsum dolor sit amet",
+      "Consectetur adipiscing elit",
+      "Sed do eiusmod tempor incididunt"
+    ],
+    "images": {
+      "hero": "/images/projects/portfolio-2026.webp",
+      "screenshots": []
+    },
+    "links": {
+      "live": "https://matteomarconi.com"
+    },
+    "order": 9
   }
 ]

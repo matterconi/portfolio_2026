@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import DomeGallery from './DomeGallery';
 import { Project } from '@data/types';
 
@@ -49,30 +50,22 @@ const RANDOM_NAMES = [
   'Pulsar', 'Rift', 'Solstice', 'Titan',
 ];
 
-const PROJECT_LINKS = [
-  null,
-  'https://www.monoforge.studio/',
-  'https://colivio.vercel.app/',
-  'https://platone-alpha.vercel.app/',
-  'https://swaggerz-y7ys.vercel.app/',
-  'https://gsap-cocktails-three-zeta.vercel.app/',
-  'https://apple-clone-six-virid.vercel.app/#',
-  'https://portfolio-eight-blue-39.vercel.app/',
-  'https://matteomarconi.com',
-  null, null, null, null, null, null, null, null, null, null, null, null, null, null,
+const PROJECT_SLUGS = [
+  'resumind', 'monoforge', 'colivio', 'interspeak', 'swaggerz',
+  'barman-clone', 'apple-clone', 'portfolio-2024', 'portfolio-2026',
 ];
 
-export default function ProjectsSection({ projects }: ProjectsSectionProps) {
+export default function ProjectsSection({ projects, locale }: ProjectsSectionProps) {
+  const router = useRouter();
+
   const images = UNSPLASH_IMAGES.map((src, i) => ({
     src,
     alt: RANDOM_NAMES[i % RANDOM_NAMES.length],
   }));
 
   const handleItemClick = (index: number) => {
-    const link = PROJECT_LINKS[index];
-    if (link) {
-      window.open(link, '_blank', 'noopener,noreferrer');
-    }
+    const slug = PROJECT_SLUGS[index % PROJECT_SLUGS.length];
+    router.push(`/${locale}/projects/${slug}`);
   };
 
   return (
@@ -83,6 +76,7 @@ export default function ProjectsSection({ projects }: ProjectsSectionProps) {
           grayscale={false}
           overlayBlurColor="#000000"
           padFactor={0.05}
+          disableEnlarge={true}
           onItemClick={handleItemClick}
         />
       </div>

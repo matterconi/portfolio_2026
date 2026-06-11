@@ -121,7 +121,7 @@ export default function HeroText({
             </svg>
           </CircularCTA>
         </motion.div>
-        <div className="lg:basis-full">
+        <div className="lg:basis-full mt-12">
           <HeroPill tagline={tagline} revealDelay={0.3 + letterIndex * 0.04} />
         </div>
       </div>

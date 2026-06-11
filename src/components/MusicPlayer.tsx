@@ -1,18 +1,27 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Play, Pause, SkipBack, SkipForward } from 'lucide-react';
 
 const tracks = [
-  { id: 'ethereal-drift', title: 'Ethereal Drift' },
-  { id: 'deep-currents', title: 'Deep Currents' },
-  { id: 'crystalline', title: 'Crystalline' },
+  { id: 'ethereal-sounds', title: 'Ethereal Sounds', src: '/audio/ethereal-sounds.mp3' },
+  { id: 'agentic-loop', title: 'Agentic Loop', src: '/audio/agentic-loop.mp3' },
+  { id: 'kaffeina', title: 'Kaffeina', src: '/audio/kaffeina.mp3' },
 ];
+
+// Longest title drives the width so no track name gets clipped.
+const longestTitle = tracks.reduce(
+  (longest, t) => (t.title.length > longest.length ? t.title : longest),
+  ''
+);
 
 export default function MusicPlayer() {
   const [isPlaying, setIsPlaying] = useState(true);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
+  const audioRef = useRef<HTMLAudioElement>(null);
+
+  const currentTrack = tracks[currentTrackIndex];
 
   const togglePlayPause = useCallback(() => {
     setIsPlaying((prev) => !prev);
@@ -20,16 +29,52 @@ export default function MusicPlayer() {
 
   const nextTrack = useCallback(() => {
     setCurrentTrackIndex((prev) => (prev + 1) % tracks.length);
+    setIsPlaying(true);
   }, []);
 
   const previousTrack = useCallback(() => {
     setCurrentTrackIndex((prev) => (prev - 1 + tracks.length) % tracks.length);
+    setIsPlaying(true);
   }, []);
 
-  const currentTrack = tracks[currentTrackIndex];
+  // Sync play/pause state with the audio element. Music is on by default, but
+  // browsers block autoplay until the first user gesture — if play() is rejected
+  // we resume on the first interaction (click/tap/scroll/key) anywhere on the page.
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    if (!isPlaying) {
+      audio.pause();
+      return;
+    }
+
+    const events = ['pointerdown', 'keydown', 'touchstart', 'scroll'] as const;
+    let cleanup = () => {};
+
+    audio.play().catch(() => {
+      const resume = () => {
+        audio.play().catch(() => {});
+        cleanup();
+      };
+      events.forEach((e) =>
+        window.addEventListener(e, resume, { once: true, passive: true })
+      );
+      cleanup = () => events.forEach((e) => window.removeEventListener(e, resume));
+    });
+
+    return () => cleanup();
+  }, [isPlaying, currentTrackIndex]);
 
   return (
     <div className="flex items-center gap-3">
+      <audio
+        ref={audioRef}
+        src={currentTrack.src}
+        onEnded={nextTrack}
+        preload="auto"
+      />
+
       <div className="flex items-center gap-4">
         <button
           onClick={previousTrack}
@@ -56,7 +101,15 @@ export default function MusicPlayer() {
         </button>
       </div>
 
-      <div className="relative h-4 overflow-hidden" style={{ minWidth: '8ch' }}>
+      <div className="relative h-4 overflow-hidden flex items-center">
+        {/* Invisible sizer: reserves the width of the longest title so the
+            crossfade animation has a stable box and names never get clipped. */}
+        <span
+          aria-hidden
+          className="invisible text-[10px] uppercase tracking-[0.2em] whitespace-nowrap"
+        >
+          {longestTitle}
+        </span>
         <AnimatePresence mode="wait">
           <motion.span
             key={currentTrack.id}

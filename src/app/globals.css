@@ -59,6 +59,7 @@
   --color-border-subtle: var(--border-subtle);
 
   /* Font family */
+  --font-display: 'Clash Display', sans-serif;
   --font-mono: 'Zodiak', serif;
 }
 
@@ -66,6 +67,14 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: 'Zodiak', serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Clash Display', sans-serif;
+}
+
+.font-display {
+  font-family: 'Clash Display', sans-serif;
 }
 
 /* Hide native cursor globally (custom cursor replaces it) */

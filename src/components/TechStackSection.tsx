@@ -23,7 +23,7 @@ const TechStackSection = () => {
         <SectionTitle
           visible
           title="My Stack"
-          className="text-5xl sm:text-6xl !text-right w-full mx-auto mt-8 mb-3"
+          className="text-5xl sm:text-6xl !text-right w-full mx-auto pt-8 pb-3"
         />
         <p
           className="mb-8 text-lg text-foreground-subtle text-right"

@@ -175,7 +175,7 @@ export default function ContactSection({
     <>
       <section id="contact" className="min-h-screen flex flex-col justify-center py-20">
         <ScrollRevealText lines={[translations.revealLine1, translations.revealLine2]} />
-        <p className="text-center text-lg text-foreground-subtle -mt-8 mb-12">{translations.revealDescription}</p>
+        <p className="text-center text-lg text-foreground-subtle -mt-12 mb-20">{translations.revealDescription}</p>
 
         <motion.div
           initial={reducedMotion ? false : 'hidden'}

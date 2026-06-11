@@ -69,6 +69,9 @@ export default async function Home({
       {/* About Section */}
       <AboutSection title={tAbout('title')} about={about} />
 
+      {/* Spacer before ABC Section */}
+      <div className="h-12 sm:h-16" />
+
       {/* ABC Section — full bleed */}
       <ABCSection
           sectionTitle={tAbc('title')}
@@ -94,6 +97,9 @@ export default async function Home({
           }}
         />
       </div>
+
+      {/* Spacer between ABC and Comparison */}
+      <div className="h-16 sm:h-24" />
 
       {/* Comparison Section — outside stacking context so z-20 can cover ABCSection */}
       <ComparisonSection

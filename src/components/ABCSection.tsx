@@ -156,7 +156,7 @@ export default function ABCSection({
               ))}
             </motion.div>
             {titleInside && (
-              <div ref={titleRef} className="px-6 pb-6">
+              <div ref={titleRef} className="px-6 pb-6 pt-12">
                 <SectionTitle title={sectionTitle} visible className="text-5xl sm:text-6xl !text-center mb-3" />
                 {sectionDescription && (
                   <p className="text-lg text-foreground-subtle text-center">{sectionDescription}</p>
@@ -166,7 +166,7 @@ export default function ABCSection({
           </motion.div>
         </div>
         {!titleInside && (
-          <div ref={titleRef} className="px-6 pb-6">
+          <div ref={titleRef} className="px-6 pb-6 pt-12">
             <SectionTitle title={sectionTitle} visible className="text-5xl sm:text-6xl !text-center mb-3" />
             {sectionDescription && (
               <p className="text-lg text-foreground-subtle text-center">{sectionDescription}</p>
@@ -205,7 +205,7 @@ export default function ABCSection({
             ))}
           </Swiper>
         </div>
-        <div className="px-6">
+        <div className="px-6 pt-12">
           <SectionTitle title={sectionTitle} visible className="text-5xl sm:text-6xl !text-center mb-3" />
           {sectionDescription && (
             <p className="text-lg text-foreground-subtle text-center">{sectionDescription}</p>
