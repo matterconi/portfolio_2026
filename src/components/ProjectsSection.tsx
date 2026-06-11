@@ -14,6 +14,7 @@ interface ProjectsSectionProps {
 }
 
 const UNSPLASH_IMAGES = [
+  '/images/projects/resumind.webp',
   '/images/projects/monoforge.webp',
   '/images/projects/colivio.webp',
   '/images/projects/interspeak.webp',
@@ -21,6 +22,7 @@ const UNSPLASH_IMAGES = [
   '/images/projects/barman-clone.webp',
   '/images/projects/apple-clone.webp',
   '/images/projects/portfolio-2024.webp',
+  '/images/projects/portfolio-2026.webp',
   'https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=1000&auto=format&fit=crop',
   'https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1000&auto=format&fit=crop',
   'https://images.unsplash.com/photo-1531297484001-80022131f5a1?q=80&w=1000&auto=format&fit=crop',
@@ -42,12 +44,13 @@ const UNSPLASH_IMAGES = [
 ];
 
 const RANDOM_NAMES = [
-  'Monoforge', 'Colivio', 'Interspeak', 'Swaggerz', 'Barman clone', 'Apple clone', 'Portfolio 2024', 'Nebula', 'Cipher',
+  'Resumind', 'Monoforge', 'Colivio', 'Interspeak', 'Swaggerz', 'Barman clone', 'Apple clone', 'Portfolio 2024', 'Portfolio 2026', 'Nebula', 'Cipher',
   'Quasar', 'Vertex', 'Kinetic', 'Zenith', 'Arcane', 'Echo', 'Lattice', 'Mirage',
   'Pulsar', 'Rift', 'Solstice', 'Titan',
 ];
 
 const PROJECT_LINKS = [
+  null,
   'https://www.monoforge.studio/',
   'https://colivio.vercel.app/',
   'https://platone-alpha.vercel.app/',
@@ -55,6 +58,7 @@ const PROJECT_LINKS = [
   'https://gsap-cocktails-three-zeta.vercel.app/',
   'https://apple-clone-six-virid.vercel.app/#',
   'https://portfolio-eight-blue-39.vercel.app/',
+  'https://matteomarconi.com',
   null, null, null, null, null, null, null, null, null, null, null, null, null, null,
 ];
 
