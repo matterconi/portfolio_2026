@@ -77,7 +77,7 @@ export default function HeroText({
   let letterIndex = 0;
 
   return (
-    <div className="relative z-10 w-full items-center text-center lg:items-start lg:text-left max-w-4xl mx-auto">
+    <div className="relative z-20 w-full items-center text-center lg:items-start lg:text-left max-w-4xl mx-auto">
       <div className="flex flex-col lg:flex-row lg:flex-wrap lg:items-end lg:gap-x-16">
         <h1
           className="text-7xl max-[350px]:text-6xl sm:text-8xl lg:text-[10rem] leading-none font-bold tracking-tighter text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]"

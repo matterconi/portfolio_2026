@@ -142,7 +142,7 @@ const fragmentShader = /* glsl */ `
 
 // ----- Component -----
 
-function ShaderQuad({ variant }: { variant: ShaderVariant }) {
+function ShaderQuad({ active, variant }: { active: boolean; variant: ShaderVariant }) {
   const { size } = useThree();
   const hasNotified = useRef(false);
 
@@ -169,6 +169,8 @@ function ShaderQuad({ variant }: { variant: ShaderVariant }) {
   }
 
   useFrame((_, delta) => {
+    if (!active) return;
+
     if (!hasNotified.current) {
       hasNotified.current = true;
       if (typeof window !== 'undefined') {
@@ -192,7 +194,13 @@ function ShaderQuad({ variant }: { variant: ShaderVariant }) {
   );
 }
 
-export default function WaterPlaneShader({ variant }: { variant?: ShaderVariant }) {
+export default function WaterPlaneShader({
+  active = true,
+  variant,
+}: {
+  active?: boolean;
+  variant?: ShaderVariant;
+}) {
   const defaultVariant: ShaderVariant = {
     colorA: [0, 1, 0],
     colorB: [0, 0.9, 0.8],
@@ -204,10 +212,11 @@ export default function WaterPlaneShader({ variant }: { variant?: ShaderVariant 
       style={{ position: 'absolute', inset: 0 }}
       gl={{ antialias: false, alpha: false, powerPreference: 'high-performance' }}
       dpr={1}
+      frameloop={active ? 'always' : 'never'}
       orthographic
       camera={{ near: 0, far: 1, position: [0, 0, 0.5] }}
     >
-      <ShaderQuad variant={variant ?? defaultVariant} />
+      <ShaderQuad active={active} variant={variant ?? defaultVariant} />
     </Canvas>
   );
 }

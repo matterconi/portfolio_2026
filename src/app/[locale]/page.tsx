@@ -59,7 +59,7 @@ export default async function Home({
 
   return (
     <div className="min-h-screen bg-black">
-      <div className="relative z-10 bg-black">
+      <div className="relative bg-black">
               {/* Hero Section */}
               <Hero about={about}/>
               <TechStackSection />

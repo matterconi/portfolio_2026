@@ -47,7 +47,7 @@ export default async function Footer({ locale }: { locale: string }) {
   ];
 
   return (
-    <footer className="relative overflow-hidden">
+    <footer className="relative overflow-hidden bg-black pt-24 sm:pt-32">
       <FooterShader />
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 py-16">

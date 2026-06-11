@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { getProjects, getProjectBySlug } from '@/lib/data';
 import { Locale } from '@data/types';
 import ProjectDetailContent from './ProjectDetailContent';
+import ProjectScrollToTop from './ProjectScrollToTop';
 
 export async function generateStaticParams() {
   const locales: Locale[] = ['en', 'it'];
@@ -44,6 +45,7 @@ export default async function ProjectDetailPage({
 
   return (
     <div className="min-h-screen bg-background">
+      <ProjectScrollToTop slug={slug} />
       <div className="mx-auto w-full max-w-4xl px-6 sm:px-8 py-12">
         {/* Back link */}
         <Link

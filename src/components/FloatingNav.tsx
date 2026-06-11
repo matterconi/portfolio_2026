@@ -5,6 +5,7 @@ import {
   useScroll,
   useMotionValueEvent,
 } from "motion/react";
+import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 
@@ -13,6 +14,10 @@ export const FloatingNav = ({
 }: {
   className?: string;
 }) => {
+  const pathname = usePathname();
+  const locale = pathname.split('/')[1] || 'en';
+  const homeBase = `/${locale}`;
+
   const { scrollY } = useScroll();
   const [isFloating, setIsFloating] = useState(false);
   const [hideNavbar, setHideNavbar] = useState(false);
@@ -43,12 +48,11 @@ export const FloatingNav = ({
   });
 
   const menuItems = [
-    { name: 'Home', href: '#home' },
-    { name: 'About', href: '#about' },
-    { name: 'Experience', href: '#experience' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Home', href: `${homeBase}/#home` },
+    { name: 'About', href: `${homeBase}/#about` },
+    { name: 'Experience', href: `${homeBase}/#experience` },
+    { name: 'Projects', href: `${homeBase}/#projects` },
+    { name: 'Contact', href: `${homeBase}/#contact` },
   ];
 
   return (
@@ -74,7 +78,7 @@ export const FloatingNav = ({
           : "bg-black",
         className
       )}>
-        <a href="#home" className="text-xl font-bold tracking-wide flex-shrink-0 transition-opacity duration-300 hover:opacity-80">
+        <a href={`${homeBase}/#home`} className="font-display text-xl font-bold tracking-wide flex-shrink-0 transition-opacity duration-300 hover:opacity-80">
           <span className="text-white">Matteo Marconi</span>
         </a>
 
