@@ -52,7 +52,7 @@ const fadeSlideUp = {
 };
 
 const INPUT_BASE =
-  'w-full border-0 border-b bg-transparent px-0 py-3 text-sm text-white placeholder:text-foreground-subtle focus:outline-none transition-colors duration-200';
+  'contact-field w-full border-0 border-b bg-transparent px-0 py-3 text-sm text-white placeholder:text-foreground-subtle focus:outline-none transition-colors duration-200';
 const INPUT_NORMAL =
   'border-white/10 focus:border-accent-cyan';
 const INPUT_ERROR =
@@ -141,7 +141,20 @@ export default function ContactSection({
     try {
       setStatus('sending');
 
+      if (process.env.NODE_ENV === 'production' && !effectiveTurnstileSiteKey) {
+        setStatus('error');
+        setErrorMessage(translations.turnstileError);
+        return;
+      }
+
       const turnstileToken = await turnstileRef.current?.execute();
+
+      if (process.env.NODE_ENV === 'production' && !turnstileToken) {
+        setStatus('error');
+        setErrorMessage(translations.turnstileError);
+        turnstileRef.current?.reset();
+        return;
+      }
 
       const res = await fetch('/api/contact', {
         method: 'POST',
@@ -161,6 +174,7 @@ export default function ContactSection({
       if (!res.ok) {
         if (
           data.error === 'turnstile_failed' ||
+          data.error === 'missing_turnstile_token' ||
           data.error === 'Missing challenge token' ||
           data.error === 'Challenge verification failed' ||
           data.error === 'Turnstile secret is not configured'

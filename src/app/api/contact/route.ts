@@ -188,7 +188,7 @@ export async function POST(request: NextRequest): Promise<NextResponse<ContactAP
 
     if (typeof body.formStartedAt === 'number' && Date.now() - body.formStartedAt < MIN_SUBMIT_TIME_MS) {
       return NextResponse.json(
-        { success: false, error: 'validation_failed' },
+        { success: false, error: 'spam_check_failed' },
         { status: 400 }
       );
     }
@@ -231,8 +231,12 @@ export async function POST(request: NextRequest): Promise<NextResponse<ContactAP
 
     const turnstileResult = await verifyTurnstileToken(turnstileToken, ip_address ?? undefined);
     if (!turnstileResult.success) {
+      const error = turnstileResult.error === 'Missing challenge token'
+        ? 'missing_turnstile_token'
+        : 'turnstile_failed';
+
       return NextResponse.json(
-        { success: false, error: turnstileResult.error ?? 'Challenge verification failed' },
+        { success: false, error },
         { status: 400 }
       );
     }
