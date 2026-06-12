@@ -9,12 +9,7 @@ import LenisProvider from "@/components/LenisProvider";
 import PageLoader from "@/components/PageLoader";
 import PersistentShaderLayer from "@/components/PersistentShaderLayer";
 import AudioPlayerProvider from "@/components/AudioPlayerProvider";
-
-const locales = ['en', 'it'] as const;
-
-function isLocale(locale: string): locale is (typeof locales)[number] {
-  return (locales as readonly string[]).includes(locale);
-}
+import { isLocale, locales } from "@/i18n/locales";
 
 export function generateStaticParams() {
   return locales.map((locale) => ({ locale }));

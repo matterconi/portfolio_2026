@@ -3,16 +3,15 @@ import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getProjects, getProjectBySlug, getRecommendedProjects } from '@/lib/data';
-import { Locale } from '@data/types';
 import { TextReveal } from '@/components/ui/text-reveal';
 import ProjectDetailContent from './ProjectDetailContent';
 import ProjectScrollToTop from './ProjectScrollToTop';
+import { isLocale, locales } from '@/i18n/locales';
 
 const metadataLabelClass = 'text-xs font-semibold uppercase tracking-[0.22em] text-accent-green';
 const metadataValueClass = 'mt-3 text-sm font-semibold leading-5 text-foreground';
 
 export async function generateStaticParams() {
-  const locales: Locale[] = ['en', 'it'];
   const params: { locale: string; slug: string }[] = [];
   for (const locale of locales) {
     const projects = await getProjects(locale);
@@ -25,7 +24,12 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string; slug: string }> }) {
   const { locale, slug } = await params;
-  const project = await getProjectBySlug(locale as Locale, slug);
+
+  if (!isLocale(locale)) {
+    return {};
+  }
+
+  const project = await getProjectBySlug(locale, slug);
   if (!project) return {};
   return {
     title: `${project.title} - Portfolio`,
@@ -39,10 +43,14 @@ export default async function ProjectDetailPage({
   params: Promise<{ locale: string; slug: string }>;
 }) {
   const { locale, slug } = await params;
-  const localeValue = locale as Locale;
+
+  if (!isLocale(locale)) {
+    notFound();
+  }
+
   const [project, recommendedProjects, t] = await Promise.all([
-    getProjectBySlug(localeValue, slug),
-    getRecommendedProjects(localeValue, slug),
+    getProjectBySlug(locale, slug),
+    getRecommendedProjects(locale, slug),
     getTranslations({ locale, namespace: 'projects' }),
   ]);
 
@@ -75,7 +83,7 @@ export default async function ProjectDetailPage({
       <main className="mx-auto w-full max-w-7xl px-5 pb-8 pt-28 sm:px-8 sm:pb-10 sm:pt-32 lg:px-12 lg:pb-14 lg:pt-32">
         <Link
           href={`/${locale}/#projects`}
-          className="mb-6 inline-flex items-center gap-2 text-sm text-accent-green transition-colors hover:text-foreground"
+          className="mb-6 inline-flex items-center gap-2 text-sm text-white transition-colors hover:text-accent-green"
         >
           ← {t('backToPortfolio')}
         </Link>
@@ -86,7 +94,7 @@ export default async function ProjectDetailPage({
           </h1>
         </section>
 
-        <section className="relative mt-10 overflow-hidden rounded-[2rem] border border-border bg-background-elevated shadow-2xl shadow-black/40">
+        <section className="relative mt-16 overflow-hidden rounded-[2rem] border border-border bg-background-elevated shadow-2xl shadow-black/40">
           <div className="absolute inset-0">
             <Image
               src={project.images.hero}
@@ -120,12 +128,15 @@ export default async function ProjectDetailPage({
         </section>
 
         <div className="mx-auto max-w-4xl pt-10 pb-0 sm:pt-12 lg:pt-16">
-          <TextReveal text={revealText} className="pb-8" />
+          <TextReveal
+            text={revealText}
+            className="pb-8 [&>div]:text-base [&>div]:font-normal [&>div]:leading-7 sm:[&>div]:text-lg sm:[&>div]:leading-8"
+          />
         </div>
 
         <ProjectDetailContent
           project={project}
-          locale={localeValue}
+          locale={locale}
           recommendedProjects={recommendedProjectCards}
           translations={{
             stackHeading: t('stackHeading'),

@@ -117,69 +117,69 @@
       "Cloudflare Turnstile"
     ],
     "features": [
-      "Assistente AI con state machine XState",
-      "Shader GLSL custom e renderer WebGL condiviso",
-      "Rate limiting multi-layer con Redis",
-      "Design system dark con Klein blue e glassmorphism"
+      "AI Assistant with XState state machine",
+      "Custom GLSL shaders and shared WebGL renderer",
+      "Multi-layer rate limiting with Redis",
+      "Dark design system with Klein blue and glassmorphism"
     ],
     "projectType": "Studio Website / AI-powered Web App",
     "role": "Developer / Designer (Full-stack)",
-    "stackSummary": "Next.js con App Router per routing e SSR, Three.js per shader e geometrie 3D, XState per la gestione stateful del chatbot AI, Redis per rate limiting distribuito. Lo stack unisce frontend visuale avanzato con backend API robusto.",
+    "stackSummary": "Next.js with App Router for routing and SSR, Three.js for shaders and 3D geometries, XState for stateful chatbot AI management, Redis for distributed rate limiting. The stack merges advanced visual frontend with robust backend API.",
     "whatILearned": [
-      "Come costruire un renderer WebGL singleton condiviso per ridurre l'overhead GPU quando più componenti usano shader contemporaneamente",
-      "Gestione di state machine complesse con XState 5 per un chatbot con rate limiting, intent detection, handoff email e Turnstile anti-bot",
-      "Integrazione di DeepSeek API con sistema di rate limiting multi-layer via Upstash Redis su Next.js API routes",
-      "Come strutturare un design system scalabile con token CSS custom, scala di border opacity e glassmorphism Klein blue consistente",
-      "Performance optimization con dynamic imports per componenti 3D below-the-fold, profiling hooks custom e lazy loading controllato"
+      "How to build a shared WebGL singleton renderer to reduce GPU overhead when multiple components use shaders concurrently",
+      "Managing complex state machines with XState 5 for a chatbot with rate limiting, intent detection, email handoff, and Turnstile anti-bot",
+      "Integrating DeepSeek API with a multi-layer rate limiting system via Upstash Redis on Next.js API routes",
+      "How to structure a scalable design system with custom CSS tokens, border opacity scale, and consistent Klein blue glassmorphism",
+      "Performance optimization with dynamic imports for below-the-fold 3D components, custom profiling hooks, and controlled lazy loading"
     ],
     "particularAspects": [
       {
         "title": "AI concierge",
-        "content": "Monica, l'assistente AI del sito, usa XState come state machine e DeepSeek v4-flash come modello, con prompt engineering preciso per CTA, flow conversazionale e tono di marca"
+        "content": "Monica, the site's AI assistant, uses XState as the state machine and DeepSeek v4-flash as the model, with precise prompt engineering for CTAs, conversational flow, and brand tone"
       },
       {
         "title": "GLSL shaders",
-        "content": "Sistema di shader GLSL custom per background animati con water plane treatment e singleton renderer condiviso tra istanze multiple"
+        "content": "Custom GLSL shader system for animated backgrounds with water plane treatment and shared singleton renderer across multiple instances"
       },
       {
         "title": "Hero logo shader",
-        "content": "Logo hero interattivo con Three.js: fragment shader custom con glow, distortion UV e pointer tracking in tempo reale"
+        "content": "Interactive hero logo with Three.js: custom fragment shader with glow, UV distortion, and real-time pointer tracking"
       },
       {
         "title": "Icon dither effects",
-        "content": "Dither shader effect per le icone della EngineTimeline con tre modalità: halftone, bayer e crosshatch"
+        "content": "Dither shader effect for EngineTimeline icons with three modes: halftone, bayer, and crosshatch"
       }
     ],
     "designFocus": [
-      "Design system centrato su International Klein Blue (#002FA7) con dark backgrounds (#020b1a) e glass cards a effetto metallico",
-      "Gerarchia visiva precisa con due raggi base, scala border opacity white/10-white/70 e superfici glass coerenti",
-      "Scroll reveal animations con Framer Motion: word-by-word reveal, stagger animations e InView fade",
-      "Motion design coerente con timeline animations, card stagger, hero typing effect e confetti canvas per conversioni"
+      "Design system centered on International Klein Blue (#002FA7) with dark backgrounds (#020b1a) and metallic glass card effects",
+      "Precise visual hierarchy with two base rays, border opacity scale white/10-white/70, and coherent glass surfaces",
+      "Scroll reveal animations with Framer Motion: word-by-word reveal, stagger animations, and InView fade",
+      "Coherent motion design with timeline animations, card stagger, hero typing effect, and confetti canvas for conversions"
     ],
     "developmentFocus": [
-      "Chat state machine XState con stati distinti: idle, typing, success, rate_limited, error, report_pending e notice system granulare",
-      "API route chat con contesto storia, rilevamento intent/stage/confidence e response strutturata con CTA actions",
-      "Shared WebGL renderer singleton per shader backgrounds, utile a ridurre overhead da istanze multiple su mobile e sezioni parallele",
-      "CSS architecture modulare con design tokens in variables.css, componenti separati per sezione e utilities dedicate"
+      "Chat state machine with XState with distinct states: idle, typing, success, rate_limited, error, report_pending, and granular notice system",
+      "Chat API route with conversation history context, intent/stage/confidence detection, and structured response with CTA actions",
+      "Shared WebGL renderer singleton for shader backgrounds, useful for reducing overhead from multiple instances on mobile and parallel sections",
+      "Modular CSS architecture with design tokens in variables.css, separate components per section, and dedicated utilities"
     ],
     "interactionDetails": [
-      "Hero logo shader con tracking mouse, distorsione UV e glow in tempo reale via Three.js pointer uniform",
-      "EngineTimeline con scroll progress sincronizzato, card reveal sequenziale su desktop e mobile card stack",
-      "CampaignShowcase con scroll parallax tramite hook useScrollProgress e useCardHeight custom",
-      "Chat widget animato con AnimatePresence: apertura/chiusura fluida, typing indicator e timer countdown per rate limit"
+      "Hero logo shader with mouse tracking, UV distortion, and real-time glow via Three.js pointer uniform",
+      "EngineTimeline with synchronized scroll progress, sequential card reveal on desktop and mobile card stack",
+      "CampaignShowcase with parallax scrolling via custom useScrollProgress and useCardHeight hooks",
+      "Animated chat widget with AnimatePresence: smooth open/close, typing indicator, and countdown timer for rate limit"
     ],
     "technicalHighlights": [
-      "DeepSeek v4-flash come modello chat, scelto per latenza ridotta e costo contenuto su conversazioni brevi di discovery",
-      "Cloudflare Turnstile integrato nel widget chat lato client, con validazione server-side nella API route per ogni messaggio",
-      "Email submission limit separato dal rate limit IP e tracciato su Redis con TTL giornaliero per proteggere il flow di handoff lead",
-      "Sitemap dinamica generata via Next.js e OG image generata programmaticamente su /og route con parametri title/subtitle"
+      "DeepSeek v4-flash as the chat model, chosen for reduced latency and low cost on short discovery conversations",
+      "Cloudflare Turnstile integrated in the client-side chat widget, with server-side validation in the API route for every message",
+      "Email submission limit separate from IP rate limit and tracked on Redis with daily TTL to protect the lead handoff flow",
+      "Dynamic sitemap generated via Next.js and OG image generated programmatically on /og route with title/subtitle parameters"
     ],
-    "portfolioValue": "Il progetto dimostra capacità di costruire un sito di studio end-to-end con qualità visuale alta e sistema AI operativo integrato. Non è una demo: include chatbot con state machine, rate limiting produzione-grade, shader custom, design system documentato e architettura scalabile.",
+    "portfolioValue": "The project demonstrates the ability to build an end-to-end studio website with high visual quality and an operational integrated AI system. It's not a demo: it includes a chatbot with state machine, production-grade rate limiting, custom shaders, documented design system, and scalable architecture.",
     "suggestedCaseStudyText": {
-      "overview": "Monoforge è il sito ufficiale di un technical-visual lab specializzato in sistemi AI diretti. Non è una landing page: è un prodotto web completo che include sezioni animate, pagine di servizio, soluzioni, blog insights e un assistente AI integrato. Il sito è costruito su Next.js 16 con App Router, React 19 e uno stack che combina Three.js, XState, Framer Motion e Tailwind CSS 4. Ogni componente visuale ha una controparte tecnica precisa: dai shader GLSL ai rate limit Redis, dal sistema di token CSS alla state machine del chatbot.",
-      "learnings": "La sfida principale è stata integrare un chatbot AI stateful dentro un'esperienza visuale premium senza compromettere né le performance né il controllo del flusso conversazionale. XState ha reso espliciti tutti gli stati possibili: rate limit, error, handoff e report. Il renderer WebGL singleton ha risolto il problema di overhead GPU con più istanze di shader attive. Il sistema di rate limiting multi-layer ha insegnato come progettare difese realistiche su API pubbliche senza bloccare utenti legittimi.",
-      "particularAspects": "Monica, l'assistente del sito, usa DeepSeek v4-flash con un system prompt che definisce tono, regole CTA, flow e comportamenti edge case. Il fragment shader del logo hero gestisce distorsione UV, glow e pointer tracking in tempo reale via Three.js uniform. La EngineTimeline combina scroll progress custom con dither shader in tre modalità per le icone, un dettaglio tecnico-visuale che richiede coordinazione tra CSS, canvas e React state.",
-      "outcome": "Il risultato è un sito che funziona sia come marketing asset che come dimostrazione diretta delle competenze di Monoforge: AI integrata, visual engineering avanzato, architettura pulita. Nel portfolio dimostra che un singolo developer può governare l'intera stack, dal GLSL al Redis, con coerenza visuale e tecnica."
+      "overview": "Monoforge is the official website of a technical-visual lab specializing in direct AI systems. It's not a landing page: it's a complete web product that includes animated sections, service pages, solutions, blog insights, and an integrated AI assistant. The site is built on Next.js 16 with App Router, React 19, and a stack combining Three.js, XState, Framer Motion, and Tailwind CSS 4. Every visual component has a precise technical counterpart: from GLSL shaders to Redis rate limits, from CSS token systems to the chatbot state machine.",
+      "learnings": "The main challenge was integrating a stateful AI chatbot into a premium visual experience without compromising performance or conversational flow control. XState made all possible states explicit: rate limit, error, handoff, and report. The shared WebGL singleton renderer solved the GPU overhead problem with multiple active shader instances. The multi-layer rate limiting system taught how to design realistic defenses on public APIs without blocking legitimate users.",
+      "particularAspects": "Monica, the site's assistant, uses DeepSeek v4-flash with a system prompt that defines tone, CTA rules, flow, and edge-case behaviors. The hero logo's fragment shader handles UV distortion, glow, and real-time pointer tracking via Three.js uniform. The EngineTimeline combines custom scroll progress with dither shader in three modes for icons — a technical-visual detail requiring coordination between CSS, canvas, and React state.",
+      "outcome": "The result is a site that works as both a marketing asset and a direct demonstration of Monoforge's capabilities: integrated AI, advanced visual engineering, clean architecture. In the portfolio it shows that a single developer can govern the entire stack, from GLSL to Redis, with visual and technical coherence."
     },
     "images": {
       "hero": "/images/projects/monoforge.webp",

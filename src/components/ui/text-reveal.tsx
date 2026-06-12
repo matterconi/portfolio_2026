@@ -10,11 +10,12 @@ interface TextRevealProps {
   emphasize?: string[];
   scrollProgress?: MotionValue<number>;
   className?: string;
+  revealedClassName?: string;
   /** Element rendered inside the text flow with float (e.g. a profile image on tablet) */
   floatingElement?: ReactNode;
 }
 
-export function TextReveal({ text, emphasize = [], scrollProgress, className, floatingElement }: TextRevealProps) {
+export function TextReveal({ text, emphasize = [], scrollProgress, className, revealedClassName = "text-foreground-muted", floatingElement }: TextRevealProps) {
   const fallbackRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress: fallbackProgress } = useScroll({
     target: fallbackRef,
@@ -38,12 +39,13 @@ export function TextReveal({ text, emphasize = [], scrollProgress, className, fl
           const bare = word.replace(/[.,;:!?]+$/, "");
           const emphasized = emphasisSet.has(word) || emphasisSet.has(bare);
           return (
-            <Word
+          <Word
               key={i}
               progress={progress}
               range={[start, end]}
               totalWords={totalWords}
               emphasized={emphasized}
+              revealedClassName={revealedClassName}
             >
               {word}
             </Word>
@@ -60,12 +62,14 @@ function Word({
   range,
   totalWords,
   emphasized,
+  revealedClassName,
 }: {
   children: string;
   progress: MotionValue<number>;
   range: [number, number];
   totalWords: number;
   emphasized: boolean;
+  revealedClassName: string;
 }) {
   const wordStart = range[0];
   const wordEnd = range[1];
@@ -92,7 +96,7 @@ function Word({
         className={
           emphasized
             ? "italic bg-accent-cyan/30 px-1 mx-1 rounded"
-            : "text-foreground-muted"
+            : revealedClassName
         }
         style={{ opacity: textOpacity }}
       >

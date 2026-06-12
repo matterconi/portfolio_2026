@@ -234,6 +234,7 @@ export default function ProjectDetailContent({
             <TextReveal
               text={translations.keyLessonsHeading}
               className="pb-2 [&>div]:font-display [&>div]:text-4xl [&>div]:font-semibold [&>div]:leading-none [&>div]:tracking-[-0.05em] sm:[&>div]:text-5xl"
+              revealedClassName="text-white"
             />
             <TextReveal
               text={learningsText}
@@ -298,7 +299,7 @@ export default function ProjectDetailContent({
       <motion.section
         {...fadeUp}
         transition={{ delay: 0.4 }}
-        className="grid gap-8 py-8 lg:grid-cols-[minmax(0,1fr)_180px] lg:items-center"
+        className="grid gap-8 pt-8 pb-24 lg:grid-cols-[minmax(0,1fr)_180px] lg:items-center"
       >
         <div>
           <h2 className={sectionTitleClass}>
@@ -371,7 +372,7 @@ export default function ProjectDetailContent({
                       </span>
                     ))}
                   </div>
-                  <p className="mt-5 text-sm text-accent-cyan transition-colors group-hover:text-accent-green">
+                  <p className="mt-5 text-sm text-white transition-colors group-hover:text-accent-green">
                     {translations.viewProject} →
                   </p>
                 </div>

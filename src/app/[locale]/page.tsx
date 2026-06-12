@@ -11,6 +11,8 @@ import ProjectsSection from '@/components/ProjectsSection';
 import Hero from '@/components/Hero';
 import TechStackSection from '@/components/TechStackSection';
 import ProofSection from '@/components/ProofSection';
+import { isLocale } from '@/i18n/locales';
+import { notFound } from 'next/navigation';
 
 import ComparisonSection from '@/components/ComparisonSection';
 import ScrollBanner from '@/components/ScrollBanner';
@@ -18,6 +20,11 @@ import ScrollBanner from '@/components/ScrollBanner';
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
+
+  if (!isLocale(locale)) {
+    return {};
+  }
+
   const t = await getTranslations({ locale, namespace: 'hero' });
 
   return {
@@ -34,7 +41,12 @@ export default async function Home({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const loc = locale as Locale;
+
+  if (!isLocale(locale)) {
+    notFound();
+  }
+
+  const loc: Locale = locale;
 
   // Load all translations
   const tAbout = await getTranslations({ locale, namespace: 'about' });
@@ -55,6 +67,8 @@ export default async function Home({
     getCourses(loc),
     getSkills(loc),
   ]);
+  const turnstileSiteKey =
+    process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || process.env.CLOUDFLARE_SITE_KEY || '';
 
   // Group skills by category
   const skillsByCategory = skills.reduce<Record<string, Skill[]>>((acc, skill) => {
@@ -181,7 +195,7 @@ export default async function Home({
               revealLine2: tContact('revealLine2'),
               revealDescription: tContact('revealDescription'),
             }}
-            turnstileSiteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || ''}
+            turnstileSiteKey={turnstileSiteKey}
           />
         </div>
       </div>

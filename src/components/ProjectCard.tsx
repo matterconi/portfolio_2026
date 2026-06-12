@@ -30,7 +30,7 @@ export default function ProjectCard({
         layout
         onClick={() => setExpanded(true)}
         whileHover={{ borderColor: 'rgb(0, 255, 0)' }}
-        className="rounded-lg border border-border bg-background-elevated p-6 cursor-pointer transition-shadow hover:shadow-[0_0_15px_rgba(0,255,0,0.15)]"
+        className="group rounded-lg border border-border bg-background-elevated p-6 cursor-pointer transition-shadow hover:shadow-[0_0_15px_rgba(0,255,0,0.15)]"
       >
         <h3 className="font-semibold text-foreground text-lg">{title}</h3>
         <p className="mt-2 text-sm text-foreground-muted">{shortDescription}</p>
@@ -49,7 +49,7 @@ export default function ProjectCard({
             </span>
           )}
         </div>
-        <p className="mt-4 text-xs text-accent-cyan">{viewLabel} →</p>
+        <p className="mt-4 text-xs text-white transition-colors group-hover:text-accent-green">{viewLabel} →</p>
       </motion.div>
 
       {/* Modal */}
