@@ -100,6 +100,7 @@
     "successModalTitle": "Messaggio Inviato!",
     "successModalMessage": "Grazie per avermi contattato. Ti risponderò presto.",
     "turnstileError": "Per favore completa la verifica di sicurezza.",
+    "submitTooFastError": "Il form è stato inviato troppo rapidamente. Attendi un momento e riprova.",
     "networkError": "Errore di rete. Controlla la connessione e riprova.",
     "serverError": "Errore del server. Riprova più tardi.",
     "nameRequired": "Il nome è obbligatorio",

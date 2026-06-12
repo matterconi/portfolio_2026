@@ -67,8 +67,7 @@ export default async function Home({
     getCourses(loc),
     getSkills(loc),
   ]);
-  const turnstileSiteKey =
-    process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || process.env.CLOUDFLARE_SITE_KEY || '';
+  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '';
 
   // Group skills by category
   const skillsByCategory = skills.reduce<Record<string, Skill[]>>((acc, skill) => {
@@ -187,6 +186,7 @@ export default async function Home({
               messageRequired: tContact('messageRequired'),
               messageMinLength: tContact('messageMinLength'),
               turnstileError: tContact('turnstileError'),
+              submitTooFastError: tContact('submitTooFastError'),
               networkError: tContact('networkError'),
               serverError: tContact('serverError'),
               successModalTitle: tContact('successModalTitle'),

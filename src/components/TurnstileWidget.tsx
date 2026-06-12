@@ -112,8 +112,8 @@ const TurnstileWidget = forwardRef<TurnstileWidgetHandle, TurnstileWidgetProps>(
         throw new Error('Security check is still loading. Please try again.');
       }
 
-      const existingToken = turnstile.getResponse?.(widgetId) || currentTokenRef.current;
-      if (existingToken) return existingToken;
+      currentTokenRef.current = '';
+      turnstile.reset(widgetId);
 
       return new Promise<string>((resolve, reject) => {
         const timeoutId = window.setTimeout(() => {

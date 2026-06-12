@@ -29,6 +29,7 @@ interface ContactSectionProps {
     messageRequired: string;
     messageMinLength: string;
     turnstileError: string;
+    submitTooFastError: string;
     networkError: string;
     serverError: string;
     successModalTitle: string;
@@ -189,7 +190,9 @@ export default function ContactSection({
           data.error === 'Challenge verification failed' ||
           data.error === 'Turnstile secret is not configured'
         ) setErrorMessage(withErrorCode(translations.turnstileError, data.error));
-        else if (data.error === 'validation_failed' || data.error === 'spam_check_failed') {
+        else if (data.error === 'spam_check_failed') {
+          setErrorMessage(withErrorCode(translations.submitTooFastError, data.error));
+        } else if (data.error === 'validation_failed') {
           setErrorMessage(withErrorCode(translations.errorMessage, data.error));
         } else setErrorMessage(withErrorCode(translations.serverError, data.error));
         setStatus('error');

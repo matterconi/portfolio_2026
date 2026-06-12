@@ -100,6 +100,7 @@
     "successModalTitle": "Message Sent!",
     "successModalMessage": "Thank you for reaching out. I'll get back to you soon.",
     "turnstileError": "Please complete the verification challenge.",
+    "submitTooFastError": "The form was submitted too quickly. Please wait a moment and try again.",
     "networkError": "Network error. Please check your connection and try again.",
     "serverError": "Server error. Please try again later.",
     "nameRequired": "Name is required",

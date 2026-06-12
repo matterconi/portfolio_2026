@@ -89,7 +89,8 @@ async function verifyTurnstileToken(
   const secret = process.env.TURNSTILE_SECRET_KEY;
 
   if (!secret) {
-    return { success: false, error: 'Turnstile secret is not configured' };
+    console.warn('TURNSTILE_SECRET_KEY is not configured; skipping Turnstile verification.');
+    return { success: true };
   }
 
   if (!token) {
@@ -197,18 +198,6 @@ export async function POST(request: NextRequest): Promise<NextResponse<ContactAP
       );
     }
 
-    if (typeof body.formStartedAt === 'number' && Date.now() - body.formStartedAt < MIN_SUBMIT_TIME_MS) {
-      logContactReject('submitted_too_quickly', {
-        elapsedMs: Date.now() - body.formStartedAt,
-        minSubmitTimeMs: MIN_SUBMIT_TIME_MS,
-      });
-
-      return NextResponse.json(
-        { success: false, error: 'spam_check_failed' },
-        { status: 400 }
-      );
-    }
-
     if (isRateLimited(rateLimitKey)) {
       logContactReject('rate_limited', { rateLimitKey });
 
@@ -273,6 +262,18 @@ export async function POST(request: NextRequest): Promise<NextResponse<ContactAP
 
       return NextResponse.json(
         { success: false, error },
+        { status: 400 }
+      );
+    }
+
+    if (typeof body.formStartedAt === 'number' && Date.now() - body.formStartedAt < MIN_SUBMIT_TIME_MS) {
+      logContactReject('submitted_too_quickly', {
+        elapsedMs: Date.now() - body.formStartedAt,
+        minSubmitTimeMs: MIN_SUBMIT_TIME_MS,
+      });
+
+      return NextResponse.json(
+        { success: false, error: 'spam_check_failed' },
         { status: 400 }
       );
     }
