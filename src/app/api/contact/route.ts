@@ -57,6 +57,10 @@ function countLinks(value: string): number {
   return value.match(/https?:\/\/|www\./gi)?.length ?? 0;
 }
 
+function logContactReject(reason: string, details: Record<string, unknown>) {
+  console.warn('Contact form rejected:', { reason, ...details });
+}
+
 function isRateLimited(ip: string): boolean {
   const now = Date.now();
   const recentRequests = (rateLimitStore.get(ip) ?? []).filter(
@@ -180,6 +184,13 @@ export async function POST(request: NextRequest): Promise<NextResponse<ContactAP
 
     // Validate required fields
     if (!name || !email || !message || !locale) {
+      logContactReject('missing_required_fields', {
+        hasName: Boolean(name),
+        hasEmail: Boolean(email),
+        hasMessage: Boolean(message),
+        hasLocale: Boolean(locale),
+      });
+
       return NextResponse.json(
         { success: false, error: 'validation_failed' },
         { status: 400 }
@@ -187,6 +198,11 @@ export async function POST(request: NextRequest): Promise<NextResponse<ContactAP
     }
 
     if (typeof body.formStartedAt === 'number' && Date.now() - body.formStartedAt < MIN_SUBMIT_TIME_MS) {
+      logContactReject('submitted_too_quickly', {
+        elapsedMs: Date.now() - body.formStartedAt,
+        minSubmitTimeMs: MIN_SUBMIT_TIME_MS,
+      });
+
       return NextResponse.json(
         { success: false, error: 'spam_check_failed' },
         { status: 400 }
@@ -194,6 +210,8 @@ export async function POST(request: NextRequest): Promise<NextResponse<ContactAP
     }
 
     if (isRateLimited(rateLimitKey)) {
+      logContactReject('rate_limited', { rateLimitKey });
+
       return NextResponse.json(
         { success: false, error: 'Too many requests. Please try again later.' },
         { status: 429 }
@@ -206,6 +224,13 @@ export async function POST(request: NextRequest): Promise<NextResponse<ContactAP
       message.length > MAX_MESSAGE_LENGTH ||
       countLinks(message) > MAX_LINKS_IN_MESSAGE
     ) {
+      logContactReject('field_limits_failed', {
+        nameLength: name.length,
+        emailLength: email.length,
+        messageLength: message.length,
+        linkCount: countLinks(message),
+      });
+
       return NextResponse.json(
         { success: false, error: 'validation_failed' },
         { status: 400 }
@@ -215,6 +240,8 @@ export async function POST(request: NextRequest): Promise<NextResponse<ContactAP
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
+      logContactReject('invalid_email_format', { emailLength: email.length });
+
       return NextResponse.json(
         { success: false, error: 'validation_failed' },
         { status: 400 }
@@ -223,6 +250,8 @@ export async function POST(request: NextRequest): Promise<NextResponse<ContactAP
 
     // Validate locale
     if (locale !== 'en' && locale !== 'it') {
+      logContactReject('invalid_locale', { locale });
+
       return NextResponse.json(
         { success: false, error: 'validation_failed' },
         { status: 400 }
@@ -234,6 +263,11 @@ export async function POST(request: NextRequest): Promise<NextResponse<ContactAP
       const error = turnstileResult.error === 'Missing challenge token'
         ? 'missing_turnstile_token'
         : 'turnstile_failed';
+
+      logContactReject(error, {
+        hasTurnstileToken: Boolean(turnstileToken),
+        turnstileError: turnstileResult.error,
+      });
 
       return NextResponse.json(
         { success: false, error },

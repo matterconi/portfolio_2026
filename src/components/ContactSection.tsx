@@ -172,6 +172,11 @@ export default function ContactSection({
       const data = await res.json();
 
       if (!res.ok) {
+        console.error('Contact form submission failed:', {
+          status: res.status,
+          error: data.error,
+        });
+
         if (
           data.error === 'turnstile_failed' ||
           data.error === 'missing_turnstile_token' ||
