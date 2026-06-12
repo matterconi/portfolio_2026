@@ -33,6 +33,16 @@ const TurnstileWidget = forwardRef<TurnstileWidgetHandle, TurnstileWidgetProps>(
       onErrorRef.current = onError;
     }, [onError]);
 
+    const removeTurnstileWidget = useCallback(() => {
+      currentTokenRef.current = '';
+
+      if (widgetIdRef.current && window.turnstile) {
+        window.turnstile.remove(widgetIdRef.current);
+      }
+
+      widgetIdRef.current = null;
+    }, []);
+
     const rejectPendingTurnstile = useCallback((message: string) => {
       currentTokenRef.current = '';
       onErrorRef.current(message);
@@ -57,7 +67,6 @@ const TurnstileWidget = forwardRef<TurnstileWidgetHandle, TurnstileWidgetProps>(
         sitekey: siteKey,
         theme: 'dark',
         execution: 'execute',
-        appearance: 'execute',
         'response-field': false,
         callback: (token: string) => {
           currentTokenRef.current = token;
@@ -71,17 +80,20 @@ const TurnstileWidget = forwardRef<TurnstileWidgetHandle, TurnstileWidgetProps>(
         'expired-callback': () => {
           rejectPendingTurnstile('Security check expired. Please try again.');
         },
-        'error-callback': () => {
+        'error-callback': (code?: string) => {
+          console.warn('Turnstile error-callback:', code);
           rejectPendingTurnstile('Security check failed. Please try again.');
+          removeTurnstileWidget();
           return true;
         },
         'timeout-callback': () => {
           rejectPendingTurnstile('Security check timed out. Please try again.');
+          removeTurnstileWidget();
         },
       });
 
       return widgetIdRef.current;
-    }, [rejectPendingTurnstile, siteKey]);
+    }, [rejectPendingTurnstile, removeTurnstileWidget, siteKey]);
 
     const resetTurnstileWidget = useCallback(() => {
       currentTokenRef.current = '';
@@ -119,6 +131,7 @@ const TurnstileWidget = forwardRef<TurnstileWidgetHandle, TurnstileWidgetProps>(
         const timeoutId = window.setTimeout(() => {
           currentTokenRef.current = '';
           pendingTokenRequestRef.current = null;
+          removeTurnstileWidget();
           reject(new Error('Security check timed out. Please try again.'));
         }, 15000);
 
@@ -134,11 +147,11 @@ const TurnstileWidget = forwardRef<TurnstileWidgetHandle, TurnstileWidgetProps>(
           window.clearTimeout(timeoutId);
           currentTokenRef.current = '';
           pendingTokenRequestRef.current = null;
-          widgetIdRef.current = null;
+          removeTurnstileWidget();
           reject(new Error('Security check failed. Please try again.'));
         }
       });
-    }, [renderTurnstileWidget, siteKey]);
+    }, [removeTurnstileWidget, renderTurnstileWidget, siteKey]);
 
     useImperativeHandle(ref, () => ({
       execute: executeTurnstileChallenge,
@@ -190,7 +203,7 @@ const TurnstileWidget = forwardRef<TurnstileWidgetHandle, TurnstileWidgetProps>(
       };
     }, []);
 
-    return <div ref={containerRef} aria-hidden="true" className="sr-only" />;
+    return <div ref={containerRef} aria-label="Security check" className="mb-4 flex justify-center" />;
   }
 );
 
@@ -205,11 +218,10 @@ declare global {
         sitekey: string;
         theme: 'dark' | 'light' | 'auto';
         execution: 'execute' | 'render';
-        appearance?: 'always' | 'execute' | 'interaction-only';
         'response-field': boolean;
         callback: (token: string) => void;
         'expired-callback': () => void;
-        'error-callback': () => boolean;
+        'error-callback': (code?: string) => boolean;
         'timeout-callback': () => void;
       }) => string;
       execute: (widgetId: string) => void;
