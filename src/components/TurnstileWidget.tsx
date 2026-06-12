@@ -1,60 +1,196 @@
 'use client';
 
-import { useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
+import { useCallback, useEffect, useImperativeHandle, useRef, forwardRef } from 'react';
 
 interface TurnstileWidgetProps {
-  siteKey: string;
-  onVerify: (token: string) => void;
+  siteKey?: string;
+  onError: (message: string) => void;
 }
 
 export interface TurnstileWidgetHandle {
+  execute: () => Promise<string>;
   reset: () => void;
 }
 
+interface PendingTokenRequest {
+  resolve: (token: string) => void;
+  reject: (error: Error) => void;
+  timeoutId: number;
+}
+
+const TURNSTILE_SCRIPT_ID = 'cloudflare-turnstile-script';
+const TURNSTILE_SCRIPT_SRC = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+
 const TurnstileWidget = forwardRef<TurnstileWidgetHandle, TurnstileWidgetProps>(
-  ({ siteKey, onVerify }, ref) => {
+  ({ siteKey, onError }, ref) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const widgetIdRef = useRef<string | null>(null);
-
-    useImperativeHandle(ref, () => ({
-      reset: () => {
-        if (widgetIdRef.current && window.turnstile) {
-          window.turnstile.reset(widgetIdRef.current);
-        }
-      },
-    }));
+    const pendingTokenRequestRef = useRef<PendingTokenRequest | null>(null);
+    const currentTokenRef = useRef('');
+    const onErrorRef = useRef(onError);
 
     useEffect(() => {
-      // Load Turnstile script
-      const script = document.createElement('script');
-      script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
-      script.async = true;
-      script.defer = true;
+      onErrorRef.current = onError;
+    }, [onError]);
 
-      script.onload = () => {
-        if (containerRef.current && window.turnstile && !widgetIdRef.current) {
-          widgetIdRef.current = window.turnstile.render(containerRef.current, {
-            sitekey: siteKey,
-            theme: 'dark',
-            callback: (token: string) => {
-              onVerify(token);
-            },
-          });
+    const rejectPendingTurnstile = useCallback((message: string) => {
+      currentTokenRef.current = '';
+      onErrorRef.current(message);
+
+      const pending = pendingTokenRequestRef.current;
+      if (!pending) return;
+
+      window.clearTimeout(pending.timeoutId);
+      pendingTokenRequestRef.current = null;
+      pending.reject(new Error(message));
+    }, []);
+
+    const renderTurnstileWidget = useCallback(() => {
+      if (!siteKey || !containerRef.current || widgetIdRef.current) {
+        return widgetIdRef.current;
+      }
+
+      const turnstile = window.turnstile;
+      if (!turnstile) return null;
+
+      widgetIdRef.current = turnstile.render(containerRef.current, {
+        sitekey: siteKey,
+        theme: 'dark',
+        execution: 'execute',
+        appearance: 'execute',
+        'response-field': false,
+        callback: (token: string) => {
+          currentTokenRef.current = token;
+          const pending = pendingTokenRequestRef.current;
+          if (!pending) return;
+
+          window.clearTimeout(pending.timeoutId);
+          pendingTokenRequestRef.current = null;
+          pending.resolve(token);
+        },
+        'expired-callback': () => {
+          rejectPendingTurnstile('Security check expired. Please try again.');
+        },
+        'error-callback': () => {
+          rejectPendingTurnstile('Security check failed. Please try again.');
+          return true;
+        },
+        'timeout-callback': () => {
+          rejectPendingTurnstile('Security check timed out. Please try again.');
+        },
+      });
+
+      return widgetIdRef.current;
+    }, [rejectPendingTurnstile, siteKey]);
+
+    const resetTurnstileWidget = useCallback(() => {
+      currentTokenRef.current = '';
+
+      const pending = pendingTokenRequestRef.current;
+      if (pending) {
+        window.clearTimeout(pending.timeoutId);
+        pendingTokenRequestRef.current = null;
+      }
+
+      if (widgetIdRef.current && window.turnstile) {
+        window.turnstile.reset(widgetIdRef.current);
+      }
+    }, []);
+
+    const executeTurnstileChallenge = useCallback(async () => {
+      if (!siteKey) return '';
+
+      let turnstile = window.turnstile;
+      let widgetId = widgetIdRef.current;
+
+      if (!turnstile || !widgetId) {
+        widgetId = renderTurnstileWidget();
+        turnstile = window.turnstile;
+      }
+
+      if (!turnstile || !widgetId) {
+        throw new Error('Security check is still loading. Please try again.');
+      }
+
+      const existingToken = turnstile.getResponse?.(widgetId) || currentTokenRef.current;
+      if (existingToken) return existingToken;
+
+      return new Promise<string>((resolve, reject) => {
+        const timeoutId = window.setTimeout(() => {
+          currentTokenRef.current = '';
+          pendingTokenRequestRef.current = null;
+          reject(new Error('Security check timed out. Please try again.'));
+        }, 15000);
+
+        pendingTokenRequestRef.current = {
+          resolve,
+          reject,
+          timeoutId,
+        };
+
+        try {
+          turnstile.execute(widgetId);
+        } catch {
+          window.clearTimeout(timeoutId);
+          currentTokenRef.current = '';
+          pendingTokenRequestRef.current = null;
+          widgetIdRef.current = null;
+          reject(new Error('Security check failed. Please try again.'));
         }
+      });
+    }, [renderTurnstileWidget, siteKey]);
+
+    useImperativeHandle(ref, () => ({
+      execute: executeTurnstileChallenge,
+      reset: resetTurnstileWidget,
+    }), [executeTurnstileChallenge, resetTurnstileWidget]);
+
+    useEffect(() => {
+      if (!siteKey) return;
+
+      if (window.turnstile) {
+        renderTurnstileWidget();
+        return;
+      }
+
+      const existingScript = document.getElementById(TURNSTILE_SCRIPT_ID) as HTMLScriptElement | null;
+      const script = existingScript ?? document.createElement('script');
+
+      const handleLoad = () => {
+        renderTurnstileWidget();
       };
 
-      document.head.appendChild(script);
+      script.addEventListener('load', handleLoad);
+
+      if (!existingScript) {
+        script.id = TURNSTILE_SCRIPT_ID;
+        script.src = TURNSTILE_SCRIPT_SRC;
+        script.async = true;
+        script.defer = true;
+        document.head.appendChild(script);
+      }
 
       return () => {
-        // Cleanup widget on unmount
+        script.removeEventListener('load', handleLoad);
+      };
+    }, [renderTurnstileWidget, siteKey]);
+
+    useEffect(() => {
+      return () => {
+        const pending = pendingTokenRequestRef.current;
+        if (pending) {
+          window.clearTimeout(pending.timeoutId);
+          pendingTokenRequestRef.current = null;
+        }
+
         if (widgetIdRef.current && window.turnstile) {
           window.turnstile.remove(widgetIdRef.current);
           widgetIdRef.current = null;
         }
       };
-    }, [siteKey, onVerify]);
+    }, []);
 
-    return <div ref={containerRef} className="flex justify-center" />;
+    return <div ref={containerRef} aria-hidden="true" className="sr-only" />;
   }
 );
 
@@ -62,15 +198,22 @@ TurnstileWidget.displayName = 'TurnstileWidget';
 
 export default TurnstileWidget;
 
-// Add TypeScript declaration for window.turnstile
 declare global {
   interface Window {
     turnstile?: {
       render: (container: HTMLElement, options: {
         sitekey: string;
-        theme: string;
+        theme: 'dark' | 'light' | 'auto';
+        execution: 'execute' | 'render';
+        appearance?: 'always' | 'execute' | 'interaction-only';
+        'response-field': boolean;
         callback: (token: string) => void;
+        'expired-callback': () => void;
+        'error-callback': () => boolean;
+        'timeout-callback': () => void;
       }) => string;
+      execute: (widgetId: string) => void;
+      getResponse?: (widgetId: string) => string;
       reset: (widgetId: string) => void;
       remove: (widgetId: string) => void;
     };
