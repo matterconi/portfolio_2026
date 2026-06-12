@@ -46,6 +46,10 @@ interface FieldErrors {
   message?: string;
 }
 
+function withErrorCode(message: string, code: unknown) {
+  return typeof code === 'string' && code ? `${message} (${code})` : message;
+}
+
 const fadeSlideUp = {
   hidden: { opacity: 0, y: 24 },
   visible: { opacity: 1, y: 0 },
@@ -180,12 +184,14 @@ export default function ContactSection({
         if (
           data.error === 'turnstile_failed' ||
           data.error === 'missing_turnstile_token' ||
+          data.error === 'turnstile_secret_missing' ||
           data.error === 'Missing challenge token' ||
           data.error === 'Challenge verification failed' ||
           data.error === 'Turnstile secret is not configured'
-        ) setErrorMessage(translations.turnstileError);
-        else if (data.error === 'validation_failed') setErrorMessage(translations.errorMessage);
-        else setErrorMessage(translations.serverError);
+        ) setErrorMessage(withErrorCode(translations.turnstileError, data.error));
+        else if (data.error === 'validation_failed' || data.error === 'spam_check_failed') {
+          setErrorMessage(withErrorCode(translations.errorMessage, data.error));
+        } else setErrorMessage(withErrorCode(translations.serverError, data.error));
         setStatus('error');
         turnstileRef.current?.reset();
         return;

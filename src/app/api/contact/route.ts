@@ -262,7 +262,9 @@ export async function POST(request: NextRequest): Promise<NextResponse<ContactAP
     if (!turnstileResult.success) {
       const error = turnstileResult.error === 'Missing challenge token'
         ? 'missing_turnstile_token'
-        : 'turnstile_failed';
+        : turnstileResult.error === 'Turnstile secret is not configured'
+          ? 'turnstile_secret_missing'
+          : 'turnstile_failed';
 
       logContactReject(error, {
         hasTurnstileToken: Boolean(turnstileToken),
