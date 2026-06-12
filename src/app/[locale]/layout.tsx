@@ -8,6 +8,7 @@ import CustomCursor from "@/components/CustomCursor";
 import LenisProvider from "@/components/LenisProvider";
 import PageLoader from "@/components/PageLoader";
 import PersistentShaderLayer from "@/components/PersistentShaderLayer";
+import AudioPlayerProvider from "@/components/AudioPlayerProvider";
 
 const locales = ['en', 'it'] as const;
 
@@ -51,9 +52,11 @@ export default async function LocaleLayout({
         <LenisProvider />
         <CustomCursor />
         <NextIntlClientProvider messages={messages}>
-          <FloatingNav />
-          <main>{children}</main>
-          <Footer locale={locale} />
+          <AudioPlayerProvider>
+            <FloatingNav />
+            <main>{children}</main>
+            <Footer locale={locale} />
+          </AudioPlayerProvider>
         </NextIntlClientProvider>
       </body>
     </html>

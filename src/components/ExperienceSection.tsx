@@ -2,7 +2,7 @@
 
 
 import { useRef } from 'react';
-import { motion, useScroll, useTransform, type MotionValue } from 'framer-motion';
+import { motion, useScroll, useTransform, useInView, type MotionValue } from 'framer-motion';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
 import TiltedCourseCard from '@/components/TiltedCourseCard';
 import type { Course } from '@data/types';
@@ -18,9 +18,11 @@ function RevealChar({ children, progress, range }: { children: string; progress:
   return <motion.span style={{ color }} className="inline-block">{children}</motion.span>;
 }
 
-function RevealHeading({ lines }: { lines: string[] }) {
+function RevealHeading({ lines, studyHint }: { lines: string[]; studyHint: string }) {
   const ref = useRef<HTMLDivElement>(null);
+  const hintRef = useRef<HTMLParagraphElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start 0.85', 'start 0.2'] });
+  const isHintInView = useInView(hintRef, { once: true });
 
   const totalChars = lines.reduce((acc, l) => acc + l.replace(/ /g, '').length, 0);
   let charIndex = 0;
@@ -42,10 +44,10 @@ function RevealHeading({ lines }: { lines: string[] }) {
         </p>
       ))}
       <motion.p
+        ref={hintRef}
         className="mt-6 text-lg text-foreground-subtle"
         initial={{ opacity: 0, y: 20 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
+        animate={isHintInView ? { opacity: 1, y: 0 } : {}}
         transition={{ delay: 0.3, duration: 0.6 }}
       >
         {studyHint}
@@ -80,7 +82,7 @@ export default function ExperienceSection({
 
   return (
     <section id="experience" className="min-h-screen flex flex-col justify-center pt-2 pb-20">
-      <RevealHeading lines={lines} />
+      <RevealHeading lines={lines} studyHint={studyHint} />
       <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-4 auto-rows-fr">
         {courses.map((course, index) => (
           <TiltedCourseCard

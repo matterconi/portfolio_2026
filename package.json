@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "db:migrate": "tsx scripts/migrate.ts"
+    "db:migrate": "tsx scripts/migrate.ts",
+    "image:project": "node scripts/optimize-project-image.mjs"
   },
   "dependencies": {
     "@react-three/fiber": "^9.5.0",

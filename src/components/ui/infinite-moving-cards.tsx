@@ -37,33 +37,34 @@ const InfiniteMovingCards = <T,>({
   const angleRef = useRef(0);
 
   const updateAnimation = useCallback(() => {
-    if(!scrollerRef.current || !containerRef.current) return;
+    if (!scrollerRef.current || !containerRef.current || items.length === 0) return false;
     const children = scrollerRef.current.children;
-    if (children.length < items.length * 2) return;
+    if (children.length < items.length * 2) return false;
     const singleSetWidth = children[items.length - 1].getBoundingClientRect().right - children[0].getBoundingClientRect().left;
+    if (singleSetWidth <= 0) return false;
 
     const containerWidth = containerRef.current.offsetWidth;
 
     const needed = Math.ceil(containerWidth / singleSetWidth) + 1;
 
-    if ((needed) > repeatCount) {
-      setRepeatCount(needed)
-      return;
-    }
+    setRepeatCount((current) => (needed > current ? needed : current));
 
     const firstItem = children[0];
     const firstClone = children[items.length];
     const distance = firstClone.getBoundingClientRect().left - firstItem.getBoundingClientRect().left;
+    if (distance <= 0) return false;
 
     const duration = distance / SCROLL_SPEED_PX_PER_S;
 
     containerRef.current.style.setProperty("--scroll-distance", `${distance}px`);
     containerRef.current.style.setProperty("--animation-duration", `${duration}s`);
-  }, [items.length, repeatCount]);
+    return true;
+  }, [items.length]);
 
   useEffect(() => {
-    updateAnimation();
-    queueMicrotask(() => setIsReady(true));
+    if (updateAnimation()) {
+      queueMicrotask(() => setIsReady(true));
+    }
   }, [updateAnimation]);
 
   useEffect(() => {
@@ -80,7 +81,7 @@ const InfiniteMovingCards = <T,>({
 
     const animate = () => {
       angleRef.current += oscillateSpeed;
-      let yArray = [];
+      const yArray = [];
       for (let i = 0; i < totalItems; i++) {
         const y = Math.sin(angleRef.current + (i % items.length) * phaseStep) * oscillateAmplitude;
         yArray.push(y);

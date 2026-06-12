@@ -531,9 +531,9 @@
   {
     "slug": "barman-clone",
     "title": "Davide's Cocktail Bar",
-    "shortDescription": "Landing page per un bartender fittizio costruita come esercizio pratico sul corso GSAP di JavaScript Mastery. Tutte le animazioni sono scroll-driven e sincronizzate con GSAP ScrollTrigger.",
-    "fullDescription": "Un esercizio pratico costruito seguendo il corso GSAP di JavaScript Mastery. Il progetto è una landing page completa per un bartender fittizio, costruita per padroneggiare GSAP ScrollTrigger in un contesto React reale — scroll-driven sequences, pinned sections, video scrubbing e mask reveals.",
-    "problem": "Questo è un esercizio tecnico guidato, non un prodotto. L'obiettivo era imparare i pattern GSAP avanzati in un ambiente React: come animazioni e lifecycle dei componenti coesistono, come costruire sequenze multi-step pinnate e come animare proprietà CSS non interpolabili nativamente.",
+    "shortDescription": "Landing page per un bartender fittizio costruita come esercizio pratico sul corso GSAP di JavaScript Mastery. Le animazioni sono scroll-driven, cinematiche e sincronizzate con GSAP ScrollTrigger.",
+    "fullDescription": "Un esercizio pratico costruito seguendo il corso GSAP di JavaScript Mastery. Il progetto è una landing page completa per un bartender fittizio, pensata per padroneggiare GSAP ScrollTrigger in un contesto React reale: sequenze guidate dallo scroll, sezioni pinnate, video scrubbing, reveal circolari e micro-interazioni coordinate in modo preciso.",
+    "problem": "Questo è un esercizio tecnico guidato, non un prodotto commerciale. L'obiettivo era capire come i pattern GSAP avanzati si integrano con React: come le animazioni convivono con il lifecycle dei componenti, come costruire sequenze multi-step pinnate senza perdere controllo e come animare proprietà CSS che normalmente non sono interpolabili in modo nativo.",
     "technologies": [
       "React 19",
       "Vite 7",
@@ -552,7 +552,7 @@
     ],
     "projectType": "Esercizio tecnico / demo animata",
     "role": "Developer frontend (corso guidato)",
-    "stackSummary": "React + Vite con GSAP come motore di animazione principale e Tailwind CSS v4 per lo styling.",
+    "stackSummary": "React + Vite con GSAP come motore di animazione principale e Tailwind CSS v4 per lo styling, con una struttura pensata per mettere al centro lo scroll storytelling e la precisione visiva.",
     "whatILearned": [
       "Uso avanzato di GSAP ScrollTrigger: scrub, pin, start/end trigger points.",
       "Video scrubbing scroll-driven: sincronizzare currentTime di un video HTML con il progress di ScrollTrigger via onUpdate.",
@@ -610,12 +610,12 @@
       "Parallax bidirezionale: foglie a sinistra e destra animate in direzioni opposte nella stessa timeline.",
       "Tailwind v4 con @utility custom (masked-img, text-gradient, flex-center, abs-center, radial-gradient)."
     ],
-    "portfolioValue": "Dimostra padronanza di GSAP a livello avanzato: non solo animazioni semplici, ma scroll-driven sequences, pinned sections, video scrubbing e mask reveals. Mostra la capacità di integrare animazioni complesse in un'architettura React senza impatti sul lifecycle dei componenti.",
+    "portfolioValue": "Dimostra padronanza di GSAP a livello avanzato: non solo animazioni semplici, ma sequenze guidate dallo scroll, sezioni pinnate, video scrubbing e reveal tramite maschera. Mostra anche la capacità di integrare animazioni complesse in un'architettura React senza compromettere il lifecycle dei componenti.",
     "suggestedCaseStudyText": {
-      "overview": "Un esercizio pratico costruito seguendo il corso GSAP di JavaScript Mastery. Ho implementato la landing page completa di un bartender fittizio, con l'obiettivo di padroneggiare GSAP ScrollTrigger in un contesto React reale.",
-      "learnings": "Il salto più significativo è stato capire come GSAP e React coesistono: useGSAP garantisce il cleanup delle animazioni al dismount, mentre la dipendenza dell'hook permette di re-triggerare sequenze al cambio di stato. Ho anche capito meglio il funzionamento del pin in ScrollTrigger e come costruire sequenze multi-step sincronizzate con lo scroll.",
-      "particularAspects": "Due effetti mi hanno dato di più a livello tecnico: il video scrubbing (dove lo scroll sostituisce il play del video controllando currentTime direttamente) e il mask reveal circolare nella sezione Art, dove GSAP anima proprietà CSS come maskSize e maskPosition che normalmente non sono animabili nativamente.",
-      "outcome": "Il risultato è una demo visivamente densa che tocca la maggior parte dei pattern GSAP avanzati: scroll-linked animations, pinned sections, SplitText, video scrubbing e re-trigger React-aware. Un buon punto di riferimento per progetti futuri che richiedono animazioni scroll-driven elaborate."
+      "overview": "Un esercizio pratico costruito seguendo il corso GSAP di JavaScript Mastery. Ho implementato la landing page completa di un bartender fittizio, con l'obiettivo di padroneggiare GSAP ScrollTrigger in un contesto React reale e capire come costruire una narrazione visiva che reagisce allo scroll dell'utente.",
+      "learnings": "Il salto più significativo è stato capire come GSAP e React coesistono: useGSAP garantisce il cleanup delle animazioni al dismount, mentre la dipendenza dell'hook permette di re-triggerare sequenze al cambio di stato. Ho anche capito meglio il funzionamento del pin in ScrollTrigger, come coordinare più timeline sulla stessa pagina e come mantenere il controllo quando le animazioni diventano più stratificate.",
+      "particularAspects": "Due effetti mi hanno dato di più a livello tecnico: il video scrubbing, dove lo scroll sostituisce il play del video controllando currentTime direttamente, e il mask reveal circolare nella sezione Art, dove GSAP anima proprietà CSS come maskSize e maskPosition che normalmente non sono animabili nativamente. Sono stati i due passaggi più utili per capire davvero il potenziale di ScrollTrigger.",
+      "outcome": "Il risultato è una demo visivamente densa che tocca la maggior parte dei pattern GSAP avanzati: scroll-linked animations, pinned sections, SplitText, video scrubbing e re-trigger React-aware. Più che un semplice esercizio, è diventata una reference concreta per futuri progetti scroll-driven con una componente cinematica più forte."
     },
     "images": {
       "hero": "/images/projects/barman-clone.webp",

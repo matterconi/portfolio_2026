@@ -3,6 +3,8 @@
 import { useRef, type ReactNode } from "react";
 import { motion, useScroll, useTransform, MotionValue } from "framer-motion";
 
+const cn = (...args: (string | boolean | undefined | null)[]) => args.filter(Boolean).join(" ");
+
 interface TextRevealProps {
   text: string;
   emphasize?: string[];
@@ -20,13 +22,12 @@ export function TextReveal({ text, emphasize = [], scrollProgress, className, fl
   });
 
   const progress = scrollProgress ?? fallbackProgress;
-  console.log(progress);
   const emphasisSet = new Set(emphasize);
   const words = text.split(" ");
   const totalWords = words.length;
 
   return (
-    <div ref={fallbackRef} className={className}>
+    <div ref={fallbackRef} className={cn("relative", className)}>
       <div
         className="text-xl sm:text-2xl leading-relaxed font-medium"
       >

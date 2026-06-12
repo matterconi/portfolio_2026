@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useCallback } from 'react';
+import { useEffect, useMemo, useRef, useCallback, useState } from 'react';
 import { useGesture } from '@use-gesture/react';
 import './DomeGallery.css';
 
@@ -49,7 +49,43 @@ const getDataNumber = (el, name, fallback) => {
   return Number.isFinite(n) ? n : fallback;
 };
 
+const hashString = value => {
+  let hash = 2166136261;
+  for (let i = 0; i < value.length; i++) {
+    hash ^= value.charCodeAt(i);
+    hash = Math.imul(hash, 16777619);
+  }
+  return hash >>> 0;
+};
+
+const seededRandom = seed => {
+  let t = seed + 0x6d2b79f5;
+  return () => {
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+};
+
+const shuffleWithRandom = (items, random) => {
+  const shuffled = [...items];
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+  }
+  return shuffled;
+};
+
 function buildItems(pool, seg) {
+  const normalizedImages = pool.map((image, index) => {
+    if (typeof image === 'string') {
+      return { src: image, alt: '', sourceIndex: index };
+    }
+    return { src: image.src || '', alt: image.alt || '', sourceIndex: image.sourceIndex ?? index };
+  });
+
+  const seed = hashString(normalizedImages.map(image => `${image.src}:${image.alt}`).join('|'));
+  const random = seededRandom(seed);
   const xCols = Array.from({ length: seg }, (_, i) => -37 + i * 2);
   const evenYs = [-4, -2, 0, 2, 4];
   const oddYs = [-3, -1, 1, 3, 5];
@@ -61,7 +97,7 @@ function buildItems(pool, seg) {
 
   const totalSlots = coords.length;
   if (pool.length === 0) {
-    return coords.map(c => ({ ...c, src: '', alt: '' }));
+    return coords.map(c => ({ ...c, src: '', alt: '', sourceIndex: -1 }));
   }
   if (pool.length > totalSlots) {
     console.warn(
@@ -69,14 +105,15 @@ function buildItems(pool, seg) {
     );
   }
 
-  const normalizedImages = pool.map(image => {
-    if (typeof image === 'string') {
-      return { src: image, alt: '' };
+  const usedImages = [];
+  while (usedImages.length < totalSlots) {
+    const cycle = shuffleWithRandom(normalizedImages, random);
+    if (usedImages.length > 0 && cycle.length > 1 && cycle[0].src === usedImages[usedImages.length - 1].src) {
+      [cycle[0], cycle[1]] = [cycle[1], cycle[0]];
     }
-    return { src: image.src || '', alt: image.alt || '' };
-  });
-
-  const usedImages = Array.from({ length: totalSlots }, (_, i) => normalizedImages[i % normalizedImages.length]);
+    usedImages.push(...cycle);
+  }
+  usedImages.length = totalSlots;
 
   for (let i = 1; i < usedImages.length; i++) {
     if (usedImages[i].src === usedImages[i - 1].src) {
@@ -94,7 +131,8 @@ function buildItems(pool, seg) {
   return coords.map((c, i) => ({
     ...c,
     src: usedImages[i].src,
-    alt: usedImages[i].alt
+    alt: usedImages[i].alt,
+    sourceIndex: usedImages[i].sourceIndex
   }));
 }
 
@@ -132,6 +170,7 @@ export default function DomeGallery({
   const frameRef = useRef(null);
   const viewerRef = useRef(null);
   const scrimRef = useRef(null);
+  const cursorLabelRef = useRef(null);
   const focusedElRef = useRef(null);
   const originalTilePositionRef = useRef(null);
 
@@ -145,6 +184,8 @@ export default function DomeGallery({
   const openStartedAtRef = useRef(0);
   const lastDragEndAt = useRef(0);
   const hoverRef = useRef(false);
+  const [activeTitle, setActiveTitle] = useState('');
+  const [dragDisabled, setDragDisabled] = useState(false);
 
   const scrollLockedRef = useRef(false);
   const lockScroll = useCallback(() => {
@@ -160,6 +201,15 @@ export default function DomeGallery({
   }, []);
 
   const items = useMemo(() => buildItems(images, segments), [images, segments]);
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 1024px), (hover: none), (pointer: coarse)');
+    const update = () => setDragDisabled(media.matches);
+
+    update();
+    media.addEventListener('change', update);
+    return () => media.removeEventListener('change', update);
+  }, []);
 
   const applyTransform = (xDeg, yDeg) => {
     const el = sphereRef.current;
@@ -301,7 +351,7 @@ export default function DomeGallery({
   useGesture(
     {
       onDragStart: ({ event }) => {
-        if (focusedElRef.current) return;
+        if (dragDisabled || focusedElRef.current) return;
         stopInertia();
         const evt = event;
         draggingRef.current = true;
@@ -310,7 +360,7 @@ export default function DomeGallery({
         startPosRef.current = { x: evt.clientX, y: evt.clientY };
       },
       onDrag: ({ event, last, velocity = [0, 0], direction = [0, 0], movement }) => {
-        if (focusedElRef.current || !draggingRef.current || !startPosRef.current) return;
+        if (dragDisabled || focusedElRef.current || !draggingRef.current || !startPosRef.current) return;
         const evt = event;
         const dxTotal = evt.clientX - startPosRef.current.x;
         const dyTotal = evt.clientY - startPosRef.current.y;
@@ -345,7 +395,7 @@ export default function DomeGallery({
         }
       }
     },
-    { target: mainRef, eventOptions: { passive: true } }
+    { target: mainRef, eventOptions: { passive: true }, enabled: !dragDisabled }
   );
 
   useEffect(() => {
@@ -570,7 +620,7 @@ export default function DomeGallery({
       if (performance.now() - lastDragEndAt.current < 80) return;
       if (openingRef.current) return;
       const el = e.currentTarget;
-      const index = Number(el.closest('.item')?.dataset?.index ?? -1);
+      const index = Number(el.closest('.item')?.dataset?.sourceIndex ?? -1);
       if (onItemClick) {
         onItemClick(index, el);
         if (disableEnlarge) return;
@@ -583,27 +633,53 @@ export default function DomeGallery({
   const onTilePointerUp = useCallback(
     e => {
       if (e.pointerType !== 'touch') return;
+      if (dragDisabled) return;
       if (draggingRef.current) return;
       if (movedRef.current) return;
       if (performance.now() - lastDragEndAt.current < 80) return;
       if (openingRef.current) return;
       const el = e.currentTarget;
-      const index = Number(el.closest('.item')?.dataset?.index ?? -1);
+      const index = Number(el.closest('.item')?.dataset?.sourceIndex ?? -1);
       if (onItemClick) {
         onItemClick(index, el);
         if (disableEnlarge) return;
       }
       openItemFromElement(el);
     },
-    [openItemFromElement, onItemClick, disableEnlarge]
+    [openItemFromElement, onItemClick, disableEnlarge, dragDisabled]
   );
 
-  const onTileMouseEnter = useCallback(() => {
-    hoverRef.current = true;
+  const updateCursorLabelPosition = useCallback(e => {
+    const label = cursorLabelRef.current;
+    if (!label) return;
+
+    const rect = label.getBoundingClientRect();
+    const maxX = window.innerWidth - rect.width - 16;
+    const maxY = window.innerHeight - rect.height - 16;
+    const x = clamp(e.clientX - rect.width / 2, 16, Math.max(16, maxX));
+    const y = clamp(e.clientY - rect.height / 2, 16, Math.max(16, maxY));
+    label.style.transform = `translate3d(${x}px, ${y}px, 0)`;
   }, []);
+
+  const onTileMouseEnter = useCallback(
+    e => {
+      hoverRef.current = true;
+      setActiveTitle(e.currentTarget.dataset.title || '');
+      updateCursorLabelPosition(e);
+    },
+    [updateCursorLabelPosition]
+  );
+
+  const onTileMouseMove = useCallback(
+    e => {
+      updateCursorLabelPosition(e);
+    },
+    [updateCursorLabelPosition]
+  );
 
   const onTileMouseLeave = useCallback(() => {
     hoverRef.current = false;
+    setActiveTitle('');
   }, []);
 
   useEffect(() => {
@@ -653,6 +729,7 @@ export default function DomeGallery({
                 key={`${it.x},${it.y},${i}`}
                 className="item"
                 data-index={i}
+                data-source-index={it.sourceIndex}
                 data-src={it.src}
                 data-offset-x={it.x}
                 data-offset-y={it.y}
@@ -670,15 +747,14 @@ export default function DomeGallery({
                   role="button"
                   tabIndex={0}
                   aria-label={it.alt || 'Open image'}
+                  data-title={it.alt}
                   onClick={onTileClick}
                   onPointerUp={onTilePointerUp}
                   onMouseEnter={onTileMouseEnter}
+                  onMouseMove={onTileMouseMove}
                   onMouseLeave={onTileMouseLeave}
                 >
                   <img src={it.src} draggable={false} alt={it.alt} />
-                  <div className="item__label">
-                    <span>{it.alt}</span>
-                  </div>
                 </div>
               </div>
             ))}
@@ -693,6 +769,10 @@ export default function DomeGallery({
         <div className="viewer" ref={viewerRef}>
           <div ref={scrimRef} className="scrim" />
           <div ref={frameRef} className="frame" />
+        </div>
+
+        <div ref={cursorLabelRef} className={`cursor-project-title${activeTitle ? ' is-visible' : ''}`} aria-hidden="true">
+          {activeTitle}
         </div>
       </main>
     </div>

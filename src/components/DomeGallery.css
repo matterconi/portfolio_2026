@@ -33,6 +33,12 @@ main.sphere-main {
   background: transparent;
 }
 
+@media (max-width: 1024px), (hover: none), (pointer: coarse) {
+  main.sphere-main {
+    touch-action: pan-y;
+  }
+}
+
 .stage {
   width: 100%;
   height: 100%;
@@ -105,40 +111,6 @@ main.sphere-main {
   outline: none;
 }
 
-.item__label {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 18px 14px 14px;
-  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.5) 60%, transparent 100%);
-  color: white;
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 250ms ease, transform 250ms ease;
-  pointer-events: none;
-  z-index: 2;
-  border-radius: 0 0 var(--tile-radius, 12px) var(--tile-radius, 12px);
-  text-align: center;
-  line-height: 1.3;
-}
-
-.item__label span {
-  display: block;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.item__image:hover .item__label {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 .item__image img {
   width: 100%;
   height: 100%;
@@ -146,6 +118,36 @@ main.sphere-main {
   pointer-events: none;
   backface-visibility: hidden;
   filter: var(--image-filter, none);
+}
+
+.cursor-project-title {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 40;
+  max-width: min(520px, calc(100vw - 32px));
+  padding: 0;
+  color: white;
+  font-size: clamp(28px, 4vw, 64px);
+  font-weight: 800;
+  letter-spacing: -0.06em;
+  line-height: 0.92;
+  opacity: 0;
+  pointer-events: none;
+  text-wrap: balance;
+  text-align: center;
+  transform: translate3d(-999px, -999px, 0);
+  transition: opacity 160ms ease;
+}
+
+.cursor-project-title.is-visible {
+  opacity: 1;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .cursor-project-title {
+    display: none;
+  }
 }
 
 .viewer {

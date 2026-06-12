@@ -51,12 +51,20 @@
     "completedLabel": "Completato",
     "motivationLine1": "L'AI è migliore",
     "motivationLine2": "con uno sviluppatore di talento.",
-    "studyHint": "La vibrazione del codice non è sufficiente. Lo studio rende perfetti."
+    "studyHint": "Il vibe coding non è sufficiente. Lo studio rende perfetti."
   },
   "projects": {
     "title": "Progetti",
     "viewProject": "Vedi Progetto",
     "backToPortfolio": "Torna al Portfolio",
+    "caseStudyLabel": "Caso studio",
+    "indexLabel": "Indice",
+    "stackLabel": "Stack",
+    "typeLabel": "Tipo",
+    "roleLabel": "Ruolo",
+    "stackHeading": "Stack",
+    "storyHeading": "Da idea a prodotto reale.",
+    "keyLessonsHeading": "Lezioni chiave",
     "problemTitle": "Problema",
     "solutionTitle": "Soluzione",
     "technologiesTitle": "Tecnologie",
@@ -70,7 +78,8 @@
     "designFocus": "Focus Design",
     "developmentFocus": "Focus Sviluppo",
     "interactionDetails": "Dettagli Interazione",
-    "technicalHighlights": "Punti Tecnici"
+    "technicalHighlights": "Punti Tecnici",
+    "productStoryHeading": "Una storia di prodotto concisa per revisione tecnica e visiva."
   },
   "skills": {
     "title": "Competenze"
@@ -119,6 +128,9 @@
     "description": "Sviluppo creativo, esecuzione pixel-perfect."
   },
   "proof": {
+    "line1": "Visione Creativa",
+    "line2": "Ingegneria Solida",
+    "line3": "Curiosità Inesauribile",
     "yearsExp": "Anni Exp",
     "projects": "Progetti",
     "coreTools": "Strumenti Principali",

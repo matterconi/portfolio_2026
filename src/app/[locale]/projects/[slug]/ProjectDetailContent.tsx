@@ -51,6 +51,9 @@ interface ProjectDetailContentProps {
   locale: Locale;
   recommendedProjects: RecommendedProject[];
   translations: {
+    stackHeading: string;
+    storyHeading: string;
+    keyLessonsHeading: string;
     problemTitle: string;
     solutionTitle: string;
     technologiesTitle: string;
@@ -66,6 +69,7 @@ interface ProjectDetailContentProps {
     developmentFocus: string;
     interactionDetails: string;
     technicalHighlights: string;
+    productStoryHeading: string;
   };
 }
 
@@ -110,7 +114,7 @@ export default function ProjectDetailContent({
         <div className="mx-auto grid max-w-6xl min-w-0 gap-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-stretch">
           <div className="min-w-0 overflow-hidden">
             <h2 className={`${sectionTitleClass} lg:text-6xl`}>
-              The Stack
+              {translations.stackHeading}
             </h2>
             {project.stackSummary && (
               <p className={`mt-6 max-w-3xl ${bodyTextClass}`}>
@@ -159,7 +163,7 @@ export default function ProjectDetailContent({
         className="py-10"
       >
         <h2 className={sectionTitleClass}>
-          From idea to usable product.
+          {translations.storyHeading}
         </h2>
 
         <div className="mt-8 grid border-b border-white/10 xl:grid-cols-2 xl:gap-x-10">
@@ -228,7 +232,7 @@ export default function ProjectDetailContent({
         <div className="mt-10 grid gap-6 lg:grid-cols-[minmax(0,1fr)_360px] lg:items-stretch">
           <div className="max-w-4xl">
             <TextReveal
-              text="Key lessons"
+              text={translations.keyLessonsHeading}
               className="pb-2 [&>div]:font-display [&>div]:text-4xl [&>div]:font-semibold [&>div]:leading-none [&>div]:tracking-[-0.05em] sm:[&>div]:text-5xl"
             />
             <TextReveal
@@ -298,7 +302,7 @@ export default function ProjectDetailContent({
       >
         <div>
           <h2 className={sectionTitleClass}>
-            A concise product story for technical and visual review.
+            {translations.productStoryHeading}
           </h2>
           <p className={`mt-6 max-w-3xl ${bodyTextClass}`}>
             {outcomeText}

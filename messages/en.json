@@ -57,6 +57,14 @@
     "title": "Projects",
     "viewProject": "View Project",
     "backToPortfolio": "Back to Portfolio",
+    "caseStudyLabel": "Case Study",
+    "indexLabel": "Index",
+    "stackLabel": "Stack",
+    "typeLabel": "Type",
+    "roleLabel": "Role",
+    "stackHeading": "The Stack",
+    "storyHeading": "From idea to usable product.",
+    "keyLessonsHeading": "Key lessons",
     "problemTitle": "Problem",
     "solutionTitle": "Solution",
     "technologiesTitle": "Technologies",
@@ -70,7 +78,8 @@
     "designFocus": "Design Focus",
     "developmentFocus": "Development Focus",
     "interactionDetails": "Interaction Details",
-    "technicalHighlights": "Technical Highlights"
+    "technicalHighlights": "Technical Highlights",
+    "productStoryHeading": "A concise product story for technical and visual review."
   },
   "skills": {
     "title": "Skills"
@@ -119,6 +128,9 @@
     "description": "Creative development, pixel-perfect execution."
   },
   "proof": {
+    "line1": "Creative Vision",
+    "line2": "Solid Engineering",
+    "line3": "Endless Curiosity",
     "yearsExp": "Years Exp",
     "projects": "Projects",
     "coreTools": "Core Tools",

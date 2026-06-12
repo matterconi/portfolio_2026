@@ -1,4 +1,11 @@
 /** A portfolio project with full details for the project showcase page. */
+export interface ProjectAspect {
+  /** Short accordion title */
+  title: string;
+  /** Supporting accordion body */
+  content: string;
+}
+
 export interface Project {
   /** URL-friendly identifier used for routing (e.g., "ecommerce-platform") */
   slug: string;
@@ -14,10 +21,41 @@ export interface Project {
   technologies: string[];
   /** Key features of the project */
   features: string[];
+  /** Project category shown in detail pages */
+  projectType?: string;
+  /** Role covered in the project */
+  role?: string;
+  /** Short explanation of how the stack was used */
+  stackSummary?: string;
+  /** Main learnings from the project */
+  whatILearned?: string[];
+  /** Notable visual or technical details */
+  particularAspects?: ProjectAspect[];
+  /** Design-focused highlights */
+  designFocus?: string[];
+  /** Development-focused highlights */
+  developmentFocus?: string[];
+  /** Interaction and motion details */
+  interactionDetails?: string[];
+  /** Technical implementation highlights */
+  technicalHighlights?: string[];
+  /** Why this project is valuable in the portfolio */
+  portfolioValue?: string;
+  /** Ready-to-render case study copy */
+  suggestedCaseStudyText?: {
+    overview?: string;
+    learnings?: string;
+    particularAspects?: string;
+    outcome?: string;
+  };
   /** Image paths for the project */
   images: {
     /** Hero/banner image path */
     hero: string;
+    /** Optional visual used in the stack section */
+    stack?: string;
+    /** Optional visual used in the key lessons section */
+    lessons?: string;
     /** Additional screenshot paths */
     screenshots: string[];
   };
@@ -106,6 +144,7 @@ export interface ContactFormData {
   message: string;
   turnstileToken: string;
   locale: string;
+  formStartedAt?: number;
 }
 
 /** API response for contact form submission. */

@@ -1,4 +1,4 @@
-# Magnus Lemme — Portfolio
+# Matteo Marconi — Portfolio
 
 A high-performance, bilingual (EN / IT) personal portfolio built with Next.js 16, React 19, and custom WebGL shaders. Designed for developers who want to showcase their work with motion, depth, and interactivity.
 
@@ -228,4 +228,4 @@ This project is **private** and proprietary. No license is granted for reuse or 
 
 ---
 
-Built with passion by **Magnus Lemme**.
+Built with passion by **Matteo Marconi**.

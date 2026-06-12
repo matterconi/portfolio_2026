@@ -1,11 +1,14 @@
 "use client";
 import React, { useState, useRef } from "react";
+import Link from "next/link";
 import {
   motion,
   useScroll,
   useMotionValueEvent,
 } from "motion/react";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
+import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Menu, X } from "lucide-react";
 
@@ -14,6 +17,7 @@ export const FloatingNav = ({
 }: {
   className?: string;
 }) => {
+  const t = useTranslations('nav');
   const pathname = usePathname();
   const locale = pathname.split('/')[1] || 'en';
   const homeBase = `/${locale}`;
@@ -48,11 +52,11 @@ export const FloatingNav = ({
   });
 
   const menuItems = [
-    { name: 'Home', href: `${homeBase}/#home` },
-    { name: 'About', href: `${homeBase}/#about` },
-    { name: 'Experience', href: `${homeBase}/#experience` },
-    { name: 'Projects', href: `${homeBase}/#projects` },
-    { name: 'Contact', href: `${homeBase}/#contact` },
+    { name: t('home'), href: `${homeBase}/#home` },
+    { name: t('about'), href: `${homeBase}/#about` },
+    { name: t('experience'), href: `${homeBase}/#experience` },
+    { name: t('projects'), href: `${homeBase}/#projects` },
+    { name: t('contact'), href: `${homeBase}/#contact` },
   ];
 
   return (
@@ -72,26 +76,36 @@ export const FloatingNav = ({
       }}
     >
       <div className={cn(
-        "flex inset-x-0 mx-auto rounded-md shadow-2xl items-center justify-between px-6 py-3 max-w-6xl",
+        "flex inset-x-0 mx-auto rounded-md shadow-2xl items-end justify-between px-6 py-3 max-w-6xl",
         isFloating
           ? "bg-white/[0.08] backdrop-blur-xl border border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)]"
           : "bg-black",
         className
       )}>
-        <a href={`${homeBase}/#home`} className="font-display text-xl font-bold tracking-wide flex-shrink-0 transition-opacity duration-300 hover:opacity-80">
-          <span className="text-white">Matteo Marconi</span>
-        </a>
+        <Link href={`${homeBase}/#home`} aria-label="Matteo Marconi - Home" className="flex items-end gap-2.5 shrink-0 transition-opacity duration-300 hover:opacity-80">
+          <Image
+            src="/logo.png"
+            alt="Matteo Marconi"
+            width={386}
+            height={200}
+            priority
+            className="h-9 w-auto"
+          />
+          <span className="font-display text-lg font-bold tracking-wide text-white whitespace-nowrap">
+            Matteo Marconi
+          </span>
+        </Link>
 
         {/* Desktop */}
-        <div className="hidden md:flex items-center space-x-6">
+        <div className="hidden md:flex items-end space-x-6">
           {menuItems.map((item) => (
-            <a
+            <Link
               key={item.name}
               href={item.href}
               className="px-3 py-2 text-sm font-medium transition-colors duration-300 text-gray-300 hover:text-white"
             >
               {item.name}
-            </a>
+            </Link>
           ))}
         </div>
 
@@ -108,14 +122,14 @@ export const FloatingNav = ({
           <div className="md:hidden absolute top-full left-0 right-0 mt-4 mx-4 rounded-md shadow-2xl bg-black/95 backdrop-blur-xl border border-gray-700/50 overflow-hidden">
             <div className="px-4 py-4 space-y-2">
               {menuItems.map((item) => (
-                <a
+                <Link
                   key={item.name}
                   href={item.href}
                   className="block px-3 py-2 text-base font-medium text-gray-200 hover:text-white transition-colors rounded-md"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {item.name}
-                </a>
+                </Link>
               ))}
             </div>
           </div>

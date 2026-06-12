@@ -54,10 +54,10 @@ export default async function ProjectDetailPage({
   const projectType = project.projectType || 'Web App / Product Design';
   const projectRole = project.role || 'Developer / Designer';
   const metadataItems = [
-    ['Index', `Case Study ${project.order.toString().padStart(2, '0')}`],
-    ['Stack', primaryStack || 'Product Engineering'],
-    ['Type', projectType],
-    ['Role', projectRole],
+    [t('indexLabel'), `${t('caseStudyLabel')} ${project.order.toString().padStart(2, '0')}`],
+    [t('stackLabel'), primaryStack || 'Product Engineering'],
+    [t('typeLabel'), projectType],
+    [t('roleLabel'), projectRole],
   ];
   const revealText = project.suggestedCaseStudyText?.overview || project.fullDescription;
   const recommendedProjectCards = recommendedProjects.map((recommendedProject) => ({
@@ -128,6 +128,9 @@ export default async function ProjectDetailPage({
           locale={localeValue}
           recommendedProjects={recommendedProjectCards}
           translations={{
+            stackHeading: t('stackHeading'),
+            storyHeading: t('storyHeading'),
+            keyLessonsHeading: t('keyLessonsHeading'),
             problemTitle: t('problemTitle'),
             solutionTitle: t('solutionTitle'),
             technologiesTitle: t('technologiesTitle'),
@@ -143,6 +146,7 @@ export default async function ProjectDetailPage({
             developmentFocus: t('developmentFocus'),
             interactionDetails: t('interactionDetails'),
             technicalHighlights: t('technicalHighlights'),
+            productStoryHeading: t('productStoryHeading'),
           }}
         />
       </main>

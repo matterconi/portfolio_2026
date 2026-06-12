@@ -72,7 +72,7 @@ export default async function Home({
               <TechStackSection translations={{ stackTitle: tStack('title'), stackDescription: tStack('description') }} />
 
         {/* Scroll Reveal + Stats */}
-        <ProofSection translations={{ yearsExp: tProof('yearsExp'), projects: tProof('projects'), coreTools: tProof('coreTools'), languages: tProof('languages') }} />
+        <ProofSection translations={{ line1: tProof('line1'), line2: tProof('line2'), line3: tProof('line3'), yearsExp: tProof('yearsExp'), projects: tProof('projects'), coreTools: tProof('coreTools'), languages: tProof('languages') }} />
       {/* About Section */}
       <AboutSection title={tAbout('title')} about={about} />
 

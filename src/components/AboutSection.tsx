@@ -38,7 +38,7 @@ function ProfileImage({ className }: { className?: string }) {
     >
       <div className="relative w-full h-full rounded-2xl overflow-hidden">
         <Image
-          src="/images/profile/matteo.webp"
+          src="/images/profile/about.png"
           alt="Profile photo"
           fill
           className="object-cover"

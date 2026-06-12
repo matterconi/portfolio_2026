@@ -7,6 +7,8 @@ interface CircularCTAProps {
   children: React.ReactNode;
   onClick?: () => void;
   href?: string;
+  target?: string;
+  rel?: string;
   disabled?: boolean;
   className?: string;
 }
@@ -16,6 +18,8 @@ export default function CircularCTA({
   children,
   onClick,
   href,
+  target,
+  rel,
   disabled,
   className = '',
 }: CircularCTAProps) {
@@ -61,7 +65,7 @@ export default function CircularCTA({
       }}
     >
       {href ? (
-        <a href={href} className={baseClasses}>
+        <a href={href} target={target} rel={rel} className={baseClasses}>
           {content}
         </a>
       ) : (

@@ -45,8 +45,9 @@ const Char = ({ children, progress, range }: {
 
 const mode: Mode = "char";
 
-export default function ScrollRevealText({ lines }: { lines: string[] }) {
+export default function ScrollRevealText({ lines, textClassName = '' }: { lines: string[]; textClassName?: string }) {
   const textRef = useRef(null);
+  const sizeClassName = textClassName || 'text-3xl sm:text-4xl md:text-5xl';
   
     const { scrollYProgress } = useScroll({
       target: textRef,
@@ -73,7 +74,7 @@ export default function ScrollRevealText({ lines }: { lines: string[] }) {
           return (
             <h3
               key={lineIndex}
-              className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-wide text-center"
+              className={`${sizeClassName} font-bold tracking-wide text-center`}
             >
               {mode === "word"
                 ? words.map((word, i) => {
