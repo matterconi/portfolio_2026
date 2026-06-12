@@ -58,7 +58,14 @@
     "featuresTitle": "Funzionalità Chiave",
     "linksTitle": "Link",
     "viewLive": "Vedi Live",
-    "viewGithub": "Vedi su GitHub"
+    "viewGithub": "Vedi su GitHub",
+    "recommendedKicker": "Consigliati",
+    "recommendedTitle": "Altri case study da guardare.",
+    "recommendedDescription": "Selezionati confrontando stack, categoria di prodotto e temi implementativi nel portfolio.",
+    "designFocus": "Focus Design",
+    "developmentFocus": "Focus Sviluppo",
+    "interactionDetails": "Dettagli Interazione",
+    "technicalHighlights": "Punti Tecnici"
   },
   "skills": {
     "title": "Competenze"
@@ -68,6 +75,9 @@
     "nameLabel": "Nome",
     "emailLabel": "Email",
     "messageLabel": "Messaggio",
+    "nameFieldPlaceholder": "Chi ti contatta?",
+    "emailFieldPlaceholder": "Come possiamo contattarti?",
+    "messageFieldPlaceholder": "Di cosa vorresti parlare?",
     "sendButton": "Invia Messaggio",
     "successMessage": "Messaggio inviato con successo!",
     "errorMessage": "Invio del messaggio fallito. Riprova.",
@@ -98,5 +108,9 @@
     "backToTop": "Torna in Cima",
     "quickLinks": "Link Rapidi",
     "social": "Social"
+  },
+  "stack": {
+    "title": "Il Mio Stack",
+    "description": "Sviluppo creativo, esecuzione pixel-perfect."
   }
 }

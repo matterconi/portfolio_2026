@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, type FormEvent, type FocusEvent } from 'react';
+import { useEffect, useState, useRef, type FormEvent, type FocusEvent } from 'react';
 import { motion } from 'framer-motion';
 import { Download, Send } from 'lucide-react';
 import { useReducedMotion } from '@/hooks/useReducedMotion';
@@ -16,6 +16,9 @@ interface ContactSectionProps {
     nameLabel: string;
     emailLabel: string;
     messageLabel: string;
+    nameFieldPlaceholder: string;
+    emailFieldPlaceholder: string;
+    messageFieldPlaceholder: string;
     sendButton: string;
     successMessage: string;
     errorMessage: string;
@@ -64,10 +67,16 @@ export default function ContactSection({
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
-  const [turnstileToken, setTurnstileToken] = useState('');
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const turnstileRef = useRef<TurnstileWidgetHandle>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const formStartedAtRef = useRef(0);
+  const effectiveTurnstileSiteKey =
+    process.env.NODE_ENV === 'production' ? turnstileSiteKey : undefined;
+
+  useEffect(() => {
+    formStartedAtRef.current = Date.now();
+  }, []);
 
   const handleDownloadCV = () => {
     const link = document.createElement('a');
@@ -108,7 +117,6 @@ export default function ContactSection({
 
   async function handleSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setStatus('sending');
     setErrorMessage('');
 
     const form = e.currentTarget;
@@ -130,28 +138,37 @@ export default function ContactSection({
       return;
     }
 
-    if (!turnstileToken) {
-      setStatus('error');
-      setErrorMessage(translations.turnstileError);
-      return;
-    }
-
     try {
+      setStatus('sending');
+
+      const turnstileToken = await turnstileRef.current?.execute();
+
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, message, locale, turnstileToken }),
+        body: JSON.stringify({
+          name,
+          email,
+          message,
+          locale,
+          turnstileToken: turnstileToken ?? '',
+          formStartedAt: formStartedAtRef.current,
+        }),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        if (data.error === 'turnstile_failed') setErrorMessage(translations.turnstileError);
+        if (
+          data.error === 'turnstile_failed' ||
+          data.error === 'Missing challenge token' ||
+          data.error === 'Challenge verification failed' ||
+          data.error === 'Turnstile secret is not configured'
+        ) setErrorMessage(translations.turnstileError);
         else if (data.error === 'validation_failed') setErrorMessage(translations.errorMessage);
         else setErrorMessage(translations.serverError);
         setStatus('error');
         turnstileRef.current?.reset();
-        setTurnstileToken('');
         return;
       }
 
@@ -160,12 +177,15 @@ export default function ContactSection({
       form.reset();
       setFieldErrors({});
       turnstileRef.current?.reset();
-      setTurnstileToken('');
-    } catch {
+      formStartedAtRef.current = Date.now();
+    } catch (error) {
       setStatus('error');
-      setErrorMessage(translations.networkError);
+      setErrorMessage(
+        error instanceof Error && error.message.startsWith('Security check')
+          ? error.message
+          : translations.networkError
+      );
       turnstileRef.current?.reset();
-      setTurnstileToken('');
     }
   }
 
@@ -209,7 +229,7 @@ export default function ContactSection({
                     type="text"
                     id="name"
                     name="name"
-                    placeholder="Who's reaching out?"
+                    placeholder={translations.nameFieldPlaceholder}
                     onBlur={handleBlur}
                     className={`${INPUT_BASE} ${fieldErrors.name ? INPUT_ERROR : INPUT_NORMAL}`}
                   />
@@ -229,7 +249,7 @@ export default function ContactSection({
                     type="email"
                     id="email"
                     name="email"
-                    placeholder="Where can we reach you?"
+                    placeholder={translations.emailFieldPlaceholder}
                     onBlur={handleBlur}
                     className={`${INPUT_BASE} ${fieldErrors.email ? INPUT_ERROR : INPUT_NORMAL}`}
                   />
@@ -249,7 +269,7 @@ export default function ContactSection({
                     id="message"
                     name="message"
                     rows={4}
-                    placeholder="What would you like to discuss?"
+                    placeholder={translations.messageFieldPlaceholder}
                     onBlur={handleBlur}
                     className={`${INPUT_BASE} resize-none ${fieldErrors.message ? INPUT_ERROR : INPUT_NORMAL}`}
                   />
@@ -261,8 +281,8 @@ export default function ContactSection({
                 <div className="py-1">
                   <TurnstileWidget
                     ref={turnstileRef}
-                    siteKey={turnstileSiteKey}
-                    onVerify={setTurnstileToken}
+                    siteKey={effectiveTurnstileSiteKey}
+                    onError={setErrorMessage}
                   />
                 </div>
 

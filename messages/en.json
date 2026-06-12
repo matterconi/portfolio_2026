@@ -58,7 +58,14 @@
     "featuresTitle": "Key Features",
     "linksTitle": "Links",
     "viewLive": "View Live",
-    "viewGithub": "View on GitHub"
+    "viewGithub": "View on GitHub",
+    "recommendedKicker": "Recommended",
+    "recommendedTitle": "Other case studies to explore.",
+    "recommendedDescription": "Selected by comparing stack, product category and implementation topics across the portfolio.",
+    "designFocus": "Design Focus",
+    "developmentFocus": "Development Focus",
+    "interactionDetails": "Interaction Details",
+    "technicalHighlights": "Technical Highlights"
   },
   "skills": {
     "title": "Skills"
@@ -68,6 +75,9 @@
     "nameLabel": "Name",
     "emailLabel": "Email",
     "messageLabel": "Message",
+    "nameFieldPlaceholder": "Who's reaching out?",
+    "emailFieldPlaceholder": "Where can we reach you?",
+    "messageFieldPlaceholder": "What would you like to discuss?",
     "sendButton": "Send Message",
     "successMessage": "Message sent successfully!",
     "errorMessage": "Failed to send message. Please try again.",
@@ -98,5 +108,9 @@
     "backToTop": "Back to Top",
     "quickLinks": "Quick Links",
     "social": "Social"
+  },
+  "stack": {
+    "title": "My Stack",
+    "description": "Creative development, pixel-perfect execution."
   }
 }

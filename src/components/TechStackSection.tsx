@@ -16,19 +16,29 @@ const tools = [
   { name: "p5.js", logo: "https://upload.wikimedia.org/wikipedia/commons/c/c6/P5.js_icon.svg" },
 ];
 
-const TechStackSection = () => {
+interface TechStackSectionProps {
+  translations?: {
+    stackTitle: string;
+    stackDescription: string;
+  };
+}
+
+const TechStackSection = ({ translations }: TechStackSectionProps = {}) => {
+  const stackTitle = translations?.stackTitle ?? "My Stack";
+  const stackDescription = translations?.stackDescription ?? "Creative development, pixel-perfect execution.";
+
   return (
     <section className="demo-reveal-section">
       <div className="demo-reveal-container">
         <SectionTitle
           visible
-          title="My Stack"
+          title={stackTitle}
           className="text-5xl sm:text-6xl !text-right w-full mx-auto pt-8 pb-3"
         />
         <p
           className="mb-8 text-lg text-foreground-subtle text-right"
         >
-          Creative development, pixel-perfect execution.
+          {stackDescription}
         </p>
 
         {/* Infinite Moving Cards */}

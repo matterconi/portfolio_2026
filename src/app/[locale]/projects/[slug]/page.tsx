@@ -2,10 +2,14 @@ import { notFound } from 'next/navigation';
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 import Image from 'next/image';
-import { getProjects, getProjectBySlug } from '@/lib/data';
+import { getProjects, getProjectBySlug, getRecommendedProjects } from '@/lib/data';
 import { Locale } from '@data/types';
+import { TextReveal } from '@/components/ui/text-reveal';
 import ProjectDetailContent from './ProjectDetailContent';
 import ProjectScrollToTop from './ProjectScrollToTop';
+
+const metadataLabelClass = 'text-xs font-semibold uppercase tracking-[0.22em] text-accent-green';
+const metadataValueClass = 'mt-3 text-sm font-semibold leading-5 text-foreground';
 
 export async function generateStaticParams() {
   const locales: Locale[] = ['en', 'it'];
@@ -35,45 +39,94 @@ export default async function ProjectDetailPage({
   params: Promise<{ locale: string; slug: string }>;
 }) {
   const { locale, slug } = await params;
-  const project = await getProjectBySlug(locale as Locale, slug);
+  const localeValue = locale as Locale;
+  const [project, recommendedProjects, t] = await Promise.all([
+    getProjectBySlug(localeValue, slug),
+    getRecommendedProjects(localeValue, slug),
+    getTranslations({ locale, namespace: 'projects' }),
+  ]);
 
   if (!project) {
     notFound();
   }
 
-  const t = await getTranslations({ locale, namespace: 'projects' });
+  const primaryStack = project.technologies.slice(0, 3).join(' / ');
+  const projectType = project.projectType || 'Web App / Product Design';
+  const projectRole = project.role || 'Developer / Designer';
+  const metadataItems = [
+    ['Index', `Case Study ${project.order.toString().padStart(2, '0')}`],
+    ['Stack', primaryStack || 'Product Engineering'],
+    ['Type', projectType],
+    ['Role', projectRole],
+  ];
+  const revealText = project.suggestedCaseStudyText?.overview || project.fullDescription;
+  const recommendedProjectCards = recommendedProjects.map((recommendedProject) => ({
+    slug: recommendedProject.slug,
+    title: recommendedProject.title,
+    shortDescription: recommendedProject.shortDescription,
+    technologies: recommendedProject.technologies,
+    images: recommendedProject.images,
+    order: recommendedProject.order,
+  }));
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-black text-foreground">
       <ProjectScrollToTop slug={slug} />
-      <div className="mx-auto w-full max-w-4xl px-6 sm:px-8 py-12">
-        {/* Back link */}
+      <main className="mx-auto w-full max-w-7xl px-5 pb-8 pt-28 sm:px-8 sm:pb-10 sm:pt-32 lg:px-12 lg:pb-14 lg:pt-32">
         <Link
           href={`/${locale}/#projects`}
-          className="inline-flex items-center gap-2 text-sm text-foreground-subtle hover:text-accent-green transition-colors mb-10"
+          className="mb-6 inline-flex items-center gap-2 text-sm text-accent-green transition-colors hover:text-foreground"
         >
           ← {t('backToPortfolio')}
         </Link>
 
-        {/* Hero image */}
-        <div className="relative aspect-video overflow-hidden rounded-lg border border-border bg-background-elevated mb-10">
-          <Image
-            src={project.images.hero}
-            alt={project.title}
-            fill
-            className="object-cover"
-            sizes="(min-width: 768px) 896px, 100vw"
-            priority
-          />
-          <div className="absolute inset-0 flex items-end bg-gradient-to-t from-background/80 to-transparent p-8">
-            <h1 className="text-3xl sm:text-4xl font-bold text-accent-green drop-shadow-[0_0_15px_rgba(0,255,0,0.4)]">
-              {project.title}
-            </h1>
+        <section className="max-w-5xl">
+          <h1 className="font-display text-5xl font-semibold leading-[0.9] tracking-[-0.06em] text-foreground sm:text-7xl lg:text-8xl">
+            {project.title}
+          </h1>
+        </section>
+
+        <section className="relative mt-10 overflow-hidden rounded-[2rem] border border-border bg-background-elevated shadow-2xl shadow-black/40">
+          <div className="absolute inset-0">
+            <Image
+              src={project.images.hero}
+              alt=""
+              fill
+              className="object-cover"
+              sizes="(min-width: 1024px) 1216px, 100vw"
+              priority
+            />
           </div>
+
+          <div className="relative flex min-h-[520px] items-end p-4 sm:min-h-[620px] sm:p-8 lg:p-10">
+            <div className="hidden w-full gap-3 lg:grid lg:grid-cols-4">
+              {metadataItems.map(([label, value]) => (
+                <div key={label} className="rounded-2xl border border-white/15 bg-black p-4 shadow-xl shadow-black/50">
+                  <p className={metadataLabelClass}>{label}</p>
+                  <p className={metadataValueClass}>{value}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="mt-4 grid gap-3 sm:grid-cols-2 lg:hidden">
+          {metadataItems.map(([label, value]) => (
+            <div key={label} className="rounded-2xl bg-black p-4 shadow-xl shadow-black/50">
+              <p className={metadataLabelClass}>{label}</p>
+              <p className={metadataValueClass}>{value}</p>
+            </div>
+          ))}
+        </section>
+
+        <div className="mx-auto max-w-4xl pt-10 pb-0 sm:pt-12 lg:pt-16">
+          <TextReveal text={revealText} className="pb-8" />
         </div>
 
         <ProjectDetailContent
           project={project}
+          locale={localeValue}
+          recommendedProjects={recommendedProjectCards}
           translations={{
             problemTitle: t('problemTitle'),
             solutionTitle: t('solutionTitle'),
@@ -82,9 +135,17 @@ export default async function ProjectDetailPage({
             linksTitle: t('linksTitle'),
             viewLive: t('viewLive'),
             viewGithub: t('viewGithub'),
+            recommendedKicker: t('recommendedKicker'),
+            recommendedTitle: t('recommendedTitle'),
+            recommendedDescription: t('recommendedDescription'),
+            viewProject: t('viewProject'),
+            designFocus: t('designFocus'),
+            developmentFocus: t('developmentFocus'),
+            interactionDetails: t('interactionDetails'),
+            technicalHighlights: t('technicalHighlights'),
           }}
         />
-      </div>
+      </main>
     </div>
   );
 }

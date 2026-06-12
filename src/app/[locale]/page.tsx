@@ -1,6 +1,8 @@
 import { getTranslations } from 'next-intl/server';
+import type { Metadata } from 'next';
+import type { Locale, Skill } from '@data/types';
 import { getProjects, getSkills, getCourses, getAbout } from '@/lib/data';
-import { Locale, Skill } from '@data/types';
+import { siteConfig } from '@/constants/metadata';
 import AboutSection from '@/components/AboutSection';
 import ABCSection from '@/components/ABCSection';
 import ExperienceSection from '@/components/ExperienceSection';
@@ -14,12 +16,14 @@ import ComparisonSection from '@/components/ComparisonSection';
 import ScrollBanner from '@/components/ScrollBanner';
 
 
-export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }) {
+export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: 'hero' });
 
   return {
-    title: `${t('name')} - Portfolio`,
+    title: {
+      absolute: siteConfig.name,
+    },
     description: t('tagline'),
   };
 }
@@ -39,6 +43,7 @@ export default async function Home({
   const tProjects = await getTranslations({ locale, namespace: 'projects' });
   const tSkills = await getTranslations({ locale, namespace: 'skills' });
   const tComparison = await getTranslations({ locale, namespace: 'comparison' });
+  const tStack = await getTranslations({ locale, namespace: 'stack' });
   const tContact = await getTranslations({ locale, namespace: 'contact' });
 
   // Load all data
@@ -62,7 +67,7 @@ export default async function Home({
       <div className="relative bg-black">
               {/* Hero Section */}
               <Hero about={about}/>
-              <TechStackSection />
+              <TechStackSection translations={{ stackTitle: tStack('title'), stackDescription: tStack('description') }} />
 
         {/* Scroll Reveal + Stats */}
         <ProofSection />
@@ -147,6 +152,9 @@ export default async function Home({
               nameLabel: tContact('nameLabel'),
               emailLabel: tContact('emailLabel'),
               messageLabel: tContact('messageLabel'),
+              nameFieldPlaceholder: tContact('nameFieldPlaceholder'),
+              emailFieldPlaceholder: tContact('emailFieldPlaceholder'),
+              messageFieldPlaceholder: tContact('messageFieldPlaceholder'),
               sendButton: tContact('sendButton'),
               successMessage: tContact('successMessage'),
               errorMessage: tContact('errorMessage'),
