@@ -73,6 +73,7 @@ export default function ContactSection({
   const [errorMessage, setErrorMessage] = useState('');
   const [fieldErrors, setFieldErrors] = useState<FieldErrors>({});
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [turnstileToken, setTurnstileToken] = useState('');
   const turnstileRef = useRef<TurnstileWidgetHandle>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const formStartedAtRef = useRef(0);
@@ -210,6 +211,7 @@ export default function ContactSection({
       setShowSuccessModal(true);
       form.reset();
       setFieldErrors({});
+      setTurnstileToken('');
       turnstileRef.current?.reset();
       formStartedAtRef.current = Date.now();
     } catch (error) {
@@ -231,7 +233,9 @@ export default function ContactSection({
     }
   }
 
-  const isSubmitDisabled = status === 'sending';
+  const isSecurityCheckRequired = process.env.NODE_ENV === 'production';
+  const isSubmitBlockedByTurnstile = isSecurityCheckRequired && !turnstileToken;
+  const isSubmitDisabled = status === 'sending' || isSubmitBlockedByTurnstile;
 
   return (
     <>
@@ -324,7 +328,11 @@ export default function ContactSection({
                   <TurnstileWidget
                     ref={turnstileRef}
                     siteKey={effectiveTurnstileSiteKey}
-                    onError={setErrorMessage}
+                    onError={(message) => {
+                      setTurnstileToken('');
+                      setErrorMessage(message);
+                    }}
+                    onTokenChange={setTurnstileToken}
                   />
                 </div>
 

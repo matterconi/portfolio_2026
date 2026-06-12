@@ -5,6 +5,7 @@ import { useCallback, useEffect, useImperativeHandle, useRef, forwardRef } from 
 interface TurnstileWidgetProps {
   siteKey?: string;
   onError: (message: string) => void;
+  onTokenChange?: (token: string) => void;
 }
 
 export interface TurnstileWidgetHandle {
@@ -23,19 +24,22 @@ const TURNSTILE_SCRIPT_SRC = 'https://challenges.cloudflare.com/turnstile/v0/api
 const TOKEN_WAIT_TIMEOUT_MS = 30_000;
 
 const TurnstileWidget = forwardRef<TurnstileWidgetHandle, TurnstileWidgetProps>(
-  ({ siteKey, onError }, ref) => {
+  ({ siteKey, onError, onTokenChange }, ref) => {
     const containerRef = useRef<HTMLDivElement>(null);
     const widgetIdRef = useRef<string | null>(null);
     const pendingTokenRequestRef = useRef<PendingTokenRequest | null>(null);
     const currentTokenRef = useRef('');
     const onErrorRef = useRef(onError);
+    const onTokenChangeRef = useRef(onTokenChange);
 
     useEffect(() => {
       onErrorRef.current = onError;
-    }, [onError]);
+      onTokenChangeRef.current = onTokenChange;
+    }, [onError, onTokenChange]);
 
     const removeTurnstileWidget = useCallback(() => {
       currentTokenRef.current = '';
+      onTokenChangeRef.current?.('');
 
       if (widgetIdRef.current && window.turnstile) {
         window.turnstile.remove(widgetIdRef.current);
@@ -46,6 +50,7 @@ const TurnstileWidget = forwardRef<TurnstileWidgetHandle, TurnstileWidgetProps>(
 
     const rejectPendingTurnstile = useCallback((message: string) => {
       currentTokenRef.current = '';
+      onTokenChangeRef.current?.('');
       onErrorRef.current(message);
 
       const pending = pendingTokenRequestRef.current;
@@ -71,6 +76,7 @@ const TurnstileWidget = forwardRef<TurnstileWidgetHandle, TurnstileWidgetProps>(
         'response-field': false,
         callback: (token: string) => {
           currentTokenRef.current = token;
+          onTokenChangeRef.current?.(token);
           const pending = pendingTokenRequestRef.current;
           if (!pending) return;
 
