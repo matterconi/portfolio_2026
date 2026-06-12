@@ -69,6 +69,22 @@ body {
   font-family: 'Zodiak', serif;
 }
 
+.contact-field:-webkit-autofill,
+.contact-field:-webkit-autofill:hover,
+.contact-field:-webkit-autofill:focus,
+.contact-field:-webkit-autofill:active {
+  caret-color: #fff;
+  -webkit-text-fill-color: #fff;
+  -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+  box-shadow: 0 0 0 1000px transparent inset !important;
+  transition: background-color 999999s ease-in-out 0s;
+}
+
+.contact-field:autofill {
+  background-color: transparent !important;
+  color: #fff;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Clash Display', sans-serif;
 }
@@ -197,4 +213,3 @@ html {
     padding-right: 3rem;
   }
 }
-
