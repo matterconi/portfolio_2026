@@ -147,16 +147,22 @@ export default function ContactSection({
       setStatus('sending');
 
       if (process.env.NODE_ENV === 'production' && !effectiveTurnstileSiteKey) {
+        console.error('Contact form security check unavailable:', {
+          error: 'turnstile_site_key_missing',
+        });
         setStatus('error');
-        setErrorMessage(translations.turnstileError);
+        setErrorMessage(withErrorCode(translations.turnstileError, 'turnstile_site_key_missing'));
         return;
       }
 
       const turnstileToken = await turnstileRef.current?.execute();
 
       if (process.env.NODE_ENV === 'production' && !turnstileToken) {
+        console.error('Contact form security check failed:', {
+          error: 'missing_turnstile_token',
+        });
         setStatus('error');
-        setErrorMessage(translations.turnstileError);
+        setErrorMessage(withErrorCode(translations.turnstileError, 'missing_turnstile_token'));
         turnstileRef.current?.reset();
         return;
       }
@@ -207,10 +213,18 @@ export default function ContactSection({
       turnstileRef.current?.reset();
       formStartedAtRef.current = Date.now();
     } catch (error) {
+      const errorCode = error instanceof Error && error.message.startsWith('Security check')
+        ? error.message
+        : undefined;
+
+      console.error('Contact form security check error:', {
+        error: errorCode ?? 'network_error',
+      });
+
       setStatus('error');
       setErrorMessage(
-        error instanceof Error && error.message.startsWith('Security check')
-          ? error.message
+        errorCode
+          ? withErrorCode(translations.turnstileError, errorCode)
           : translations.networkError
       );
       turnstileRef.current?.reset();
