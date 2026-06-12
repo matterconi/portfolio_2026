@@ -96,18 +96,14 @@ const TurnstileWidget = forwardRef<TurnstileWidgetHandle, TurnstileWidgetProps>(
     }, [rejectPendingTurnstile, removeTurnstileWidget, siteKey]);
 
     const resetTurnstileWidget = useCallback(() => {
-      currentTokenRef.current = '';
-
       const pending = pendingTokenRequestRef.current;
       if (pending) {
         window.clearTimeout(pending.timeoutId);
         pendingTokenRequestRef.current = null;
       }
 
-      if (widgetIdRef.current && window.turnstile) {
-        window.turnstile.reset(widgetIdRef.current);
-      }
-    }, []);
+      removeTurnstileWidget();
+    }, [removeTurnstileWidget]);
 
     const executeTurnstileChallenge = useCallback(async () => {
       if (!siteKey) return '';
@@ -125,7 +121,6 @@ const TurnstileWidget = forwardRef<TurnstileWidgetHandle, TurnstileWidgetProps>(
       }
 
       currentTokenRef.current = '';
-      turnstile.reset(widgetId);
 
       return new Promise<string>((resolve, reject) => {
         const timeoutId = window.setTimeout(() => {
