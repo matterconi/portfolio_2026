@@ -1,74 +1,74 @@
 [
   {
     "category": "stack",
-    "name": "TypeScript",
-    "icon": "typescript",
-    "description": "Linguaggio principale per lo sviluppo full-stack con forte tipizzazione."
-  },
-  {
-    "category": "stack",
-    "name": "React",
-    "icon": "react",
-    "description": "Costruzione di interfacce complesse con pattern moderni e hooks."
-  },
-  {
-    "category": "stack",
     "name": "Next.js",
-    "icon": "nextjs",
-    "description": "Framework React full-stack per applicazioni in produzione."
+    "icon": "/icons/nextjs.svg",
+    "description": "Framework React full-stack per applicazioni in produzione con SSR e API route"
   },
   {
     "category": "stack",
-    "name": "Node.js",
-    "icon": "nodejs",
-    "description": "Runtime JavaScript lato server per API e strumenti."
+    "name": "TypeScript",
+    "icon": "/icons/typescript.svg",
+    "description": "Sviluppo type-safe con generics avanzati e utility types"
   },
   {
     "category": "stack",
     "name": "PostgreSQL",
-    "icon": "postgresql",
-    "description": "Database relazionale per la persistenza di dati strutturati."
+    "icon": "/icons/postgresql.svg",
+    "description": "Progettazione database relazionale, ottimizzazione e query complesse"
   },
   {
     "category": "blockchain",
     "name": "Solidity",
-    "icon": "solidity",
-    "description": "Sviluppo di smart contract per applicazioni basate su Ethereum."
+    "icon": "/icons/solidity.svg",
+    "description": "Sviluppo di smart contract con best practice di sicurezza e ottimizzazione gas"
   },
   {
     "category": "blockchain",
-    "name": "Ethers.js",
-    "icon": "ethers",
-    "description": "Libreria di interazione blockchain per frontend Web3."
+    "name": "ethers.js",
+    "icon": "/icons/ethers.svg",
+    "description": "Integrazione Web3 e interazione blockchain in applicazioni JavaScript"
+  },
+  {
+    "category": "blockchain",
+    "name": "Hardhat",
+    "icon": "/icons/hardhat.svg",
+    "description": "Testing degli smart contract, deployment e ambiente di sviluppo"
   },
   {
     "category": "graphics",
     "name": "Three.js",
-    "icon": "threejs",
-    "description": "Grafica 3D ed esperienze WebGL interattive."
+    "icon": "/icons/threejs.svg",
+    "description": "Rendering di grafica 3D, animazioni ed esperienze interattive"
+  },
+  {
+    "category": "graphics",
+    "name": "WebGL",
+    "icon": "/icons/webgl.svg",
+    "description": "Shader custom e programmazione grafica a basso livello"
   },
   {
     "category": "graphics",
     "name": "Blender",
-    "icon": "blender",
-    "description": "Modellazione 3D e creazione di asset per progetti web."
+    "icon": "/icons/blender.svg",
+    "description": "Modellazione 3D, texturing e creazione di asset per applicazioni web"
   },
   {
     "category": "automation",
-    "name": "Docker",
-    "icon": "docker",
-    "description": "Containerizzazione per sviluppo e deployment consistenti."
+    "name": "Python",
+    "icon": "/icons/python.svg",
+    "description": "Scripting, automazione e workflow di elaborazione dati"
   },
   {
     "category": "automation",
     "name": "GitHub Actions",
-    "icon": "github-actions",
-    "description": "Pipeline CI/CD per testing e deployment automatizzati."
+    "icon": "/icons/github-actions.svg",
+    "description": "Pipeline CI/CD e workflow di deployment automatizzati"
   },
   {
     "category": "automation",
-    "name": "Terraform",
-    "icon": "terraform",
-    "description": "Infrastruttura come codice per la gestione delle risorse cloud."
+    "name": "Docker",
+    "icon": "/icons/docker.svg",
+    "description": "Containerizzazione e orchestrazione per ambienti di sviluppo consistenti"
   }
 ]
