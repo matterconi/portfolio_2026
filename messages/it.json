@@ -12,7 +12,9 @@
   "hero": {
     "name": "Nome Sviluppatore",
     "tagline": "Tagline segnaposto",
-    "scrollIndicator": "Scorri per esplorare"
+    "scrollIndicator": "Scorri per esplorare",
+    "subtitle": "Full Stack & Creative Developer",
+    "ctaLabel": "Entra in contatto"
   },
   "about": {
     "title": "Chi Sono",
@@ -46,7 +48,10 @@
   "experience": {
     "title": "Esperienza",
     "certificateLabel": "Vedi Certificato",
-    "completedLabel": "Completato"
+    "completedLabel": "Completato",
+    "motivationLine1": "L'AI è migliore",
+    "motivationLine2": "con uno sviluppatore di talento.",
+    "studyHint": "La vibrazione del codice non è sufficiente. Lo studio rende perfetti."
   },
   "projects": {
     "title": "Progetti",
@@ -112,5 +117,11 @@
   "stack": {
     "title": "Il Mio Stack",
     "description": "Sviluppo creativo, esecuzione pixel-perfect."
+  },
+  "proof": {
+    "yearsExp": "Anni Exp",
+    "projects": "Progetti",
+    "coreTools": "Strumenti Principali",
+    "languages": "Lingue"
   }
 }

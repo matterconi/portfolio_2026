@@ -66,13 +66,17 @@ function AnimatedLetter({
   );
 }
 
+interface HeroTextProps {
+  name: string;
+  tagline: string;
+  ctaLabel?: string;
+}
+
 export default function HeroText({
   name,
   tagline,
-}: {
-  name: string;
-  tagline: string;
-}) {
+  ctaLabel = "Get in touch",
+}: HeroTextProps) {
   const words = name.split(' ');
   let letterIndex = 0;
 
@@ -109,7 +113,7 @@ export default function HeroText({
             delay: 0.3 + letterIndex * 0.04 + 0.3,
           }}
         >
-          <CircularCTA label="Get in touch" href="#contact">
+          <CircularCTA label={ctaLabel} href="#contact">
             <svg
               className="w-16 h-16"
               fill="none"

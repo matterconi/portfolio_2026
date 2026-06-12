@@ -40,10 +40,12 @@ export default async function Home({
   const tAbout = await getTranslations({ locale, namespace: 'about' });
   const tAbc = await getTranslations({ locale, namespace: 'abc' });
   const tExp = await getTranslations({ locale, namespace: 'experience' });
+  const tHero = await getTranslations({ locale, namespace: 'hero' });
   const tProjects = await getTranslations({ locale, namespace: 'projects' });
   const tSkills = await getTranslations({ locale, namespace: 'skills' });
   const tComparison = await getTranslations({ locale, namespace: 'comparison' });
   const tStack = await getTranslations({ locale, namespace: 'stack' });
+  const tProof = await getTranslations({ locale, namespace: 'proof' });
   const tContact = await getTranslations({ locale, namespace: 'contact' });
 
   // Load all data
@@ -66,11 +68,11 @@ export default async function Home({
     <div className="min-h-screen bg-black">
       <div className="relative bg-black">
               {/* Hero Section */}
-              <Hero about={about}/>
+              <Hero about={about} ctaLabel={tHero('ctaLabel')} />
               <TechStackSection translations={{ stackTitle: tStack('title'), stackDescription: tStack('description') }} />
 
         {/* Scroll Reveal + Stats */}
-        <ProofSection />
+        <ProofSection translations={{ yearsExp: tProof('yearsExp'), projects: tProof('projects'), coreTools: tProof('coreTools'), languages: tProof('languages') }} />
       {/* About Section */}
       <AboutSection title={tAbout('title')} about={about} />
 
@@ -123,6 +125,11 @@ export default async function Home({
             title={tExp('title')}
             courses={courses}
             locale={locale}
+            translations={{
+              motivationLine1: tExp('motivationLine1'),
+              motivationLine2: tExp('motivationLine2'),
+              studyHint: tExp('studyHint'),
+            }}
           />
         </div>
       </div>

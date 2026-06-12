@@ -12,7 +12,9 @@
   "hero": {
     "name": "Developer Name",
     "tagline": "Tagline placeholder",
-    "scrollIndicator": "Scroll to explore"
+    "scrollIndicator": "Scroll to explore",
+    "subtitle": "Full Stack & Creative Developer",
+    "ctaLabel": "Get in touch"
   },
   "about": {
     "title": "About Me",
@@ -46,7 +48,10 @@
   "experience": {
     "title": "Experience",
     "certificateLabel": "View Certificate",
-    "completedLabel": "Completed"
+    "completedLabel": "Completed",
+    "motivationLine1": "AI is better",
+    "motivationLine2": "with a great developer.",
+    "studyHint": "Vibe coding is not enough. Study makes perfect."
   },
   "projects": {
     "title": "Projects",
@@ -112,5 +117,11 @@
   "stack": {
     "title": "My Stack",
     "description": "Creative development, pixel-perfect execution."
+  },
+  "proof": {
+    "yearsExp": "Years Exp",
+    "projects": "Projects",
+    "coreTools": "Core Tools",
+    "languages": "Languages"
   }
 }

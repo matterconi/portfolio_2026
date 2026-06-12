@@ -3,20 +3,29 @@
 import ScrollRevealText from "./ScrollRevealText";
 import StatsGrid, { type Stat } from "./StatsGrid";
 
-const stats: Stat[] = [
-  { value: 3, suffix: "+", label: "Years Exp" },
-  { value: 20, suffix: "+", label: "Projects" },
-  { value: 9, label: "Core Tools" },
-  { value: 3, label: "Languages" },
-];
-
 const lines = [
   "Creative Vision",
   "Solid Engineering",
   "Endless Curiosity",
 ];
 
-export default function ProofSection() {
+interface ProofSectionProps {
+  translations?: {
+    yearsExp: string;
+    projects: string;
+    coreTools: string;
+    languages: string;
+  };
+}
+
+export default function ProofSection({ translations }: ProofSectionProps = {}) {
+  const stats: Stat[] = [
+    { value: 3, suffix: "+", label: translations?.yearsExp ?? "Years Exp" },
+    { value: 20, suffix: "+", label: translations?.projects ?? "Projects" },
+    { value: 9, label: translations?.coreTools ?? "Core Tools" },
+    { value: 3, label: translations?.languages ?? "Languages" },
+  ];
+
   return (
     <div className="relative z-10 overflow-visible">
       <ScrollRevealText lines={lines} />
