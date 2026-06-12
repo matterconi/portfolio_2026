@@ -20,6 +20,7 @@ interface PendingTokenRequest {
 
 const TURNSTILE_SCRIPT_ID = 'cloudflare-turnstile-script';
 const TURNSTILE_SCRIPT_SRC = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+const TOKEN_WAIT_TIMEOUT_MS = 30_000;
 
 const TurnstileWidget = forwardRef<TurnstileWidgetHandle, TurnstileWidgetProps>(
   ({ siteKey, onError }, ref) => {
@@ -66,7 +67,7 @@ const TurnstileWidget = forwardRef<TurnstileWidgetHandle, TurnstileWidgetProps>(
       widgetIdRef.current = turnstile.render(containerRef.current, {
         sitekey: siteKey,
         theme: 'dark',
-        execution: 'execute',
+        execution: 'render',
         'response-field': false,
         callback: (token: string) => {
           currentTokenRef.current = token;
@@ -108,19 +109,19 @@ const TurnstileWidget = forwardRef<TurnstileWidgetHandle, TurnstileWidgetProps>(
     const executeTurnstileChallenge = useCallback(async () => {
       if (!siteKey) return '';
 
-      let turnstile = window.turnstile;
       let widgetId = widgetIdRef.current;
 
-      if (!turnstile || !widgetId) {
+      if (!window.turnstile || !widgetId) {
         widgetId = renderTurnstileWidget();
-        turnstile = window.turnstile;
       }
 
-      if (!turnstile || !widgetId) {
+      if (!window.turnstile || !widgetId) {
         throw new Error('Security check is still loading. Please try again.');
       }
 
-      currentTokenRef.current = '';
+      if (currentTokenRef.current) {
+        return currentTokenRef.current;
+      }
 
       return new Promise<string>((resolve, reject) => {
         const timeoutId = window.setTimeout(() => {
@@ -128,23 +129,13 @@ const TurnstileWidget = forwardRef<TurnstileWidgetHandle, TurnstileWidgetProps>(
           pendingTokenRequestRef.current = null;
           removeTurnstileWidget();
           reject(new Error('Security check timed out. Please try again.'));
-        }, 15000);
+        }, TOKEN_WAIT_TIMEOUT_MS);
 
         pendingTokenRequestRef.current = {
           resolve,
           reject,
           timeoutId,
         };
-
-        try {
-          turnstile.execute(widgetId);
-        } catch {
-          window.clearTimeout(timeoutId);
-          currentTokenRef.current = '';
-          pendingTokenRequestRef.current = null;
-          removeTurnstileWidget();
-          reject(new Error('Security check failed. Please try again.'));
-        }
       });
     }, [removeTurnstileWidget, renderTurnstileWidget, siteKey]);
 
