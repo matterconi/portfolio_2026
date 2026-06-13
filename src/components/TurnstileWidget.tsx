@@ -109,8 +109,16 @@ const TurnstileWidget = forwardRef<TurnstileWidgetHandle, TurnstileWidgetProps>(
         pendingTokenRequestRef.current = null;
       }
 
-      removeTurnstileWidget();
-    }, [removeTurnstileWidget]);
+      currentTokenRef.current = '';
+      onTokenChangeRef.current?.('');
+
+      if (widgetIdRef.current && window.turnstile) {
+        window.turnstile.reset(widgetIdRef.current);
+        return;
+      }
+
+      renderTurnstileWidget();
+    }, [renderTurnstileWidget]);
 
     const executeTurnstileChallenge = useCallback(async () => {
       if (!siteKey) return '';
