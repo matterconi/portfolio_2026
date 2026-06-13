@@ -1,13 +1,15 @@
 'use client';
 
 import { usePathname } from 'next/navigation';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { persistentShaderRenderer } from '@/lib/persistentShaderRenderer';
+
+const HERO_SHADER_ROUTE_PATTERN = /^\/(en|it)\/?$/;
 
 export default function PersistentShaderLayer() {
   const pathname = usePathname();
-  const isHome = /^\/(en|it)\/?$/.test(pathname);
-  const [heroVisible, setHeroVisible] = useState(isHome);
+  const hasHeroShader = HERO_SHADER_ROUTE_PATTERN.test(pathname);
+  const [heroVisible, setHeroVisible] = useState(hasHeroShader);
   const heroVisibleRef = useRef(heroVisible);
 
   useEffect(() => {
@@ -15,8 +17,15 @@ export default function PersistentShaderLayer() {
   }, [heroVisible]);
 
   useEffect(() => {
-    if (!isHome) {
-      setHeroVisible(false);
+    if (!hasHeroShader) {
+      persistentShaderRenderer.setActive(false);
+      window.dispatchEvent(new Event('shaderReady'));
+      return;
+    }
+  }, [hasHeroShader]);
+
+  useLayoutEffect(() => {
+    if (!hasHeroShader) {
       return;
     }
 
@@ -57,19 +66,29 @@ export default function PersistentShaderLayer() {
 
     update();
     window.addEventListener('scroll', scheduleUpdate, { passive: true });
-    window.addEventListener('resize', scheduleUpdate);
+    window.addEventListener('resize', scheduleUpdate, { passive: true });
 
     return () => {
       if (frameId !== null) cancelAnimationFrame(frameId);
       window.removeEventListener('scroll', scheduleUpdate);
       window.removeEventListener('resize', scheduleUpdate);
     };
-  }, [isHome]);
+  }, [hasHeroShader]);
 
-  const active = isHome && heroVisible;
+  const active = hasHeroShader && heroVisible;
 
   useEffect(() => {
     persistentShaderRenderer.setActive(active);
+
+    if (!active) {
+      return;
+    }
+
+    const frameId = requestAnimationFrame(() => {
+      window.dispatchEvent(new Event('shaderReady'));
+    });
+
+    return () => cancelAnimationFrame(frameId);
   }, [active]);
 
   return null;

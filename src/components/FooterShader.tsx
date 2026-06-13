@@ -10,13 +10,21 @@ const WaterPlaneShader = dynamic(() => import('./WaterPlaneShader'), {
 export default function FooterShader() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(false);
+  const [hasMountedCanvas, setHasMountedCanvas] = useState(false);
 
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
     const observer = new IntersectionObserver(
-      ([entry]) => setActive(entry.isIntersecting),
+      ([entry]) => {
+        const isIntersecting = entry.isIntersecting;
+        setActive(isIntersecting);
+
+        if (isIntersecting) {
+          setHasMountedCanvas(true);
+        }
+      },
       { rootMargin: '200px', threshold: 0.01 }
     );
 
@@ -36,7 +44,7 @@ export default function FooterShader() {
         borderRadius: '1.5rem',
       }}
     >
-      <WaterPlaneShader active={active} />
+      {hasMountedCanvas ? <WaterPlaneShader active={active} /> : null}
       <div className="absolute inset-0 bg-black/70" />
     </div>
   );

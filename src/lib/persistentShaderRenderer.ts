@@ -113,6 +113,7 @@ class PersistentShaderRenderer {
   private scene: THREE.Scene | null = null;
   private startedAt = 0;
   private active = false;
+  private bounds = { top: 0, left: 0, width: 1, height: 1 };
 
   ensureMounted() {
     if (typeof window === 'undefined' || this.renderer) return;
@@ -140,6 +141,7 @@ class PersistentShaderRenderer {
       overflow: 'hidden',
       pointerEvents: 'none',
       opacity: '0',
+      transform: 'translate3d(0, 0, 0)',
       transition: 'opacity 300ms ease',
     });
     document.body.prepend(this.container);
@@ -191,15 +193,40 @@ class PersistentShaderRenderer {
     this.ensureMounted();
     if (!this.container) return;
 
-    this.container.style.top = `${bounds.top}px`;
-    this.container.style.left = `${bounds.left}px`;
-    this.container.style.width = `${Math.max(1, bounds.width)}px`;
-    this.container.style.height = `${Math.max(1, bounds.height)}px`;
-    this.resize();
+    const nextBounds = {
+      top: Math.round(bounds.top),
+      left: Math.round(bounds.left),
+      width: Math.max(1, Math.round(bounds.width)),
+      height: Math.max(1, Math.round(bounds.height)),
+    };
+    const sizeChanged = this.bounds.width !== nextBounds.width || this.bounds.height !== nextBounds.height;
+
+    if (this.bounds.top !== nextBounds.top || this.bounds.left !== nextBounds.left) {
+      this.container.style.transform = `translate3d(${nextBounds.left}px, ${nextBounds.top}px, 0)`;
+    }
+
+    if (sizeChanged) {
+      this.container.style.width = `${nextBounds.width}px`;
+      this.container.style.height = `${nextBounds.height}px`;
+    }
+
+    this.bounds = nextBounds;
+
+    if (sizeChanged) {
+      this.resize();
+    }
   }
 
   setActive(active: boolean) {
-    this.ensureMounted();
+    if (!active && !this.renderer) {
+      this.active = false;
+      return;
+    }
+
+    if (active) {
+      this.ensureMounted();
+    }
+
     this.active = active;
 
     if (this.container) {
