@@ -6,8 +6,7 @@ A high-performance, bilingual (EN / IT) personal portfolio built with Next.js 16
 
 ## 🚀 Live Demo
 
-> *Coming soon — deploy on [Vercel](https://vercel.com)*
-
+matteomarconi.com
 ---
 
 ## ✨ Features
