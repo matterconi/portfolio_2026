@@ -3,6 +3,7 @@ import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 import Image from 'next/image';
 import { getProjects, getProjectBySlug, getRecommendedProjects } from '@/lib/data';
+import { sharedOGImage, siteConfig } from '@/constants/metadata';
 import { TextReveal } from '@/components/ui/text-reveal';
 import ProjectDetailContent from './ProjectDetailContent';
 import ProjectScrollToTop from './ProjectScrollToTop';
@@ -10,6 +11,11 @@ import { isLocale, locales } from '@/i18n/locales';
 
 const metadataLabelClass = 'text-xs font-semibold uppercase tracking-[0.22em] text-accent-green';
 const metadataValueClass = 'mt-3 text-sm font-semibold leading-5 text-foreground';
+
+function truncateDescription(description: string) {
+  if (description.length <= 155) return description;
+  return `${description.slice(0, 152).trim()}...`;
+}
 
 export async function generateStaticParams() {
   const params: { locale: string; slug: string }[] = [];
@@ -31,9 +37,44 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
   const project = await getProjectBySlug(locale, slug);
   if (!project) return {};
+  const title = `${project.title} | ${siteConfig.name}`;
+  const description = truncateDescription(project.shortDescription);
+  const canonicalUrl = `${siteConfig.url}/${locale}/projects/${project.slug}`;
+  const image = project.images.hero || sharedOGImage.url;
+
   return {
-    title: `${project.title} - Portfolio`,
-    description: project.shortDescription,
+    title,
+    description,
+    alternates: {
+      canonical: canonicalUrl,
+      languages: {
+        en: `${siteConfig.url}/en/projects/${project.slug}`,
+        it: `${siteConfig.url}/it/projects/${project.slug}`,
+        'x-default': `${siteConfig.url}/en/projects/${project.slug}`,
+      },
+    },
+    openGraph: {
+      type: 'article',
+      locale: locale === 'it' ? 'it_IT' : 'en_US',
+      alternateLocale: locale === 'it' ? ['en_US'] : ['it_IT'],
+      siteName: siteConfig.name,
+      url: canonicalUrl,
+      title,
+      description,
+      images: [
+        {
+          url: image,
+          alt: `${project.title} project preview`,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+      images: [image],
+      creator: siteConfig.twitterHandle,
+    },
   };
 }
 
@@ -76,9 +117,28 @@ export default async function ProjectDetailPage({
     images: recommendedProject.images,
     order: recommendedProject.order,
   }));
+  const projectUrl = `${siteConfig.url}/${locale}/projects/${project.slug}`;
+  const projectJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: project.title,
+    url: projectUrl,
+    description: project.shortDescription,
+    creator: {
+      '@type': 'Person',
+      name: siteConfig.creator,
+      url: siteConfig.url,
+    },
+    image: `${siteConfig.url}${project.images.hero}`,
+    keywords: project.technologies.join(', '),
+  };
 
   return (
     <div className="min-h-screen bg-black text-foreground">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(projectJsonLd) }}
+      />
       <ProjectScrollToTop slug={slug} />
       <main className="mx-auto w-full max-w-7xl px-5 pb-8 pt-28 sm:px-8 sm:pb-10 sm:pt-32 lg:px-12 lg:pb-14 lg:pt-32">
         <Link

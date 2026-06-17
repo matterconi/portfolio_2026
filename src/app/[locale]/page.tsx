@@ -1,8 +1,8 @@
 import { getTranslations } from 'next-intl/server';
 import type { Metadata } from 'next';
-import type { Locale, Skill } from '@data/types';
-import { getProjects, getSkills, getCourses, getAbout } from '@/lib/data';
-import { siteConfig } from '@/constants/metadata';
+import type { Locale } from '@data/types';
+import { getProjects, getCourses, getAbout, getSocialLinks } from '@/lib/data';
+import { sharedOGImage, siteConfig } from '@/constants/metadata';
 import AboutSection from '@/components/AboutSection';
 import ABCSection from '@/components/ABCSection';
 import ExperienceSection from '@/components/ExperienceSection';
@@ -26,12 +26,40 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
   }
 
   const t = await getTranslations({ locale, namespace: 'hero' });
+  const localePrefix = `/${locale}`;
+  const canonicalUrl = `${siteConfig.url}${localePrefix}`;
+  const description = t('tagline');
 
   return {
     title: {
       absolute: siteConfig.name,
     },
-    description: t('tagline'),
+    description,
+    alternates: {
+      canonical: canonicalUrl,
+      languages: {
+        en: `${siteConfig.url}/en`,
+        it: `${siteConfig.url}/it`,
+        'x-default': `${siteConfig.url}/en`,
+      },
+    },
+    openGraph: {
+      type: 'website',
+      locale: locale === 'it' ? 'it_IT' : 'en_US',
+      alternateLocale: locale === 'it' ? ['en_US'] : ['it_IT'],
+      siteName: siteConfig.name,
+      url: canonicalUrl,
+      title: siteConfig.name,
+      description,
+      images: [sharedOGImage],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: siteConfig.name,
+      description,
+      images: [sharedOGImage.url],
+      creator: siteConfig.twitterHandle,
+    },
   };
 }
 
@@ -54,31 +82,38 @@ export default async function Home({
   const tExp = await getTranslations({ locale, namespace: 'experience' });
   const tHero = await getTranslations({ locale, namespace: 'hero' });
   const tProjects = await getTranslations({ locale, namespace: 'projects' });
-  const tSkills = await getTranslations({ locale, namespace: 'skills' });
   const tComparison = await getTranslations({ locale, namespace: 'comparison' });
   const tStack = await getTranslations({ locale, namespace: 'stack' });
   const tProof = await getTranslations({ locale, namespace: 'proof' });
   const tContact = await getTranslations({ locale, namespace: 'contact' });
 
   // Load all data
-  const [about, projects, courses, skills] = await Promise.all([
+  const [about, projects, courses, social] = await Promise.all([
     getAbout(loc),
     getProjects(loc),
     getCourses(loc),
-    getSkills(loc),
+    getSocialLinks(loc),
   ]);
   const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || '';
-
-  // Group skills by category
-  const skillsByCategory = skills.reduce<Record<string, Skill[]>>((acc, skill) => {
-    const cat = skill.category || 'other';
-    if (!acc[cat]) acc[cat] = [];
-    acc[cat].push(skill);
-    return acc;
-  }, {});
+  const homeUrl = `${siteConfig.url}/${locale}`;
+  const personJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: about.name,
+    url: homeUrl,
+    jobTitle: about.tagline,
+    description: tHero('tagline'),
+    email: `mailto:${social.email}`,
+    knowsAbout: ['Full-stack development', 'Creative development', 'Next.js', 'React', 'Three.js', 'WebGL', 'AI', 'Blockchain'],
+    sameAs: [social.github, social.linkedin],
+  };
 
   return (
     <div className="min-h-screen bg-black">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+      />
       <div className="relative bg-black">
               {/* Hero Section */}
               <Hero about={about} ctaLabel={tHero('ctaLabel')} />

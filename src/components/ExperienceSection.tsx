@@ -39,6 +39,7 @@ function RevealHeading({ lines, studyHint }: { lines: string[]; studyHint: strin
                 charIndex++;
                 return <RevealChar key={charIndex} progress={scrollYProgress} range={[start, end]}>{char}</RevealChar>;
               })}
+              {wi < line.split(' ').length - 1 ? ' ' : null}
             </span>
           ))}
         </p>
@@ -81,7 +82,7 @@ export default function ExperienceSection({
   const reducedMotion = useReducedMotion();
 
   return (
-    <section id="experience" className="min-h-screen flex flex-col justify-center pt-2 pb-20">
+    <section id="experience" className="min-h-screen flex flex-col justify-center pt-2 pb-[clamp(1rem,6vh,5rem)]">
       <RevealHeading lines={lines} studyHint={studyHint} />
       <div className="hidden sm:grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-4 auto-rows-fr">
         {courses.map((course, index) => (

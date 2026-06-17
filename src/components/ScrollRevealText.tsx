@@ -22,6 +22,7 @@ const Word = ({ children, progress, range, isLast }: {
       className={`inline-block ${!isLast ? "mr-[0.25em]" : ""}`}
     >
       {children}
+      {!isLast ? ' ' : null}
     </motion.span>
   );
 };
@@ -112,6 +113,7 @@ export default function ScrollRevealText({ lines, textClassName = '' }: { lines:
                           </Char>
                         );
                       })}
+                      {wordIdx < words.length - 1 ? ' ' : null}
                     </span>
                   ))}
             </h3>

@@ -10,8 +10,8 @@
     "languageSwitcher": "IT/EN"
   },
   "hero": {
-    "name": "Developer Name",
-    "tagline": "Tagline placeholder",
+    "name": "Matteo Marconi",
+    "tagline": "Full-stack and creative developer building immersive web experiences with Next.js, React, Three.js, WebGL, and AI.",
     "scrollIndicator": "Scroll to explore",
     "subtitle": "Full Stack & Creative Developer",
     "ctaLabel": "Get in touch"

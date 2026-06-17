@@ -39,13 +39,14 @@ export function TextReveal({ text, emphasize = [], scrollProgress, className, re
           const bare = word.replace(/[.,;:!?]+$/, "");
           const emphasized = emphasisSet.has(word) || emphasisSet.has(bare);
           return (
-          <Word
+            <Word
               key={i}
               progress={progress}
               range={[start, end]}
               totalWords={totalWords}
               emphasized={emphasized}
               revealedClassName={revealedClassName}
+              trailingSpace={i < totalWords - 1}
             >
               {word}
             </Word>
@@ -63,6 +64,7 @@ function Word({
   totalWords,
   emphasized,
   revealedClassName,
+  trailingSpace,
 }: {
   children: string;
   progress: MotionValue<number>;
@@ -70,6 +72,7 @@ function Word({
   totalWords: number;
   emphasized: boolean;
   revealedClassName: string;
+  trailingSpace: boolean;
 }) {
   const wordStart = range[0];
   const wordEnd = range[1];
@@ -107,6 +110,7 @@ function Word({
         style={{ opacity: blockOpacity }}
         aria-hidden
       />
+      {trailingSpace ? ' ' : null}
     </span>
   );
 }

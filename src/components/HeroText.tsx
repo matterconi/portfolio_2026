@@ -1,7 +1,7 @@
 'use client';
 
 import { motion, useAnimationControls } from 'framer-motion';
-import { useEffect, useRef, useCallback } from 'react';
+import { useEffect, useRef } from 'react';
 import HeroPill from './HeroPill';
 import CircularCTA from './CircularCTA';
 
@@ -15,23 +15,23 @@ function AnimatedLetter({
   const controls = useAnimationControls();
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const scheduleGlitch = useCallback(() => {
-    const wait = 3000 + Math.random() * 8000;
-    timeoutRef.current = setTimeout(async () => {
-      const effects = [
-        { rotateX: [0, 180, 360], transition: { duration: 0.5, ease: 'easeInOut' as const } },
-        { rotateY: [0, 180, 360], transition: { duration: 0.5, ease: 'easeInOut' as const } },
-        { scaleY: [1, 0, 1], transition: { duration: 0.4, ease: 'easeInOut' as const } },
-        { skewX: [0, 25, -25, 0], transition: { duration: 0.4, ease: 'easeInOut' as const } },
-        { y: [0, -8, 0], rotateZ: [0, -10, 10, 0], transition: { duration: 0.5, ease: 'easeInOut' as const } },
-      ];
-      const effect = effects[Math.floor(Math.random() * effects.length)];
-      await controls.start(effect);
-      scheduleGlitch();
-    }, wait);
-  }, [controls]);
-
   useEffect(() => {
+    const scheduleGlitch = () => {
+      const wait = 3000 + Math.random() * 8000;
+      timeoutRef.current = setTimeout(async () => {
+        const effects = [
+          { rotateX: [0, 180, 360], transition: { duration: 0.5, ease: 'easeInOut' as const } },
+          { rotateY: [0, 180, 360], transition: { duration: 0.5, ease: 'easeInOut' as const } },
+          { scaleY: [1, 0, 1], transition: { duration: 0.4, ease: 'easeInOut' as const } },
+          { skewX: [0, 25, -25, 0], transition: { duration: 0.4, ease: 'easeInOut' as const } },
+          { y: [0, -8, 0], rotateZ: [0, -10, 10, 0], transition: { duration: 0.5, ease: 'easeInOut' as const } },
+        ];
+        const effect = effects[Math.floor(Math.random() * effects.length)];
+        await controls.start(effect);
+        scheduleGlitch();
+      }, wait);
+    };
+
     const startDelay = setTimeout(() => {
       scheduleGlitch();
     }, (revealDelay + 0.6) * 1000);
@@ -40,7 +40,7 @@ function AnimatedLetter({
       clearTimeout(startDelay);
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
     };
-  }, [revealDelay, scheduleGlitch]);
+  }, [controls, revealDelay]);
 
   return (
     <span className="inline-block overflow-hidden align-bottom" style={{ perspective: '600px' }}>
@@ -99,6 +99,7 @@ export default function HeroText({
             return (
               <span key={wi} className={`block ${isLast ? 'italic' : ''}`}>
                 {wordLetters}
+                {!isLast ? ' ' : null}
               </span>
             );
           })}
