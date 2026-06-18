@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Pause, Play, Repeat2, Shuffle, SkipBack, SkipForward } from 'lucide-react';
 import { useAudioPlayer } from './AudioPlayerProvider';
@@ -30,7 +31,7 @@ export default function MusicPlayer() {
     return `${minutes}:${remainingSeconds}`;
   };
   const bars = [10, 16, 12, 24, 18, 32, 44, 26, 38, 54, 30, 22, 16, 12, 18, 28, 40, 34, 22, 14, 10, 16];
-  const artworkUrl = 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?auto=format&fit=crop&w=240&q=80';
+  const artworkUrl = currentTrack.artwork ?? '/logo-v3.png';
   const handleSeek = (event: React.PointerEvent<HTMLButtonElement>) => {
     if (duration <= 0) return;
 
@@ -55,9 +56,11 @@ export default function MusicPlayer() {
 
         <div className="mb-3.5 grid gap-3 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-center">
           <div className="flex min-w-0 items-center gap-3">
-            <img
+            <Image
               src={artworkUrl}
               alt="Track artwork"
+              width={64}
+              height={64}
               className="h-14 w-14 shrink-0 rounded-xl border border-white/15 object-cover shadow-[0_14px_30px_rgba(0,0,0,0.42)] sm:h-16 sm:w-16"
               loading="lazy"
             />

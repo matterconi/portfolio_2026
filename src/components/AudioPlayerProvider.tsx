@@ -13,12 +13,31 @@ export interface Track {
   title: string;
   description: string;
   src: string;
+  artwork?: string;
 }
 
 const tracks: Track[] = [
-  { id: 'ethereal-sounds', title: 'Ethereal Sounds', description: 'Ambient textures', src: '/audio/ethereal-sounds.mp3' },
-  { id: 'agentic-loop', title: 'Agentic Loop', description: 'Synthetic rhythm', src: '/audio/agentic-loop.mp3' },
-  { id: 'kaffeina', title: 'Kaffeina', description: 'Late-night pulse', src: '/audio/kaffeina.mp3' },
+  {
+    id: 'ethereal-sounds',
+    title: 'Ethereal Sounds',
+    description: 'Ambient textures',
+    src: '/audio/ethereal-sounds.mp3',
+    artwork: '/images/ethereal-sounds.webp',
+  },
+  {
+    id: 'agentic-loop',
+    title: 'Agentic Loop',
+    description: 'Synthetic rhythm',
+    src: '/audio/agentic-loop.mp3',
+    artwork: '/images/agentic-loop.webp',
+  },
+  {
+    id: 'kaffeina',
+    title: 'Kaffeina',
+    description: 'Late-night pulse',
+    src: '/audio/kaffeina.mp3',
+    artwork: '/images/kaffeina.webp',
+  },
 ];
 
 let sharedAudio: HTMLAudioElement | null = null;
