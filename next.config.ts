@@ -15,12 +15,6 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: "/:path*",
-        has: [{ type: "host", value: "www.matteomarconi.com" }],
-        destination: "https://matteomarconi.com/:path*",
-        permanent: true,
-      },
-      {
         source: "/",
         destination: "/en",
         permanent: true,
