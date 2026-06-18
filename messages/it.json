@@ -122,7 +122,9 @@
     "copyright": "Tutti i diritti riservati.",
     "backToTop": "Torna in Cima",
     "quickLinks": "Link Rapidi",
-    "social": "Social"
+    "social": "Social",
+    "emailCopied": "Email copiata negli appunti",
+    "emailCopyError": "Impossibile copiare l'email"
   },
   "stack": {
     "title": "Il Mio Stack",

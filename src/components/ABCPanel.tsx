@@ -94,7 +94,7 @@ export default function ABCPanel({ panel }: { panel: PanelData }) {
                     {topic.title}
                   </h3>
                   <p
-                    className="mt-2 text-sm leading-relaxed text-zinc-400 font-medium"
+                    className="mt-2 text-[15px] leading-relaxed text-zinc-400 font-medium sm:text-base"
                   >
                     {words.map((word, wi) => {
                       const bare = word.replace(/[.,;:!?]+$/, '');

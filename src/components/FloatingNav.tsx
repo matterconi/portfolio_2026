@@ -76,22 +76,22 @@ export const FloatingNav = ({
       }}
     >
       <div className={cn(
-        "flex inset-x-0 mx-auto rounded-md shadow-2xl items-end justify-between px-6 py-3 max-w-6xl",
+        "flex inset-x-0 mx-auto rounded-md shadow-2xl items-center justify-between px-6 py-3 max-w-6xl",
         isFloating
           ? "bg-white/[0.08] backdrop-blur-xl border border-white/15 shadow-[0_8px_32px_rgba(0,0,0,0.4),inset_0_1px_0_rgba(255,255,255,0.1)]"
           : "bg-black",
         className
       )}>
-        <Link href={`${homeBase}/#home`} aria-label="Matteo Marconi - Home" className="flex items-end gap-2.5 shrink-0 transition-opacity duration-300 hover:opacity-80">
+        <Link href={`${homeBase}/#home`} aria-label="Matteo Marconi - Home" className="flex items-center gap-2.5 shrink-0 transition-opacity duration-300 hover:opacity-80">
           <Image
-            src="/logo.png"
+            src="/logo-v6.png"
             alt="Matteo Marconi"
             width={386}
             height={200}
             priority
-            className="h-9 w-auto"
+            className="block h-4 w-auto shrink-0"
           />
-          <span className="font-display text-lg font-bold tracking-wide text-white whitespace-nowrap">
+          <span className="font-display text-lg font-bold leading-none tracking-wide text-white whitespace-nowrap">
             Matteo Marconi
           </span>
         </Link>
@@ -102,7 +102,7 @@ export const FloatingNav = ({
             <Link
               key={item.name}
               href={item.href}
-              className="px-3 py-2 text-sm font-medium transition-colors duration-300 text-gray-300 hover:text-white"
+              className="font-display px-3 py-2 text-base font-medium transition-colors duration-300 text-gray-300 hover:text-white"
             >
               {item.name}
             </Link>
@@ -125,7 +125,7 @@ export const FloatingNav = ({
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="block px-3 py-2 text-base font-medium text-gray-200 hover:text-white transition-colors rounded-md"
+                  className="font-display block px-3 py-2 text-base font-medium text-gray-200 hover:text-white transition-colors rounded-md"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {item.name}

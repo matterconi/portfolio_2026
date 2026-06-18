@@ -35,7 +35,7 @@ const StaticStat = ({ value, suffix = '', prefix = '', label, color }: Stat & { 
       {prefix}{value}{suffix}
     </span>
     <span
-      className="text-xs uppercase tracking-widest text-foreground-subtle"
+      className="text-sm uppercase tracking-widest text-foreground-subtle"
     >
       {label}
     </span>
@@ -74,7 +74,7 @@ const AnimatedStat = ({ value, suffix = '', prefix = '', label, delay = 0, color
         {prefix}{animatedValue}{suffix}
       </span>
       <span
-        className="text-xs uppercase tracking-widest text-foreground-subtle"
+        className="text-sm uppercase tracking-widest text-foreground-subtle"
       >
         {label}
       </span>

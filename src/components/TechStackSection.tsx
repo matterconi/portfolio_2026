@@ -36,7 +36,7 @@ const TechStackSection = ({ translations }: TechStackSectionProps = {}) => {
           className="text-5xl sm:text-6xl !text-right w-full mx-auto pt-8 pb-3"
         />
         <p
-          className="mb-8 text-lg text-foreground-subtle text-right"
+          className="mb-8 text-lg text-foreground-subtle text-right sm:text-xl"
         >
           {stackDescription}
         </p>
@@ -56,7 +56,7 @@ const TechStackSection = ({ translations }: TechStackSectionProps = {}) => {
                   loading="lazy"
                 />
                 <span
-                  className="text-foreground-subtle text-xs font-medium tracking-wide group-hover:text-white transition-colors duration-300"
+                  className="text-foreground-subtle text-sm font-medium tracking-wide group-hover:text-white transition-colors duration-300"
                 >
                   {item.name}
                 </span>

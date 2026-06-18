@@ -28,6 +28,12 @@ const TiltedCourseCard = memo(function TiltedCourseCard({
   const isPdf = course.icon?.endsWith('.pdf');
   const isSvg = course.icon?.endsWith('.svg');
   const hasImage = course.icon && !isPdf;
+  const completionDate = course.completionDate
+    ? new Date(course.completionDate).toLocaleDateString(locale, {
+        year: 'numeric',
+        month: 'long',
+      })
+    : null;
 
   return (
     <div className="group relative h-full min-h-[400px]" style={{ perspective: '900px' }}>
@@ -85,16 +91,21 @@ const TiltedCourseCard = memo(function TiltedCourseCard({
           {/* Content */}
           <div className="relative flex flex-1 flex-col p-5 border-t border-white/15">
             <h3
-              className="text-lg font-semibold text-foreground"
+              className="text-xl font-semibold text-foreground sm:text-2xl"
             >
               {course.title}
             </h3>
+            {completionDate && (
+              <p className="mt-1 text-sm text-foreground-subtle sm:text-base">
+                {completionDate}
+              </p>
+            )}
             {course.skills && course.skills.length > 0 && (
               <div className="mt-4 flex flex-wrap gap-1.5">
                 {course.skills.map((skill) => (
                   <span
                     key={skill}
-                    className="rounded-full border border-white/15 bg-white/5 px-2.5 py-0.5 text-[11px] text-foreground-muted"
+                    className="rounded-full border border-white/15 bg-white/5 px-2.5 py-0.5 text-xs text-foreground-muted"
                   >
                     {skill}
                   </span>

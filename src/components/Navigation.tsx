@@ -140,7 +140,7 @@ export default function Navigation() {
                 <a
                   key={link.id}
                   href={link.href}
-                  className={`text-sm transition-colors duration-200 ${
+                  className={`text-base transition-colors duration-200 ${
                     activeSection === link.id
                       ? 'text-accent-green border-b-2 border-accent-green pb-0.5'
                       : 'text-foreground-muted hover:text-accent-cyan'

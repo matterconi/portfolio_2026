@@ -46,7 +46,7 @@ function RevealHeading({ lines, studyHint }: { lines: string[]; studyHint: strin
       ))}
       <motion.p
         ref={hintRef}
-        className="mt-6 text-lg text-foreground-subtle"
+        className="mt-6 text-lg text-foreground-subtle sm:text-xl"
         initial={{ opacity: 0, y: 20 }}
         animate={isHintInView ? { opacity: 1, y: 0 } : {}}
         transition={{ delay: 0.3, duration: 0.6 }}

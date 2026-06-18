@@ -28,8 +28,10 @@ export default function CircularCTA({
 
   const content = (
     <>
+      <span className="pointer-events-none absolute inset-0 bg-black/78" />
+      <span className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.13),transparent_42%,rgba(255,255,255,0.04))]" />
       <svg
-        className="absolute inset-0 w-full h-full animate-[spin_12s_linear_infinite]"
+        className="absolute inset-0 z-10 w-full h-full animate-[spin_12s_linear_infinite]"
         viewBox="0 0 144 144"
       >
         <defs>
@@ -47,21 +49,20 @@ export default function CircularCTA({
           </textPath>
         </text>
       </svg>
-      <div className="relative flex items-center justify-center text-white transition-colors group-hover:text-accent-cyan">
+      <div className="relative z-10 flex items-center justify-center text-white transition-colors group-hover:text-accent-cyan">
         {children}
       </div>
     </>
   );
 
   const baseClasses =
-    'group relative inline-flex items-center justify-center w-36 h-36 rounded-full bg-black/90 transition-all';
+    'group relative inline-flex items-center justify-center h-44 w-44 overflow-hidden rounded-full bg-white/[0.08] backdrop-blur-xl transition-all';
 
   return (
     <div
       className={`relative rounded-full p-px transition-transform hover:scale-110 ${className}`}
       style={{
         background: 'linear-gradient(135deg, #ffffff40, transparent 50%, #ffffff20)',
-        boxShadow: '0 0 25px #ffffff15, 0 0 50px #ffffff0d',
       }}
     >
       {href ? (

@@ -122,7 +122,9 @@
     "copyright": "All rights reserved.",
     "backToTop": "Back to Top",
     "quickLinks": "Quick Links",
-    "social": "Social"
+    "social": "Social",
+    "emailCopied": "Email copied to clipboard",
+    "emailCopyError": "Could not copy email"
   },
   "stack": {
     "title": "My Stack",

@@ -9,8 +9,8 @@ import ProjectDetailContent from './ProjectDetailContent';
 import ProjectScrollToTop from './ProjectScrollToTop';
 import { isLocale, locales } from '@/i18n/locales';
 
-const metadataLabelClass = 'text-xs font-semibold uppercase tracking-[0.22em] text-accent-green';
-const metadataValueClass = 'mt-3 text-sm font-semibold leading-5 text-foreground';
+const metadataLabelClass = 'text-sm font-semibold uppercase tracking-[0.22em] text-accent-green';
+const metadataValueClass = 'mt-3 text-base font-semibold leading-6 text-foreground';
 
 function truncateDescription(description: string) {
   if (description.length <= 155) return description;
@@ -143,7 +143,7 @@ export default async function ProjectDetailPage({
       <main className="mx-auto w-full max-w-7xl px-5 pb-8 pt-28 sm:px-8 sm:pb-10 sm:pt-32 lg:px-12 lg:pb-14 lg:pt-32">
         <Link
           href={`/${locale}/#projects`}
-          className="mb-6 inline-flex items-center gap-2 text-sm text-white transition-colors hover:text-accent-green"
+          className="mb-6 inline-flex items-center gap-2 text-base text-white transition-colors hover:text-accent-green"
         >
           ← {t('backToPortfolio')}
         </Link>

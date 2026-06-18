@@ -60,13 +60,13 @@
 
   /* Font family */
   --font-display: 'Clash Display', sans-serif;
-  --font-mono: 'Zodiak', serif;
+  --font-mono: 'Archivo', sans-serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: 'Zodiak', serif;
+  font-family: 'Archivo', sans-serif;
 }
 
 .contact-field:-webkit-autofill,
@@ -211,5 +211,16 @@ html {
   .demo-reveal-container {
     padding-left: 3rem;
     padding-right: 3rem;
+  }
+}
+
+@keyframes wave-bar {
+  0% {
+    transform: scaleY(0.55);
+    opacity: 0.45;
+  }
+  100% {
+    transform: scaleY(1.25);
+    opacity: 0.85;
   }
 }

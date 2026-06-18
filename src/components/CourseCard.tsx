@@ -51,7 +51,7 @@ const CourseCard = memo(function CourseCard({
             href={link}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 text-sm font-semibold tracking-wide transition-opacity hover:opacity-70"
+            className="flex items-center gap-2 text-base font-semibold tracking-wide transition-opacity hover:opacity-70"
             style={{ color: glowColor }}
           >
             Open me
@@ -61,7 +61,7 @@ const CourseCard = memo(function CourseCard({
           </a>
         ) : (
           <span
-            className="text-sm tracking-wide opacity-50"
+            className="text-base tracking-wide opacity-50"
             style={{ color: glowColor }}
           >
             In corso
@@ -129,7 +129,7 @@ const CourseCard = memo(function CourseCard({
 
           {/* Content */}
           <div className="flex flex-1 flex-col p-5">
-            <span className="text-xs uppercase tracking-widest text-foreground-subtle">
+            <span className="text-sm uppercase tracking-widest text-foreground-subtle">
               {course.provider}
             </span>
             <h3
@@ -138,7 +138,7 @@ const CourseCard = memo(function CourseCard({
               {course.title}
             </h3>
             {course.completionDate && (
-              <p className="mt-1 text-xs text-foreground-subtle">
+              <p className="mt-1 text-sm text-foreground-subtle">
                 {new Date(course.completionDate).toLocaleDateString(locale, {
                   year: 'numeric',
                   month: 'long',

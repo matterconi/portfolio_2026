@@ -81,31 +81,55 @@ export default function HeroText({
   let letterIndex = 0;
 
   return (
-    <div className="relative z-20 w-full items-center text-center lg:items-start lg:text-left max-w-4xl mx-auto">
-      <div className="flex flex-col lg:flex-row lg:flex-wrap lg:items-end lg:gap-x-16">
-        <h1
-          className="text-7xl max-[350px]:text-6xl sm:text-8xl lg:text-[10rem] leading-none font-bold tracking-tighter text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]"
-        >
-          {words.map((word, wi) => {
-            const isLast = wi === words.length - 1;
-            const wordLetters = word.split('').map((letter, li) => {
-              const delay = 0.3 + letterIndex * 0.04;
+    <div className="relative z-20 w-full items-center text-center lg:items-start lg:text-left max-w-4xl mx-auto lg:min-h-[520px]">
+      <div className="flex flex-col lg:flex-row lg:flex-wrap lg:items-center lg:gap-x-16">
+        <div className="min-w-0">
+          <h1
+            className="text-7xl max-[350px]:text-6xl sm:text-8xl lg:text-[10rem] leading-none font-bold tracking-tighter text-white drop-shadow-[0_0_20px_rgba(255,255,255,0.3)]"
+          >
+            {words.map((word, wi) => {
+              const isLast = wi === words.length - 1;
+              const wordLetters = word.split('').map((letter, li) => {
+                const delay = 0.3 + letterIndex * 0.04;
+                letterIndex++;
+                return (
+                  <AnimatedLetter key={li} letter={letter} revealDelay={delay} />
+                );
+              });
               letterIndex++;
               return (
-                <AnimatedLetter key={li} letter={letter} revealDelay={delay} />
+                <span key={wi} className={`block ${isLast ? 'italic' : ''}`}>
+                  {wordLetters}
+                  {!isLast ? ' ' : null}
+                </span>
               );
-            });
-            letterIndex++;
-            return (
-              <span key={wi} className={`block ${isLast ? 'italic' : ''}`}>
-                {wordLetters}
-                {!isLast ? ' ' : null}
-              </span>
-            );
-          })}
-        </h1>
+            })}
+          </h1>
+          <motion.p
+            className="mt-6 text-base max-[350px]:text-sm sm:text-lg font-normal tracking-[0.08em] text-white/85 text-center leading-relaxed lg:text-left"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{
+              duration: 0.6,
+              ease: [0.33, 1, 0.68, 1],
+              delay: 0.3 + letterIndex * 0.04,
+            }}
+          >
+            {tagline.split(/(Creative)/i).map((part, i) =>
+              part.toLowerCase() === 'creative' ? (
+                <span key={i}>
+                  <br className="sm:hidden" />
+                  <span className="italic">{part}</span>
+                  <br className="max-[350px]:inline hidden" />
+                </span>
+              ) : (
+                <span key={i}>{part}</span>
+              )
+            )}
+          </motion.p>
+        </div>
         <motion.div
-          className="order-last lg:order-0 mt-16 lg:mt-0 lg:mb-4 flex justify-center lg:justify-start shrink-0"
+          className="order-last mt-16 flex justify-center shrink-0 lg:absolute lg:right-0 lg:top-1/2 lg:order-0 lg:mt-0 lg:-translate-y-1/2 lg:justify-start"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{
@@ -116,7 +140,7 @@ export default function HeroText({
         >
           <CircularCTA label={ctaLabel} href="#contact">
             <svg
-              className="w-16 h-16"
+              className="h-20 w-20"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -127,7 +151,7 @@ export default function HeroText({
           </CircularCTA>
         </motion.div>
         <div className="lg:basis-full mt-12">
-          <HeroPill tagline={tagline} revealDelay={0.3 + letterIndex * 0.04} />
+          <HeroPill revealDelay={0.3 + letterIndex * 0.04} />
         </div>
       </div>
     </div>

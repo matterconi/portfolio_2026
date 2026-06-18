@@ -159,7 +159,7 @@ export default function ABCSection({
               <div ref={titleRef} className="px-6 pb-6 pt-12">
                 <SectionTitle title={sectionTitle} visible className="text-5xl sm:text-6xl !text-center mb-3" />
                 {sectionDescription && (
-                  <p className="text-lg text-foreground-subtle text-center">{sectionDescription}</p>
+                  <p className="text-lg text-foreground-subtle text-center sm:text-xl">{sectionDescription}</p>
                 )}
               </div>
             )}
@@ -169,7 +169,7 @@ export default function ABCSection({
           <div ref={titleRef} className="px-6 pb-6 pt-12">
             <SectionTitle title={sectionTitle} visible className="text-5xl sm:text-6xl !text-center mb-3" />
             {sectionDescription && (
-              <p className="text-lg text-foreground-subtle text-center">{sectionDescription}</p>
+              <p className="text-lg text-foreground-subtle text-center sm:text-xl">{sectionDescription}</p>
             )}
           </div>
         )}
@@ -208,7 +208,7 @@ export default function ABCSection({
         <div className="px-6 pt-12">
           <SectionTitle title={sectionTitle} visible className="text-5xl sm:text-6xl !text-center mb-3" />
           {sectionDescription && (
-            <p className="text-lg text-foreground-subtle text-center">{sectionDescription}</p>
+            <p className="text-lg text-foreground-subtle text-center sm:text-xl">{sectionDescription}</p>
           )}
         </div>
       </div>

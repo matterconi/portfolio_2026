@@ -22,13 +22,13 @@ export default function ScrollBanner({ reveal = true }: ScrollBannerProps) {
   return (
     <section className={reveal ? 'banner-reveal-section' : undefined}>
       <div
-        className="relative mx-auto mt-12 mb-8 sm:mt-16 sm:mb-12 max-w-7xl overflow-hidden rounded-2xl select-none"
+        className="relative mx-auto mt-0 mb-0 md:mt-16 md:mb-12 max-w-7xl overflow-hidden rounded-2xl select-none"
         style={{
           maskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)',
           WebkitMaskImage: 'linear-gradient(to right, transparent 0%, black 8%, black 92%, transparent 100%)',
         }}
       >
-        <div className="relative z-10 py-4 sm:py-5">
+        <div className="relative z-10 py-0 md:py-5">
           <motion.p
             style={{ x }}
             className="whitespace-nowrap text-[clamp(1.5rem,5vw,7rem)] font-black uppercase leading-none tracking-tight text-white"

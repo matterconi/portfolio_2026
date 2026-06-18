@@ -41,7 +41,7 @@ export default function LanguageSwitcher() {
             key={locale}
             href={`${newPathname}${query ? `?${query}` : ''}${hash}`}
             className={`
-              px-3 py-1.5 rounded-md text-sm font-medium transition-colors
+              px-3 py-1.5 rounded-md text-base font-medium transition-colors
               ${isActive
                 ? 'bg-accent-green-subtle text-accent-green border border-accent-green'
                 : 'text-foreground-muted hover:text-foreground hover:bg-background-elevated'

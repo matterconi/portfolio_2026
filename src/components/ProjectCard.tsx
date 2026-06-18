@@ -33,23 +33,23 @@ export default function ProjectCard({
         className="group rounded-lg border border-border bg-background-elevated p-6 cursor-pointer transition-shadow hover:shadow-[0_0_15px_rgba(0,255,0,0.15)]"
       >
         <h3 className="font-semibold text-foreground text-lg">{title}</h3>
-        <p className="mt-2 text-sm text-foreground-muted">{shortDescription}</p>
+        <p className="mt-2 text-base text-foreground-muted">{shortDescription}</p>
         <div className="mt-4 flex flex-wrap gap-2">
           {technologies.slice(0, 4).map((tech) => (
             <span
               key={tech}
-              className="rounded bg-accent-green-subtle text-accent-green px-2 py-1 text-xs"
+              className="rounded bg-accent-green-subtle text-accent-green px-2 py-1 text-sm"
             >
               {tech}
             </span>
           ))}
           {technologies.length > 4 && (
-            <span className="rounded bg-background-subtle text-foreground-subtle px-2 py-1 text-xs">
+            <span className="rounded bg-background-subtle text-foreground-subtle px-2 py-1 text-sm">
               +{technologies.length - 4}
             </span>
           )}
         </div>
-        <p className="mt-4 text-xs text-white transition-colors group-hover:text-accent-green">{viewLabel} →</p>
+        <p className="mt-4 text-sm text-white transition-colors group-hover:text-accent-green">{viewLabel} →</p>
       </motion.div>
 
       {/* Modal */}
@@ -83,10 +83,10 @@ export default function ProjectCard({
               </p>
               {features.length > 0 && (
                 <div className="mb-6">
-                  <h4 className="text-sm font-semibold text-accent-cyan mb-3">Features</h4>
+                  <h4 className="text-base font-semibold text-accent-cyan mb-3">Features</h4>
                   <ul className="space-y-1">
                     {features.map((f) => (
-                      <li key={f} className="text-sm text-foreground-muted flex items-start gap-2">
+                      <li key={f} className="text-base text-foreground-muted flex items-start gap-2">
                         <span className="text-accent-green mt-0.5">▸</span>
                         {f}
                       </li>
@@ -98,7 +98,7 @@ export default function ProjectCard({
                 {technologies.map((tech) => (
                   <span
                     key={tech}
-                    className="rounded bg-accent-green-subtle text-accent-green px-2 py-1 text-xs"
+                    className="rounded bg-accent-green-subtle text-accent-green px-2 py-1 text-sm"
                   >
                     {tech}
                   </span>
@@ -110,7 +110,7 @@ export default function ProjectCard({
                     href={links.live}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded border border-accent-cyan px-4 py-2 text-sm text-accent-cyan hover:bg-accent-cyan-subtle transition-colors"
+                    className="rounded border border-accent-cyan px-4 py-2 text-base text-accent-cyan hover:bg-accent-cyan-subtle transition-colors"
                   >
                     Live Demo ↗
                   </a>
@@ -120,7 +120,7 @@ export default function ProjectCard({
                     href={links.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="rounded border border-foreground-subtle px-4 py-2 text-sm text-foreground-muted hover:border-foreground hover:text-foreground transition-colors"
+                    className="rounded border border-foreground-subtle px-4 py-2 text-base text-foreground-muted hover:border-foreground hover:text-foreground transition-colors"
                   >
                     GitHub ↗
                   </a>

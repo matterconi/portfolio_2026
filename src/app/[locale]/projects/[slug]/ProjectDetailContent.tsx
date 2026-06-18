@@ -17,11 +17,11 @@ type ProjectAccordionItem = { title: string; content: string };
 
 const STACK_COLORS = ['#00ff00', '#00e5a0', '#00ffff', '#6680ff', '#b478ff', '#ff4da6'];
 const LEARNING_COLORS = ['#00ff00', '#00ffff', '#b478ff', '#ff4da6'];
-const labelClass = 'text-xs font-semibold uppercase tracking-[0.22em] text-accent-green';
+const labelClass = 'text-sm font-semibold uppercase tracking-[0.22em] text-accent-green';
 const sectionTitleClass = 'font-display text-4xl font-semibold leading-none tracking-[-0.05em] text-foreground sm:text-5xl';
 const bodyTextClass = 'text-base leading-7 text-foreground-muted sm:text-lg sm:leading-8';
-const accordionBodyClass = 'text-sm leading-6 text-foreground-muted sm:text-base sm:leading-7';
-const cardBodyClass = 'text-sm leading-6 text-foreground-muted sm:text-base sm:leading-7';
+const accordionBodyClass = 'text-base leading-7 text-foreground-muted sm:text-lg sm:leading-8';
+const cardBodyClass = 'text-base leading-7 text-foreground-muted sm:text-lg sm:leading-8';
 
 function createFallbackAccordionTitle(text: string): string {
   const title = text.trim().split(/\s+/).slice(0, 5).join(' ');
@@ -136,7 +136,7 @@ export default function ProjectDetailContent({
                       boxShadow: `0 0 22px ${hexToRgba(STACK_COLORS[index % STACK_COLORS.length], 0.08)}`,
                     }}
                   >
-                    <span className="block rounded-full border border-white/15 bg-white/[0.08] px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.14em] text-white/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-xl">
+                    <span className="block rounded-full border border-white/15 bg-white/[0.08] px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-white/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)] backdrop-blur-xl">
                       {item.name}
                     </span>
                   </span>
@@ -367,12 +367,12 @@ export default function ProjectDetailContent({
                   </p>
                   <div className="mt-5 flex flex-wrap gap-2">
                     {recommendedProject.technologies.slice(0, 3).map((tech) => (
-                      <span key={tech} className="rounded-full border border-border px-3 py-1 text-xs text-foreground-muted">
+                      <span key={tech} className="rounded-full border border-border px-3 py-1 text-sm text-foreground-muted">
                         {tech}
                       </span>
                     ))}
                   </div>
-                  <p className="mt-5 text-sm text-white transition-colors group-hover:text-accent-green">
+                  <p className="mt-5 text-base text-white transition-colors group-hover:text-accent-green">
                     {translations.viewProject} →
                   </p>
                 </div>

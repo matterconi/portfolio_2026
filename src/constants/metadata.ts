@@ -43,13 +43,13 @@ export const sharedRobots: Metadata["robots"] = {
 };
 
 export const sharedIcons: Metadata["icons"] = {
-  icon: "/logo-v4.png",
-  shortcut: "/logo-v4.png",
-  apple: "/logo-v4.png",
+  icon: "/icon.png",
+  shortcut: "/icon.png",
+  apple: "/apple-icon.png",
 };
 
 export const sharedOGImage = {
-  url: "/logo-v4.png",
+  url: "/logo-v6.png",
   width: 386,
   height: 200,
   alt: `${siteConfig.name} - Creative Full-Stack Developer`,

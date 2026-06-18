@@ -57,7 +57,7 @@ const fadeSlideUp = {
 };
 
 const INPUT_BASE =
-  'contact-field w-full border-0 border-b bg-transparent px-0 py-3 text-sm text-white placeholder:text-foreground-subtle focus:outline-none transition-colors duration-200';
+  'contact-field w-full border-0 border-b bg-transparent px-0 py-3 text-base text-white placeholder:text-foreground-subtle focus:outline-none transition-colors duration-200';
 const INPUT_NORMAL =
   'border-white/10 focus:border-accent-cyan';
 const INPUT_ERROR =
@@ -241,7 +241,7 @@ export default function ContactSection({
     <>
       <section id="contact" className="min-h-screen flex flex-col justify-center py-20">
         <ScrollRevealText lines={[translations.revealLine1, translations.revealLine2]} />
-        <p className="text-center text-lg text-foreground-subtle -mt-12 mb-20">{translations.revealDescription}</p>
+        <p className="text-center text-lg text-foreground-subtle -mt-12 mb-20 sm:text-xl">{translations.revealDescription}</p>
 
         <motion.div
           initial={reducedMotion ? false : 'hidden'}
@@ -267,7 +267,7 @@ export default function ContactSection({
                 <div>
                   <label
                     htmlFor="name"
-                    className="mb-1 block text-xs font-semibold uppercase tracking-widest text-white"
+                    className="mb-1 block text-sm font-semibold uppercase tracking-widest text-white"
                   >
                     {translations.nameLabel} <span className="text-accent-cyan">*</span>
                   </label>
@@ -287,7 +287,7 @@ export default function ContactSection({
                 <div>
                   <label
                     htmlFor="email"
-                    className="mb-1 block text-xs font-semibold uppercase tracking-widest text-white"
+                    className="mb-1 block text-sm font-semibold uppercase tracking-widest text-white"
                   >
                     {translations.emailLabel} <span className="text-accent-cyan">*</span>
                   </label>
@@ -307,7 +307,7 @@ export default function ContactSection({
                 <div>
                   <label
                     htmlFor="message"
-                    className="mb-1 block text-xs font-semibold uppercase tracking-widest text-white"
+                    className="mb-1 block text-sm font-semibold uppercase tracking-widest text-white"
                   >
                     {translations.messageLabel} <span className="text-accent-cyan">*</span>
                   </label>
@@ -360,20 +360,16 @@ export default function ContactSection({
                       <Send className="h-8 w-8" />
                     </CircularCTA>
 
-                    <div
-                      className="rounded-full p-px"
-                      style={{
-                        background: 'linear-gradient(135deg, #ffffff40, transparent 50%, #ffffff20)',
-                        boxShadow: '0 0 25px #ffffff15, 0 0 50px #ffffff0d',
-                      }}
-                    >
+                    <div className="rounded-full bg-white/[0.08] backdrop-blur-xl">
                       <button
                         type="button"
                         onClick={handleDownloadCV}
-                        className="inline-flex items-center gap-1.5 rounded-full bg-black/90 px-4 py-2 text-xs font-semibold uppercase tracking-wider text-foreground-muted transition-colors hover:text-accent-cyan"
+                        className="relative inline-flex items-center gap-1.5 overflow-hidden rounded-full px-4 py-2 text-sm font-semibold uppercase tracking-wider text-foreground-muted transition-colors hover:text-accent-cyan"
                       >
-                        <Download className="h-4 w-4" />
-                        <span>{translations.downloadCV}</span>
+                        <span className="pointer-events-none absolute inset-0 bg-black/78" />
+                        <span className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.13),transparent_42%,rgba(255,255,255,0.04))]" />
+                        <Download className="relative z-10 h-4 w-4" />
+                        <span className="relative z-10">{translations.downloadCV}</span>
                       </button>
                     </div>
                   </>
