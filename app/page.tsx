@@ -11,6 +11,7 @@ import {
   ScrollProgress,
   StackGroup,
 } from "./components/motion";
+import { CopyEmailButton } from "./components/copy-email-button";
 import { FloatingNav } from "./components/floating-nav";
 import { selectedProjects } from "./data/projects";
 import { getGitHubActivity } from "./lib/github-activity";
@@ -43,14 +44,14 @@ const experience = [
 
 const education = [
   {
-    title: "Full-Stack Engineer",
-    provider: "Codecademy",
+    title: "Build Your Own Claude Code",
+    provider: "Code With Antonio",
     status: "Completed",
-    year: "2024",
+    year: "2026",
     description:
-      "Built full-stack applications with React, Node.js, Express and PostgreSQL, covering REST APIs, authentication and relational data.",
-    image: "/courses/codecademy-certificate.png",
-    imagePosition: "top",
+      "Created a terminal coding agent capable of planning multi-step tasks, calling tools, editing files and executing commands.",
+    image: "/courses/claude-code.svg",
+    imageFit: "contain",
   },
   {
     title: "The Ultimate Next.js 16 Course",
@@ -58,18 +59,18 @@ const education = [
     status: "Completed",
     year: "2025",
     description:
-      "Built a production-style Next.js application with the App Router, Server Components, TypeScript, caching and server-side data flows.",
+      "Explored modern Next.js architecture through a production-style app, with the App Router, Server Components, caching and server-side data flows.",
     image: "/courses/nextjs.webp",
   },
   {
-    title: "Build Your Own Claude Code",
-    provider: "Code With Antonio",
+    title: "Full-Stack Engineer",
+    provider: "Codecademy",
     status: "Completed",
-    year: "2026",
+    year: "2024",
     description:
-      "Built a terminal coding agent with tool calling, filesystem operations, command execution and multi-step task loops.",
-    image: "/courses/claude-code.svg",
-    imageFit: "contain",
+      "Completed a broad full-stack curriculum spanning React interfaces, Node.js and Express APIs, authentication and relational data with PostgreSQL.",
+    image: "/courses/codecademy-certificate.png",
+    imagePosition: "top",
   },
   {
     title: "Degree in Modern Literature",
@@ -77,7 +78,7 @@ const education = [
     status: "Graduated",
     year: "2023",
     description:
-      "Developed research, critical analysis and long-form writing skills through literary studies and an undergraduate thesis.",
+      "Studied modern literature with a focus on research, critical analysis and long-form writing, culminating in an undergraduate thesis.",
     image: "/courses/university-florence.svg",
     imageFit: "logo",
   },
@@ -271,18 +272,16 @@ export default function Home() {
       <FloatingNav items={floatingNavItems} identityHref="#top" />
       <main className="page-shell site-main" id="top">
       <section className="intro">
-        <HeroTitle>I build and ship full-stack web applications with AI.</HeroTitle>
+        <HeroTitle>Full-stack web applications, built and shipped with AI.</HeroTitle>
         <Reveal delay={0.1} distance={12}>
           <p className="intro-copy">
-            I work across frontend, backend and data, building production-ready products with AI at
-            the core. My recent work combines Next.js, TypeScript and PostgreSQL with LLM
-            integrations, voice agents and AI-powered workflows.
+            I&apos;m a full-stack developer and AI engineer focused on building production-ready web
+            products end to end. I combine Next.js, TypeScript and PostgreSQL with LLMs, voice
+            agents and automation, taking projects from product definition to deployment.
           </p>
 
           <div className="quick-links">
-            <a className="cta-link cta-link-primary" href="mailto:matterconi@gmail.com">
-              matterconi@gmail.com <Arrow />
-            </a>
+            <CopyEmailButton />
             <a className="cta-link cta-link-secondary" href="/matteo-marconi-cv.pdf" download>
               Download CV <Arrow />
             </a>
@@ -313,6 +312,14 @@ export default function Home() {
                 <span>TypeScript</span>
                 <span>Three.js</span>
               </div>
+              <a
+                className="cta-link cta-link-secondary current-project-cta"
+                href="https://www.monoforge.studio/"
+                target="_blank"
+                rel="noreferrer"
+              >
+                View live site <Arrow />
+              </a>
             </div>
             <div className="current-project-image">
               <Image
@@ -451,9 +458,7 @@ export default function Home() {
           </Reveal>
           <Reveal className="contact-bottom" delay={0.06}>
             <div className="contact-actions">
-              <a className="cta-link cta-link-primary" href="mailto:matterconi@gmail.com">
-                matterconi@gmail.com <Arrow />
-              </a>
+              <CopyEmailButton />
               <a className="cta-link cta-link-secondary" href="/matteo-marconi-cv.pdf" download>
                 Download CV <Arrow />
               </a>
