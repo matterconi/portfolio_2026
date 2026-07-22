@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180" role="img" aria-labelledby="title description">
+  <title id="title">Build Your Own Claude Code</title>
+  <desc id="description">Minimal course cover for the Claude Code course.</desc>
+  <rect width="240" height="180" rx="18" fill="#181714"/>
+  <path d="M54 38v44M32 60h44M38.5 44.5l31 31M69.5 44.5l-31 31M45.5 39.5l17 41M74.5 51.5l-41 17M62.5 39.5l-17 41M33.5 51.5l41 17" fill="none" stroke="#d97757" stroke-linecap="round" stroke-width="3.5"/>
+  <text x="32" y="118" fill="#f7f3ec" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="600">Claude Code</text>
+  <text x="32" y="143" fill="#aaa59d" font-family="Arial, Helvetica, sans-serif" font-size="11" letter-spacing="1.4">BUILD YOUR OWN</text>
+</svg>
