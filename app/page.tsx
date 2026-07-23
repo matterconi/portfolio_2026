@@ -13,7 +13,8 @@ import {
 } from "./components/motion";
 import { CopyEmailButton } from "./components/copy-email-button";
 import { FloatingNav } from "./components/floating-nav";
-import { selectedProjects } from "./data/projects";
+import { ProjectCollection } from "./components/project-collection";
+import { projects } from "./data/projects";
 import { getGitHubActivity } from "./lib/github-activity";
 
 const floatingNavItems = [
@@ -22,6 +23,10 @@ const floatingNavItems = [
   { name: "Education", href: "#education" },
   { name: "Stack", href: "#stack" },
 ] as const;
+
+const homeProjectOrder = {
+  ai: ["InterSpeak", "Monocode", "Resumind"],
+};
 
 const experience = [
   {
@@ -308,9 +313,9 @@ export default function Home() {
                 conversational interfaces.
               </p>
               <div className="tags" aria-label="Project stack">
-                <span>Next.js</span>
-                <span>TypeScript</span>
-                <span>Three.js</span>
+                <span>AI</span>
+                <span>3D</span>
+                <span>Motion design</span>
               </div>
               <a
                 className="cta-link cta-link-secondary current-project-cta"
@@ -337,38 +342,14 @@ export default function Home() {
       <section className="section" id="work">
         <SectionTitle eyebrow="Selected work" title="Projects" />
 
-        <div className="projects">
-          {selectedProjects.map((project, index) => (
-            <FadeArticle className="project-card" delay={index * 0.065} key={project.title}>
-              <a
-                className="project-row"
-                href={project.href}
-                target="_blank"
-                rel="noreferrer"
-                aria-label={`Open ${project.title}`}
-              >
-                <h3>{project.title}</h3>
-                <div className="project-details">
-                  <p>{project.description}</p>
-                  <div className="tags" aria-label={`${project.title} technologies`}>
-                    {project.stack.map((item) => (
-                      <span key={item}>{item}</span>
-                    ))}
-                  </div>
-                </div>
-                <span className="project-arrow" aria-hidden="true"><Arrow /></span>
-                <div className="project-preview" aria-hidden="true">
-                  <Image
-                    src={project.image}
-                    alt=""
-                    fill
-                    sizes="280px"
-                  />
-                </div>
-              </a>
-            </FadeArticle>
-          ))}
-        </div>
+        <ProjectCollection
+          id="home-projects"
+          projects={projects}
+          maxResults={3}
+          showFilterCounts={false}
+          allLabel="Featured"
+          projectOrderByFilter={homeProjectOrder}
+        />
 
         <Reveal className="projects-cta-wrap">
           <Link className="cta-link cta-link-secondary" href="/projects">

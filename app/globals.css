@@ -553,6 +553,71 @@ h2 {
   border-top: 1px solid var(--border);
 }
 
+.project-filter-bar {
+  margin: -8px 0 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.project-filters {
+  max-width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.project-filter {
+  min-height: 32px;
+  padding: 0 11px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex: 0 0 auto;
+  appearance: none;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  color: var(--muted);
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+  transition: background 160ms ease, border-color 160ms ease, color 160ms ease;
+}
+
+.project-filter:hover {
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+
+.project-filter[data-active="true"] {
+  background: var(--text);
+  border-color: var(--text);
+  color: var(--background);
+}
+
+.project-filter:focus-visible {
+  outline: 2px solid var(--text);
+  outline-offset: 2px;
+}
+
+.project-filter-count {
+  color: var(--faint);
+  font-size: 9px;
+}
+
+.project-filter[data-active="true"] .project-filter-count {
+  color: currentColor;
+  opacity: 0.62;
+}
+
+.project-result-count {
+  flex: 0 0 auto;
+  color: var(--faint);
+  font-size: 11px;
+}
+
 .project-card {
   position: relative;
   border-bottom: 1px solid var(--border);
@@ -682,7 +747,7 @@ h2 {
 }
 
 .projects-archive-intro {
-  margin-bottom: 64px;
+  margin-bottom: 42px;
   display: flex;
   align-items: baseline;
   justify-content: space-between;
@@ -1085,10 +1150,15 @@ html[data-theme="dark"] .github-tracker-chart img {
   }
 
   .projects-archive-intro {
-    margin-bottom: 44px;
+    margin-bottom: 32px;
     align-items: flex-start;
     flex-direction: column;
     gap: 8px;
+  }
+
+  .project-filter-bar {
+    margin-bottom: 12px;
+    align-items: flex-end;
   }
 
   .experience-list {

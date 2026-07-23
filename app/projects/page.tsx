@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { FloatingNav } from "../components/floating-nav";
-import { FadeArticle, MotionRoot, Reveal, ScrollProgress, SectionTitle } from "../components/motion";
+import { MotionRoot, Reveal, ScrollProgress, SectionTitle } from "../components/motion";
+import { ProjectCollection } from "../components/project-collection";
 import { projects } from "../data/projects";
 
 export const metadata: Metadata = {
@@ -46,42 +46,9 @@ export default function ProjectsPage() {
             <p>
               A collection of full-stack products, AI experiments and interactive web experiences.
             </p>
-            <span>{projects.length} projects</span>
           </Reveal>
 
-          <div className="projects projects-archive-list">
-            {projects.map((project, index) => (
-              <FadeArticle
-                className="project-card"
-                delay={Math.min(index * 0.045, 0.18)}
-                key={project.title}
-              >
-                <a
-                  className="project-row"
-                  href={project.href}
-                  target="_blank"
-                  rel="noreferrer"
-                  aria-label={`Open ${project.title}`}
-                >
-                  <h3>{project.title}</h3>
-                  <div className="project-details">
-                    <p>{project.description}</p>
-                    <div className="tags" aria-label={`${project.title} technologies`}>
-                      {project.stack.map((item) => (
-                        <span key={item}>{item}</span>
-                      ))}
-                    </div>
-                  </div>
-                  <span className="project-arrow" aria-hidden="true">
-                    <Arrow />
-                  </span>
-                  <div className="project-preview" aria-hidden="true">
-                    <Image src={project.image} alt="" fill sizes="280px" />
-                  </div>
-                </a>
-              </FadeArticle>
-            ))}
-          </div>
+          <ProjectCollection id="all-projects" projects={projects} archive showCount />
 
           <Reveal>
             <Link className="row-link projects-back-link" href="/">
